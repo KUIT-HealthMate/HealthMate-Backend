@@ -24,8 +24,11 @@ public class User {
     @Column(nullable = false,name = "nickname")
     private String nickname;
 
-    @OneToMany(mappedBy = "gameCharacter",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Habit> habits = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<Supplement> supplements = new ArrayList<>();
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
