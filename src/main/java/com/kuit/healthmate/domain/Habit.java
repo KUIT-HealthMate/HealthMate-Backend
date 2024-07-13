@@ -25,7 +25,6 @@ public class Habit {
     private String description;
 
     @Column(length = 25,nullable = false)
-    @ColumnDefault()
     private String status;
 
     @NotNull
