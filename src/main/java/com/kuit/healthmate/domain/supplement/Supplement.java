@@ -1,5 +1,7 @@
-package com.kuit.healthmate.domain;
+package com.kuit.healthmate.domain.supplement;
 
+import com.kuit.healthmate.domain.Period;
+import com.kuit.healthmate.domain.User;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;

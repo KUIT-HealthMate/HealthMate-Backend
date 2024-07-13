@@ -1,6 +1,7 @@
 package com.kuit.healthmate.domain;
 
 
+import com.kuit.healthmate.domain.supplement.Supplement;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
