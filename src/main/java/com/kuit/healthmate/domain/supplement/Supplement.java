@@ -4,6 +4,8 @@ import com.kuit.healthmate.domain.Period;
 import com.kuit.healthmate.domain.User;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -18,8 +20,11 @@ public class Supplement {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "supplement", cascade = CascadeType.ALL)
+    private List<SupplementChecker> supplementCheckers = new ArrayList<>();
 
     private String name;
     private String memo;
