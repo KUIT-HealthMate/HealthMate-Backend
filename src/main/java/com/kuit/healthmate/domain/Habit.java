@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Table(name = "habits")
 @Data
 public class Habit {
@@ -35,8 +35,8 @@ public class Habit {
     private LocalDateTime createdAt;
 
     @NotNull
-    @ColumnDefault("-1")
-    private Long selected_day; //0000000. 0000001, 1010111
+    @ColumnDefault("0")
+    private String selected_day; //0000000. 0000001, 1010111
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
