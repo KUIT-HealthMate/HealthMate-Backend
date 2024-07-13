@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "habits")
+@Data
 public class Habit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,8 +42,7 @@ public class Habit {
     @JoinColumn(name="user_id")
     private User user;
 
-    @OneToMany(mappedBy = "habits",cascade = CascadeType.ALL)
-    private List<HabitChecker> habitCheckerList = new ArrayList<>();
-
-
+    @OneToMany(mappedBy = "habit",cascade = CascadeType.ALL)
+    private List<HabitChecker> habitChecker = new ArrayList<>();
+    
 }
