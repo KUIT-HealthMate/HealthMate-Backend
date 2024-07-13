@@ -44,5 +44,5 @@ public class Habit {
 
     @OneToMany(mappedBy = "habit",cascade = CascadeType.ALL)
     private List<HabitChecker> habitChecker = new ArrayList<>();
-    
+
 }
