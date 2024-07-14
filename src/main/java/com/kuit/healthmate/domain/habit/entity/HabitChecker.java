@@ -1,4 +1,4 @@
-package com.kuit.healthmate.domain;
+package com.kuit.healthmate.domain.habit.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

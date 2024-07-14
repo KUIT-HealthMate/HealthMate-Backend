@@ -1,6 +1,6 @@
-package com.kuit.healthmate.repository;
+package com.kuit.healthmate.domain.habit.repository;
 
-import com.kuit.healthmate.domain.HabitChecker;
+import com.kuit.healthmate.domain.habit.entity.HabitChecker;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

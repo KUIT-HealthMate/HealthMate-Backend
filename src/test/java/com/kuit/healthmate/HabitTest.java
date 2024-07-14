@@ -1,8 +1,8 @@
 package com.kuit.healthmate;
 
 
-import com.kuit.healthmate.domain.Habit;
-import com.kuit.healthmate.repository.HabitRepository;
+import com.kuit.healthmate.domain.habit.entity.Habit;
+import com.kuit.healthmate.domain.habit.repository.HabitRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

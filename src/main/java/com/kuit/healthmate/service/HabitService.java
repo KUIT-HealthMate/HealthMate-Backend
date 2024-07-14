@@ -1,7 +1,7 @@
 package com.kuit.healthmate.service;
 
-import com.kuit.healthmate.domain.Habit;
-import com.kuit.healthmate.repository.HabitRepository;
+import com.kuit.healthmate.domain.habit.entity.Habit;
+import com.kuit.healthmate.domain.habit.repository.HabitRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
