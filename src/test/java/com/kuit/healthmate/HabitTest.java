@@ -26,7 +26,7 @@ public class HabitTest {
                 .id(1L)
                 .name("test")
                 .description("testtest")
-                .status("temp")
+                .status("ACTIVE")
                 .createdAt(LocalDateTime.now())
                 .selected_day("1101101").build();
 
