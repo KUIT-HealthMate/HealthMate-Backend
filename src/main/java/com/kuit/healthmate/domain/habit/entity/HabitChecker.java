@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 @Entity
@@ -17,9 +18,8 @@ public class HabitChecker {
 
     @NotNull
     private LocalDateTime createdAt;
-
-    @Column(length = 25,nullable = false)
-    private String status;
+    
+    private Boolean status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "habit_id")
