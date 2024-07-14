@@ -4,6 +4,7 @@ import com.kuit.healthmate.domain.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
@@ -15,7 +16,6 @@ import java.util.List;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Table(name = "habits")
-@Data
 public class Habit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,15 +28,16 @@ public class Habit {
     @Column(length = 255)
     private String description;
 
-    @Column(length = 25,nullable = false)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private HabitStatus status;
 
     @NotNull
     private LocalDateTime createdAt;
 
     @NotNull
-    @ColumnDefault("0")
-    private String selected_day; //0000000. 0000001, 1010111
+    @ColumnDefault("0000000")
+    @Column(length = 7, nullable = false)
+    private String selected_day; //월,화,수,목,금,토,알 중에 선택한 날짜를 2진수로 표현
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
@@ -44,5 +45,15 @@ public class Habit {
 
     @OneToMany(mappedBy = "habit",cascade = CascadeType.ALL)
     private List<HabitChecker> habitChecker = new ArrayList<>();
+
+    @Builder
+    public Habit(Long id, String name, String description, String status, LocalDateTime createdAt, String selected_day) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.status = HabitStatus.valueOf(status);
+        this.createdAt = createdAt;
+        this.selected_day = selected_day;
+    }
 
 }
