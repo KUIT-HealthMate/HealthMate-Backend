@@ -1,4 +1,4 @@
-package com.kuit.healthmate.domain;
+package com.kuit.healthmate.domain.user;
 
 public enum UserStatus {
     ADMIN, GENERAL
