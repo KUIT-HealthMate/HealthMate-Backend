@@ -28,6 +28,7 @@ public class HabitTest {
                 .memo("testtest")
                 .status("ACTIVE")
                 .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
                 .selected_day("1101101").build();
 
 
