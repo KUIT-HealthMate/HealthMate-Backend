@@ -2,7 +2,7 @@ package com.kuit.healthmate.domain.supplement;
 
 import com.kuit.healthmate.domain.Period;
 import com.kuit.healthmate.domain.Status;
-import com.kuit.healthmate.domain.User;
+import com.kuit.healthmate.domain.user.User;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

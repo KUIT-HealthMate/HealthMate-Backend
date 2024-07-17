@@ -1,11 +1,10 @@
 package com.kuit.healthmate.domain.habit.entity;
 
-import com.kuit.healthmate.domain.User;
+import com.kuit.healthmate.domain.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
