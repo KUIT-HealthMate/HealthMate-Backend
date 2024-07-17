@@ -1,6 +1,7 @@
 package com.kuit.healthmate.domain.supplement;
 
 import com.kuit.healthmate.domain.Period;
+import com.kuit.healthmate.domain.Status;
 import com.kuit.healthmate.domain.User;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
@@ -37,7 +38,7 @@ public class Supplement {
     private Boolean dinner;
 
     @Enumerated(EnumType.STRING)
-    private SupplementStatus status;
+    private Status status;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
