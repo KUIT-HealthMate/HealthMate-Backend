@@ -25,9 +25,10 @@ public class HabitTest {
         Habit habit = Habit.builder()
                 .id(1L)
                 .name("test")
-                .description("testtest")
+                .memo("testtest")
                 .status("ACTIVE")
                 .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
                 .selected_day("1101101").build();
 
 
