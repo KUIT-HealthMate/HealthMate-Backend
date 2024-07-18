@@ -46,6 +46,9 @@ public class Habit {
     @OneToMany(mappedBy = "habit",cascade = CascadeType.ALL)
     private List<HabitChecker> habitChecker = new ArrayList<>();
 
+    @OneToMany(mappedBy = "habit",cascade = CascadeType.ALL)
+    private List<HabitTime> habitTime = new ArrayList<>();
+
     @Builder
     public Habit(Long id, String name, String memo, String status, LocalDateTime createdAt,LocalDateTime updatedAt, String selectedDay,User user) {
         this.id = id;
