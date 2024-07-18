@@ -1,7 +1,9 @@
 package com.kuit.healthmate.service;
 
 import com.kuit.healthmate.domain.habit.entity.Habit;
+import com.kuit.healthmate.domain.habit.entity.HabitTime;
 import com.kuit.healthmate.domain.habit.repository.HabitRepository;
+import com.kuit.healthmate.domain.habit.repository.HabitTimeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,9 +18,14 @@ import java.util.List;
 public class HabitService {
 
     private final HabitRepository habitRepository;
+    private final HabitTimeRepository habitTimeRepository;
 
     @Transactional
-    public Habit registerHabit(Habit habit){
+    public Habit createHabit(Habit habit,List<LocalDateTime> times){
+        for(LocalDateTime time : times){
+            HabitTime habitTime = HabitTime.builder().habit(habit).time(time).build();
+            habitTimeRepository.save(habitTime);
+        }
         return habitRepository.save(habit);
     }
 

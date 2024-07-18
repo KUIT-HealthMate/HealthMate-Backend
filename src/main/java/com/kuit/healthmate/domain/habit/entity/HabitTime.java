@@ -3,9 +3,10 @@ package com.kuit.healthmate.domain.habit.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -20,5 +21,11 @@ public class HabitTime {
     @JoinColumn(name = "habit_id")
     private Habit habit;
 
-    private LocalTime time;
+    private LocalDateTime time;
+
+    @Builder
+    public HabitTime( Habit habit, LocalDateTime time){
+        this.habit = habit;
+        this.time = time;
+    }
 }

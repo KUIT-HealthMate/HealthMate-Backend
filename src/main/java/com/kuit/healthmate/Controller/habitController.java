@@ -5,10 +5,7 @@ import com.kuit.healthmate.domain.habit.entity.Habit;
 import com.kuit.healthmate.service.HabitService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,4 +22,12 @@ public class habitController {
     public List<Habit> findHabitChallenge(@PathVariable long userId) {
         return habitService.getActiveHabitsByUserIdAndToday(userId);
     }
+    /**
+     * 습관 챌린지 생성
+     */
+//    @PostMapping("")
+//    public void createHabitChallenge(@RequestBody Habit habit){ //response 클래스 생성 해야함,, 임시로 request body로 habit -> 사용자의 정보, 습관 수행 시간 등을 포함한 객체로 교체해야함
+//        habitService.createHabit(habit,);
+//        return;
+//    }
 }
