@@ -37,7 +37,7 @@ public class Habit {
     @NotNull
     @ColumnDefault("0000000")
     @Column(length = 7, nullable = false)
-    private String selected_day; //월,화,수,목,금,토,알 중에 선택한 날짜를 2진수로 표현
+    private String selectedDay; //월,화,수,목,금,토,알 중에 선택한 날짜를 2진수로 표현
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
@@ -47,14 +47,15 @@ public class Habit {
     private List<HabitChecker> habitChecker = new ArrayList<>();
 
     @Builder
-    public Habit(Long id, String name, String memo, String status, LocalDateTime createdAt,LocalDateTime updatedAt, String selected_day) {
+    public Habit(Long id, String name, String memo, String status, LocalDateTime createdAt,LocalDateTime updatedAt, String selectedDay,User user) {
         this.id = id;
         this.name = name;
         this.memo = memo;
         this.status = Status.valueOf(status);
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.selected_day = selected_day;
+        this.selectedDay = selectedDay;
+        this.user = user;
     }
 
 }
