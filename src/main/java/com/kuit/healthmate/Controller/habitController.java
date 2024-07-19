@@ -38,5 +38,12 @@ public class habitController {
 //        habitService.updateHabit(habit,times);
     //    return;
 //    }
-
+    /**
+     * 습관 챌린지 삭제
+     */
+    @PatchMapping("/delete/{habitId}")
+    public void updateHabitStatus(@PathVariable Long habitId){
+         habitService.deleteHabit(habitId);
+         return;
+    }
 }

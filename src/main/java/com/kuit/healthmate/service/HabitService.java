@@ -54,8 +54,6 @@ public class HabitService {
     }
     @Transactional
     public void deleteHabit(Long habitId){
-        Habit habit = habitRepository.findById(habitId)
-                .orElseThrow(() -> new IllegalArgumentException("잘못된 habit Id"));
-
+        habitRepository.updateHabitStatus(habitId);
     }
 }
