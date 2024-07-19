@@ -30,4 +30,13 @@ public class habitController {
 //        habitService.createHabit(habit,);
 //        return;
 //    }
+    /**
+     * 습관 챌린지 수정
+     */
+//    @PatchMapping("/edit")
+//    public void updateHabitChallenge(@RequestBody Habit habit){
+//        habitService.updateHabit(habit,times);
+    //    return;
+//    }
+
 }

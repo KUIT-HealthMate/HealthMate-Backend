@@ -37,4 +37,25 @@ public class HabitService {
 
         return habitRepository.findActiveHabitsByUserIdAndDayOfWeek(userId, dayOfWeek);
     }
+
+    @Transactional
+    public void updateHabit(Habit habit,List<LocalDateTime> times){
+        Long habitId = habit.getId();
+        //Habit habit = habitRepository.findById(habitId);
+        habitRepository.save(habit);
+
+        // 기존 HabitTime 삭제하고
+        // 새로운 HabitTime 추가
+        habitTimeRepository.deleteAll(habit.getHabitTime());
+        for (LocalDateTime time : times) {
+            HabitTime habitTime = HabitTime.builder().habit(habit).time(time).build();
+            habitTimeRepository.save(habitTime);
+        }
+    }
+    @Transactional
+    public void deleteHabit(Long habitId){
+        Habit habit = habitRepository.findById(habitId)
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 habit Id"));
+
+    }
 }
