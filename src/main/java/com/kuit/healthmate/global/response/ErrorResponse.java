@@ -11,10 +11,10 @@ public class ErrorResponse {
     private final String message;
     private final LocalDateTime timestamp;
 
-    public ErrorResponse(int code, int status, String message) {
-        this.code = code;
-        this.status = status;
-        this.message = message;
+    public ErrorResponse(ExceptionResponseStatus ers) {
+        this.code = ers.getCode();
+        this.status = ers.getStatus();
+        this.message = ers.getMessage();
         this.timestamp = LocalDateTime.now();
     }
 }

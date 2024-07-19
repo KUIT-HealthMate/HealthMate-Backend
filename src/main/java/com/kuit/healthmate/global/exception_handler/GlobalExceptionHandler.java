@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({BadRequestException.class, NoHandlerFoundException.class, TypeMismatchException.class})
     public ErrorResponse handle_BadRequest(Exception e) {
         log.error("[handle_BadRequest]", e);
-        return new ErrorResponse(URL_NOT_FOUND.getCode(), URL_NOT_FOUND.getStatus(), URL_NOT_FOUND.getMessage()) {
+        return new ErrorResponse(URL_NOT_FOUND) {
         };
     }
 }
