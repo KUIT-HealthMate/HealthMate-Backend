@@ -33,9 +33,8 @@ public class Supplement {
     @Embedded
     private Period period;
 
-    private Boolean breakfast;
-    private Boolean lunch;
-    private Boolean dinner;
+    @Embedded
+    private SupplementRoutine supplementRoutine;
 
     @Enumerated(EnumType.STRING)
     private Status status;
