@@ -3,9 +3,11 @@ package com.kuit.healthmate.domain.supplement;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
 
 @Embeddable
+@Getter
 public class SupplementRoutine {
 
     protected SupplementRoutine () {

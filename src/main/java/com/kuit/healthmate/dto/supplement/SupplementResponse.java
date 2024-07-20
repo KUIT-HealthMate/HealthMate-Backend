@@ -1,4 +1,4 @@
-package com.kuit.healthmate.service.dto.supplement;
+package com.kuit.healthmate.dto.supplement;
 
 import com.kuit.healthmate.domain.supplement.Supplement;
 import com.kuit.healthmate.domain.supplement.SupplementRoutine;
