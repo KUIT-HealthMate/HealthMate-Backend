@@ -21,8 +21,8 @@ public class habitController {
      * 습관 챌린지 조회
      */
     @GetMapping("/{userId}")
-    public List<Habit> findHabitChallenge(@PathVariable long userId) {
-        return habitService.getActiveHabitsByUserIdAndToday(userId);
+    public ApiResponse<List<Habit>> findHabitChallenge(@PathVariable long userId) {
+        return new ApiResponse<>(habitService.getActiveHabitsByUserIdAndToday(userId));
     }
     /**
      * 습관 챌린지 생성
