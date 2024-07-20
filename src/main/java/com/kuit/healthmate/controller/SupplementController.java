@@ -22,7 +22,6 @@ public class SupplementController {
 
     @GetMapping("/{userId}")
     public ApiResponse<List<SupplementResponse>> getSupplementByUserId(@PathVariable Long userId) {
-        log.info("SEX");
         return new ApiResponse<>(supplementService.getSupplementChallengesByUserId(userId));
     }
 }
