@@ -29,8 +29,10 @@ public class Supplement {
     @OneToMany(mappedBy = "supplement", cascade = CascadeType.ALL)
     private List<SupplementChecker> supplementCheckers = new ArrayList<>();
 
+    @OneToMany(mappedBy = "supplement", cascade = CascadeType.ALL)
+    private List<SupplementTime> supplementTimes = new ArrayList<>();
+
     private String name;
-    private String memo;
 
     @Embedded
     private Period period;
@@ -43,4 +45,21 @@ public class Supplement {
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    public Supplement(User user, String name, SupplementRoutine supplementRoutine) {
+        this.user = user;
+        this.name = name;
+        this.supplementRoutine = supplementRoutine;
+    }
+
+    public void setSupplementTimes(List<SupplementTime> supplementTimes) {
+        this.supplementTimes = supplementTimes;
+    }
+
+    @PrePersist
+    private void init() {
+        if (this.status == null) {
+            status = Status.ACTIVE;
+        }
+    }
 }

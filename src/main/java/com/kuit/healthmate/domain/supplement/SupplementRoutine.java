@@ -3,6 +3,7 @@ package com.kuit.healthmate.domain.supplement;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -14,12 +15,15 @@ public class SupplementRoutine {
 
     }
 
-    public SupplementRoutine(int afterMeal, String selectedDay, Boolean breakfast, Boolean lunch, Boolean dinner) {
+    @Builder
+    public SupplementRoutine(int afterMeal, String selectedDay, Boolean breakfast,
+                             Boolean lunch, Boolean dinner, TimeSlot timeSlot) {
         this.afterMeal = afterMeal;
         this.selectedDay = selectedDay;
         this.breakfast = breakfast;
         this.lunch = lunch;
         this.dinner = dinner;
+        this.timeSlot = timeSlot;
     }
 
     private int afterMeal;  // 식후 30분 일 경우 30, 식전 30분 일 경우 -30
@@ -31,5 +35,6 @@ public class SupplementRoutine {
     private Boolean breakfast;
     private Boolean lunch;
     private Boolean dinner;
+    private TimeSlot timeSlot;
 
 }

@@ -1,7 +1,10 @@
 package com.kuit.healthmate.supplement;
 
+import com.kuit.healthmate.dto.supplement.SupplementRegisterRequest;
 import com.kuit.healthmate.dto.supplement.SupplementResponse;
+import com.kuit.healthmate.repository.UserRepository;
 import com.kuit.healthmate.service.SupplementService;
+import java.time.LocalTime;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -20,5 +23,20 @@ public class SupplementServiceTest {
     void 메인화면_영양제_조회() {
         List<SupplementResponse> supplementChallengesByUserId = supplementService.getSupplementChallengesByUserId(1L);
         Assertions.assertEquals(2, supplementChallengesByUserId.size());
+    }
+
+    @Test
+    void 새로운_영양제_습관_추가() {
+        supplementService.registerSupplement(new SupplementRegisterRequest(
+                1L,
+                "test3",
+                30,
+                "0000000",
+                true,
+                true,
+                true,
+                List.of(LocalTime.of(12, 12, 12))
+        ));
+        Assertions.assertEquals(supplementService.getSupplementChallengesByUserId(1L).size(), 3);
     }
 }

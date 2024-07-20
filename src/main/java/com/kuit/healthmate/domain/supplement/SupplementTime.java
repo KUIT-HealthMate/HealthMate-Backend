@@ -10,12 +10,15 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalTime;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 @Table
 public class SupplementTime {
+
     @Id
     @GeneratedValue
     @Column(name = "supplement_time_id")
@@ -25,7 +28,10 @@ public class SupplementTime {
     @JoinColumn(name="supplement_id")
     private Supplement supplement;
 
-    private TimeSlot timeSlot;
-
     private LocalTime time;
+
+    public SupplementTime(Supplement supplement, LocalTime time) {
+        this.supplement = supplement;
+        this.time = time;
+    }
 }
