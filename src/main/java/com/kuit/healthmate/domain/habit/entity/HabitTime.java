@@ -21,10 +21,10 @@ public class HabitTime {
     @JoinColumn(name = "habit_id")
     private Habit habit;
 
-    private LocalDateTime time;
+    private String time;
 
     @Builder
-    public HabitTime( Habit habit, LocalDateTime time){
+    public HabitTime( Habit habit, String time){
         this.habit = habit;
         this.time = time;
     }

@@ -1,13 +1,14 @@
 package com.kuit.healthmate.global.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static com.kuit.healthmate.global.response.ExceptionResponseStatus.SUCCESS;
 
-
+@Getter
 public class ApiResponse<T> {
     private final int code;
     private final int status;

@@ -1,9 +1,12 @@
 package com.kuit.healthmate.service;
 
+import com.kuit.healthmate.domain.Status;
 import com.kuit.healthmate.domain.habit.entity.Habit;
 import com.kuit.healthmate.domain.habit.entity.HabitTime;
 import com.kuit.healthmate.domain.habit.repository.HabitRepository;
 import com.kuit.healthmate.domain.habit.repository.HabitTimeRepository;
+import com.kuit.healthmate.dto.habit.PostCreateHabitRequest;
+import com.kuit.healthmate.dto.habit.SelectedTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,9 +24,19 @@ public class HabitService {
     private final HabitTimeRepository habitTimeRepository;
 
     @Transactional
-    public Habit createHabit(Habit habit,List<LocalDateTime> times){
-        for(LocalDateTime time : times){
-            HabitTime habitTime = HabitTime.builder().habit(habit).time(time).build();
+    public Habit createHabit(PostCreateHabitRequest postCreateHabitRequest){
+        List<SelectedTime> times = postCreateHabitRequest.getTimes();
+        Habit habit = Habit.builder()
+                .name(postCreateHabitRequest.getName())
+                .memo(postCreateHabitRequest.getMemo())
+                .status(String.valueOf(Status.ACTIVE))
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .selectedDay(postCreateHabitRequest.getSelectedDay())
+                .build();
+        log.info(habit.toString());
+        for(SelectedTime time : times){
+            HabitTime habitTime = HabitTime.builder().habit(habit).time(time.getTime()).build();
             habitTimeRepository.save(habitTime);
         }
         return habitRepository.save(habit);
@@ -39,7 +52,7 @@ public class HabitService {
     }
 
     @Transactional
-    public void updateHabit(Habit habit,List<LocalDateTime> times){
+    public void updateHabit(Habit habit,List<String> times){
         Long habitId = habit.getId();
         //Habit habit = habitRepository.findById(habitId);
         habitRepository.save(habit);
@@ -47,7 +60,7 @@ public class HabitService {
         // 기존 HabitTime 삭제하고
         // 새로운 HabitTime 추가
         habitTimeRepository.deleteAll(habit.getHabitTime());
-        for (LocalDateTime time : times) {
+        for (String time : times) {
             HabitTime habitTime = HabitTime.builder().habit(habit).time(time).build();
             habitTimeRepository.save(habitTime);
         }

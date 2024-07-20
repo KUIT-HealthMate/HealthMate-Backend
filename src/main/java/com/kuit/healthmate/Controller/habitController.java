@@ -2,6 +2,8 @@ package com.kuit.healthmate.Controller;
 
 
 import com.kuit.healthmate.domain.habit.entity.Habit;
+import com.kuit.healthmate.dto.habit.PostCreateHabitRequest;
+import com.kuit.healthmate.global.response.ApiResponse;
 import com.kuit.healthmate.service.HabitService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,11 +27,11 @@ public class habitController {
     /**
      * 습관 챌린지 생성
      */
-//    @PostMapping("")
-//    public void createHabitChallenge(@RequestBody Habit habit){ //response 클래스 생성 해야함,, 임시로 request body로 habit -> 사용자의 정보, 습관 수행 시간 등을 포함한 객체로 교체해야함
-//        habitService.createHabit(habit,);
-//        return;
-//    }
+    @PostMapping("")
+    public ApiResponse<Habit> createHabitChallenge(@RequestBody PostCreateHabitRequest postCreateHabitRequest){
+
+        return new ApiResponse<>(habitService.createHabit(postCreateHabitRequest));
+    }
     /**
      * 습관 챌린지 수정
      */
