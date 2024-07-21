@@ -1,6 +1,7 @@
 package com.kuit.healthmate.global.exception_handler;
 
 import com.kuit.healthmate.global.exception.BadRequestException;
+import com.kuit.healthmate.global.exception.HabitException;
 import com.kuit.healthmate.global.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.TypeMismatchException;

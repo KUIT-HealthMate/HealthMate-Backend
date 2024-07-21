@@ -17,4 +17,10 @@ public class ErrorResponse {
         this.message = ers.getMessage();
         this.timestamp = LocalDateTime.now();
     }
+    public ErrorResponse(ExceptionResponseStatus ers, String message) {
+        this.code = ers.getCode();
+        this.status = ers.getStatus();
+        this.message = message;
+        this.timestamp = LocalDateTime.now();
+    }
 }
