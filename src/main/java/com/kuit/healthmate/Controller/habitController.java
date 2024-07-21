@@ -2,6 +2,7 @@ package com.kuit.healthmate.Controller;
 
 
 import com.kuit.healthmate.domain.habit.entity.Habit;
+import com.kuit.healthmate.dto.habit.PatchEditHabitRequest;
 import com.kuit.healthmate.dto.habit.PostCreateHabitRequest;
 import com.kuit.healthmate.global.exception.HabitException;
 import com.kuit.healthmate.global.response.ApiResponse;
@@ -43,17 +44,20 @@ public class habitController {
     /**
      * 습관 챌린지 수정
      */
-//    @PatchMapping("/edit")
-//    public void updateHabitChallenge(@RequestBody Habit habit){
-//        habitService.updateHabit(habit,times);
-    //    return;
-//    }
+    @PatchMapping("/edit")
+    public ApiResponse<Object> updateHabitChallenge(@Validated @RequestBody PatchEditHabitRequest patchEditHabitRequest, BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            throw new HabitException(INVALID_HABIT_VALUE, getErrorMessages(bindingResult));
+        }
+        habitService.updateHabit(patchEditHabitRequest);
+        return new ApiResponse<>(null);
+    }
     /**
      * 습관 챌린지 삭제
      */
     @PatchMapping("/delete/{habitId}")
-    public void updateHabitStatus(@PathVariable Long habitId){
+    public ApiResponse<Object> updateHabitStatus(@PathVariable Long habitId){
          habitService.deleteHabit(habitId);
-         return;
+        return new ApiResponse<>(null);
     }
 }

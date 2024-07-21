@@ -5,8 +5,11 @@ import com.kuit.healthmate.domain.habit.entity.Habit;
 import com.kuit.healthmate.domain.habit.entity.HabitTime;
 import com.kuit.healthmate.domain.habit.repository.HabitRepository;
 import com.kuit.healthmate.domain.habit.repository.HabitTimeRepository;
+import com.kuit.healthmate.dto.habit.PatchEditHabitRequest;
 import com.kuit.healthmate.dto.habit.PostCreateHabitRequest;
 import com.kuit.healthmate.dto.habit.SelectedTime;
+import com.kuit.healthmate.global.exception.HabitException;
+import com.kuit.healthmate.global.response.ExceptionResponseStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,7 @@ public class HabitService {
 
     @Transactional
     public Habit createHabit(PostCreateHabitRequest postCreateHabitRequest){
+        //user 객체 생성하여 습관에 포함시켜 저장하는 방식으로 수정해야함
         List<SelectedTime> times = postCreateHabitRequest.getTimes();
         Habit habit = Habit.builder()
                 .name(postCreateHabitRequest.getName())
@@ -54,21 +58,24 @@ public class HabitService {
     }
 
     @Transactional
-    public void updateHabit(Habit habit,List<String> times){
-        Long habitId = habit.getId();
-        //Habit habit = habitRepository.findById(habitId);
-        habitRepository.save(habit);
-
+    public void updateHabit(PatchEditHabitRequest patchEditHabitRequest){
+        Long habitId = patchEditHabitRequest.getHabitId();
+        Habit habit = habitRepository.findById(habitId)
+                .orElseThrow(() -> new HabitException(ExceptionResponseStatus.NOT_EXIST_HABIT));
+        habitRepository.updateHabit(habitId, patchEditHabitRequest.getName(), patchEditHabitRequest.getMemo(), LocalDateTime.now(), patchEditHabitRequest.getSelectedDay());
+        List<SelectedTime> times = patchEditHabitRequest.getTimes();
         // 기존 HabitTime 삭제하고
         // 새로운 HabitTime 추가
         habitTimeRepository.deleteAll(habit.getHabitTime());
-        for (String time : times) {
-            HabitTime habitTime = HabitTime.builder().habit(habit).time(time).build();
+        for (SelectedTime time : times) {
+            HabitTime habitTime = HabitTime.builder().habit(habit).time(time.getTime()).build();
             habitTimeRepository.save(habitTime);
         }
     }
     @Transactional
     public void deleteHabit(Long habitId){
+        Habit habit = habitRepository.findById(habitId)
+                .orElseThrow(() -> new HabitException(ExceptionResponseStatus.NOT_EXIST_HABIT));
         habitRepository.updateHabitStatus(habitId);
     }
 }

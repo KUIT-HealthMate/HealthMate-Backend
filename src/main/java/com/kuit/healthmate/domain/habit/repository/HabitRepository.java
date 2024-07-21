@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -17,4 +18,8 @@ public interface HabitRepository  extends JpaRepository<Habit, Long> {
     @Modifying
     @Query("update Habit h set h.status = 'INACTIVE' where h.id = :habitId")
     void updateHabitStatus(@Param("habitId") Long habitId);
+
+    @Modifying
+    @Query("UPDATE Habit h SET h.name = :name, h.memo = :memo, h.updatedAt = :updatedAt, h.selectedDay = :selectedDay WHERE h.id = :habitId")
+    void updateHabit(@Param("habitId") Long habitId, @Param("name") String name, @Param("memo") String memo, @Param("updatedAt")LocalDateTime updatedAt, @Param("selectedDay") String selectedDay);
 }
