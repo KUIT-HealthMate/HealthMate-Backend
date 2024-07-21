@@ -6,19 +6,19 @@ import com.kuit.healthmate.domain.supplement.SupplementRoutine;
 import com.kuit.healthmate.domain.supplement.SupplementTime;
 import com.kuit.healthmate.domain.user.User;
 import com.kuit.healthmate.dto.supplement.SupplementRegisterRequest;
+import com.kuit.healthmate.global.exception.UserException;
+import com.kuit.healthmate.global.response.ExceptionResponseStatus;
 import com.kuit.healthmate.repository.SupplementCheckerRepository;
 import com.kuit.healthmate.repository.SupplementRepository;
 import com.kuit.healthmate.repository.SupplementTimeRepository;
 import com.kuit.healthmate.dto.supplement.SupplementResponse;
 import com.kuit.healthmate.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Slf4j
 @Service
@@ -39,14 +39,15 @@ public class SupplementService {
 
     @Transactional
     public void registerSupplement(SupplementRegisterRequest supplementRegisterRequest) {
-        User user = userRepository.findById(supplementRegisterRequest.getUserId()).get();   // TODO: 예외처리
+        User user = userRepository.findById(supplementRegisterRequest.getUserId()).orElseThrow(
+                () -> new UserException(ExceptionResponseStatus.INVALID_USER_ID)
+        );
         String name = supplementRegisterRequest.getName();
         SupplementRoutine supplementRoutine = supplementRegisterRequest.getSupplementRoutine();
 
         Supplement supplement = new Supplement(user, name,
                 supplementRoutine);// TODO: NULL related exception should be held
         supplementRepository.save(supplement);  // 뒤에서 save해도 persistence context will manage the object?
-        user.getSupplements().add(supplement);    // 양방향 설정
 
         List<SupplementTime> supplementTimes = supplementRegisterRequest.getTimes()
                 .stream()
