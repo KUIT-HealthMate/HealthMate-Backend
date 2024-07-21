@@ -10,7 +10,6 @@ import org.hibernate.validator.constraints.Length;
 import java.util.List;
 
 @Getter
-@Setter
 @NoArgsConstructor
 public class PatchEditHabitRequest {
     @NotNull(message = "habitId: {Notnull}")

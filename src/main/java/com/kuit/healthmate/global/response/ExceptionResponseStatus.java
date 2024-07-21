@@ -25,7 +25,7 @@ public enum ExceptionResponseStatus {
      * 3000: Habit 오류
      */
 
-    INVALID_HABIT_VALUE(3001, HttpStatus.BAD_REQUEST.value(), "회원가입 요청에서 잘못된 값이 존재합니다."),
+    INVALID_HABIT_VALUE(3001, HttpStatus.BAD_REQUEST.value(), "요청에서 잘못된 값이 존재합니다."),
     NOT_EXIST_HABIT(3002, HttpStatus.BAD_REQUEST.value(),"존재하지 않는 습관입니다.");
 
     private final int code;

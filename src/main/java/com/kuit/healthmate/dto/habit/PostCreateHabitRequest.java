@@ -11,7 +11,6 @@ import java.util.List;
 
 
 @Getter
-@Setter
 @NoArgsConstructor
 public class PostCreateHabitRequest {
     @NotBlank(message = "name: {NotBlank}")

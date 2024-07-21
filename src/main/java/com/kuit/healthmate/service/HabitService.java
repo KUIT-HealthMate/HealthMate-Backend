@@ -46,7 +46,7 @@ public class HabitService {
         return habitRepository.save(habit);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Habit> getActiveHabitsByUserIdAndToday(Long userId) {
         int dayOfWeek = LocalDateTime.now().getDayOfWeek().getValue();
         // 요일을 월요일부터 시작하는 1부터 7까지의 값으로 맞추기 위해 필요
