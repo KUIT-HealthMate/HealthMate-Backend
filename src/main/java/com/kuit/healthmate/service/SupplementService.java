@@ -38,15 +38,15 @@ public class SupplementService {
     }
 
     @Transactional
-    public void registerSupplement(@RequestBody SupplementRegisterRequest supplementRegisterRequest) {
-        Optional<User> user = userRepository.findById(supplementRegisterRequest.getUserId());
+    public void registerSupplement(SupplementRegisterRequest supplementRegisterRequest) {
+        User user = userRepository.findById(supplementRegisterRequest.getUserId()).get();   // TODO: 예외처리
         String name = supplementRegisterRequest.getName();
         SupplementRoutine supplementRoutine = supplementRegisterRequest.getSupplementRoutine();
 
-        Supplement supplement = new Supplement(user.get(), name,
+        Supplement supplement = new Supplement(user, name,
                 supplementRoutine);// TODO: NULL related exception should be held
         supplementRepository.save(supplement);  // 뒤에서 save해도 persistence context will manage the object?
-        user.get().getSupplements().add(supplement);    // 양방향 설정
+        user.getSupplements().add(supplement);    // 양방향 설정
 
         List<SupplementTime> supplementTimes = supplementRegisterRequest.getTimes()
                 .stream()

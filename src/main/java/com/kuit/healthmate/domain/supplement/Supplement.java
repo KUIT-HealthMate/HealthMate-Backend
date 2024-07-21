@@ -57,7 +57,7 @@ public class Supplement {
     }
 
     @PrePersist
-    private void init() {
+    protected void init() {
         if (this.status == null) {
             status = Status.ACTIVE;
         }

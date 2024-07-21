@@ -1,14 +1,13 @@
 package com.kuit.healthmate.dto.supplement;
 
-import com.kuit.healthmate.domain.supplement.Supplement;
 import com.kuit.healthmate.domain.supplement.SupplementRoutine;
-import com.kuit.healthmate.domain.supplement.SupplementTime;
-import com.kuit.healthmate.domain.supplement.TimeSlot;
 import java.time.LocalTime;
 import java.util.List;
-import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-@Data
+@Getter
+@RequiredArgsConstructor
 public class SupplementRegisterRequest {
 
     private final Long userId;

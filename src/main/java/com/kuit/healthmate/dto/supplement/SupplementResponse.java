@@ -2,9 +2,11 @@ package com.kuit.healthmate.dto.supplement;
 
 import com.kuit.healthmate.domain.supplement.Supplement;
 import com.kuit.healthmate.domain.supplement.SupplementRoutine;
-import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-@Data
+@Getter
+@RequiredArgsConstructor
 public class SupplementResponse {
 
     public SupplementResponse(Supplement supplement) {
