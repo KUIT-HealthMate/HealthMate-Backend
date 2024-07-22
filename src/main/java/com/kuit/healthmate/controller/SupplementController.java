@@ -1,7 +1,6 @@
 package com.kuit.healthmate.controller;
 
 import com.kuit.healthmate.dto.supplement.SupplementCheckerRequest;
-import com.kuit.healthmate.dto.supplement.SupplementDeleteRequest;
 import com.kuit.healthmate.dto.supplement.SupplementRegisterRequest;
 import com.kuit.healthmate.dto.supplement.SupplementResponse;
 import com.kuit.healthmate.dto.supplement.SupplementUpdateRequest;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 @Slf4j
 @RestController
@@ -50,9 +48,8 @@ public class SupplementController {
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/delete/{supplementId}")
-    public void deleteSupplement(@PathVariable Long supplementId,
-                                 @RequestBody SupplementDeleteRequest supplementDeleteRequest) {
-        supplementService.deleteSupplement(supplementId, supplementDeleteRequest);
+    public void deleteSupplement(@PathVariable Long supplementId) {
+        supplementService.deleteSupplement(supplementId);
     }
 
     @PutMapping("/check-status/{supplementId}")
