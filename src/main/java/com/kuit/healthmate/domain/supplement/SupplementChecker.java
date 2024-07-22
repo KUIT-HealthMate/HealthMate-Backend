@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import lombok.AccessLevel;
@@ -29,4 +30,9 @@ public class SupplementChecker {
     private LocalDate checkDate;
     private TimeSlot timeSlot;
     private Boolean status;
+
+    public boolean toggleStatus() {
+        this.status = !this.status;
+        return this.status;
+    }
 }
