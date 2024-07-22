@@ -89,8 +89,8 @@ public class SupplementService {
         Supplement supplement = supplementRepository.findById(supplementId).orElseThrow(
                 () -> new SupplementException(ExceptionResponseStatus.INVALID_SUPPLEMENT_ID)
         );
-        SupplementChecker supplementChecker = supplementCheckerRepository.findBySupplementIdAndCheckDate(
-                supplementId, LocalDate.now());
+        SupplementChecker supplementChecker = supplementCheckerRepository.findBySupplementIdAndCheckDateAndTimeSlot(
+                supplementId, LocalDate.now(), supplementCheckerRequest.getTimeSlot());
         supplementChecker.toggleStatus();
     }
 }

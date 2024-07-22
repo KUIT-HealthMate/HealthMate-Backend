@@ -8,5 +8,4 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SupplementCheckerRequest {
     private final TimeSlot timeSlot;
-    private final Boolean status;
 }
