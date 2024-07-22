@@ -2,7 +2,6 @@ package com.kuit.healthmate.supplement;
 
 import com.kuit.healthmate.dto.supplement.SupplementRegisterRequest;
 import com.kuit.healthmate.dto.supplement.SupplementResponse;
-import com.kuit.healthmate.repository.UserRepository;
 import com.kuit.healthmate.service.SupplementService;
 import java.time.LocalTime;
 import java.util.List;

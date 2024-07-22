@@ -5,8 +5,10 @@ import com.kuit.healthmate.domain.Status;
 import com.kuit.healthmate.domain.user.User;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -61,5 +63,20 @@ public class Supplement {
         if (this.status == null) {
             status = Status.ACTIVE;
         }
+    }
+
+    public void update(String name, int afterMeal, String selectedDay, boolean breakfast,
+                       boolean lunch, boolean dinner, List<LocalTime> times) {
+        this.name = name;
+        this.supplementRoutine = SupplementRoutine.builder()
+                .afterMeal(afterMeal)
+                .selectedDay(selectedDay)
+                .breakfast(breakfast)
+                .lunch(lunch)
+                .dinner(dinner)
+                .build();
+        this.supplementTimes = times.stream()
+                .map(localTime -> new SupplementTime(this, localTime))
+                .toList();
     }
 }
