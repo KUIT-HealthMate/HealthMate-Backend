@@ -58,6 +58,10 @@ public class Supplement {
         this.supplementTimes = supplementTimes;
     }
 
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     @PrePersist
     protected void init() {
         if (this.status == null) {

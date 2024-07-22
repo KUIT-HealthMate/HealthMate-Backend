@@ -5,6 +5,7 @@ import com.kuit.healthmate.domain.supplement.Supplement;
 import com.kuit.healthmate.domain.supplement.SupplementRoutine;
 import com.kuit.healthmate.domain.supplement.SupplementTime;
 import com.kuit.healthmate.domain.user.User;
+import com.kuit.healthmate.dto.supplement.SupplementDeleteRequest;
 import com.kuit.healthmate.dto.supplement.SupplementRegisterRequest;
 import com.kuit.healthmate.dto.supplement.SupplementUpdateRequest;
 import com.kuit.healthmate.global.exception.UserException;
@@ -69,4 +70,14 @@ public class SupplementService {
                 supplementUpdateRequest.getSelectedDay(), supplementUpdateRequest.isBreakfast(),
                 supplementUpdateRequest.isLunch(), supplementUpdateRequest.isDinner(), supplementUpdateRequest.getTimes());
     }
+
+    @Transactional
+    public void deleteSupplement(Long supplementId, SupplementDeleteRequest supplementDeleteRequest) {
+        Supplement supplement = supplementRepository.findById(supplementId).orElseThrow(
+                () -> new UserException(ExceptionResponseStatus.INVALID_USER_ID)
+        );
+
+        supplement.setStatus(supplementDeleteRequest.getStatus());
+    }
+
 }
