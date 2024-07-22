@@ -9,14 +9,12 @@ import com.kuit.healthmate.service.SupplementService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
@@ -38,18 +36,17 @@ public class SupplementController {
         return new ApiResponse<>(supplementService.registerSupplement(supplementRegisterRequest));
     }
 
-    @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{supplementId}")
-    public void updateSupplement(@PathVariable Long supplementId,
+    public ApiResponse<Object> updateSupplement(@PathVariable Long supplementId,
                                  @RequestBody SupplementUpdateRequest supplementUpdateRequest) {
         supplementService.updateSupplement(supplementId, supplementUpdateRequest);
-        return;
+        return new ApiResponse<>(null);
     }
 
-    @ResponseStatus(HttpStatus.OK)
     @PutMapping("/delete/{supplementId}")
-    public void deleteSupplement(@PathVariable Long supplementId) {
+    public ApiResponse<Object> deleteSupplement(@PathVariable Long supplementId) {
         supplementService.deleteSupplement(supplementId);
+        return new ApiResponse<>(null);
     }
 
     @PutMapping("/check-status/{supplementId}")
