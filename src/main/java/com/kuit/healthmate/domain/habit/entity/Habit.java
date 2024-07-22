@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -16,6 +17,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "habits")
+@Getter
 public class Habit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,7 +39,7 @@ public class Habit {
     @NotNull
     @ColumnDefault("0000000")
     @Column(length = 7, nullable = false)
-    private String selected_day; //월,화,수,목,금,토,알 중에 선택한 날짜를 2진수로 표현
+    private String selectedDay; //월,화,수,목,금,토,알 중에 선택한 날짜를 2진수로 표현
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
@@ -46,15 +48,19 @@ public class Habit {
     @OneToMany(mappedBy = "habit",cascade = CascadeType.ALL)
     private List<HabitChecker> habitChecker = new ArrayList<>();
 
+    @OneToMany(mappedBy = "habit",cascade = CascadeType.ALL)
+    private List<HabitTime> habitTime = new ArrayList<>();
+
     @Builder
-    public Habit(Long id, String name, String memo, String status, LocalDateTime createdAt,LocalDateTime updatedAt, String selected_day) {
+    public Habit(Long id, String name, String memo, String status, LocalDateTime createdAt,LocalDateTime updatedAt, String selectedDay,User user) {
         this.id = id;
         this.name = name;
         this.memo = memo;
         this.status = Status.valueOf(status);
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.selected_day = selected_day;
+        this.selectedDay = selectedDay;
+        this.user = user;
     }
 
 }
