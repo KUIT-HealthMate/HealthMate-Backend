@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import lombok.Getter;
 
 import static com.kuit.healthmate.global.response.ExceptionResponseStatus.SUCCESS;
 
 
+@Getter
 public class ApiResponse<T> {
     private final int code;
     private final int status;

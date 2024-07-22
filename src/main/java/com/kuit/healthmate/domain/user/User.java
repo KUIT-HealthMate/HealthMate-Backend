@@ -5,6 +5,8 @@ import com.kuit.healthmate.domain.supplement.Supplement;
 import com.kuit.healthmate.domain.habit.entity.Habit;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "users")
 public class User {
