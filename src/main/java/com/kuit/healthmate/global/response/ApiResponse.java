@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import lombok.Getter;
 
 import static com.kuit.healthmate.global.response.ExceptionResponseStatus.SUCCESS;
 

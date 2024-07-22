@@ -8,9 +8,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "supplements")
 public class Supplement {
@@ -27,19 +29,37 @@ public class Supplement {
     @OneToMany(mappedBy = "supplement", cascade = CascadeType.ALL)
     private List<SupplementChecker> supplementCheckers = new ArrayList<>();
 
+    @OneToMany(mappedBy = "supplement", cascade = CascadeType.ALL)
+    private List<SupplementTime> supplementTimes = new ArrayList<>();
+
     private String name;
-    private String memo;
 
     @Embedded
     private Period period;
 
-    private Boolean breakfast;
-    private Boolean lunch;
-    private Boolean dinner;
+    @Embedded
+    private SupplementRoutine supplementRoutine;
 
     @Enumerated(EnumType.STRING)
     private Status status;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    public Supplement(User user, String name, SupplementRoutine supplementRoutine) {
+        this.user = user;
+        this.name = name;
+        this.supplementRoutine = supplementRoutine;
+    }
+
+    public void setSupplementTimes(List<SupplementTime> supplementTimes) {
+        this.supplementTimes = supplementTimes;
+    }
+
+    @PrePersist
+    protected void init() {
+        if (this.status == null) {
+            status = Status.ACTIVE;
+        }
+    }
 }

@@ -28,6 +28,11 @@ public enum ExceptionResponseStatus {
     INVALID_HABIT_VALUE(3001, HttpStatus.BAD_REQUEST.value(), "요청에서 잘못된 값이 존재합니다."),
     NOT_EXIST_HABIT(3002, HttpStatus.BAD_REQUEST.value(),"존재하지 않는 습관입니다.");
 
+    /**
+     * 5000: User 관련 오류
+     */
+    INVALID_USER_ID(5000, HttpStatus.BAD_REQUEST.value(), "유효하지 않은 유저 아이디 입니다.");
+
     private final int code;
     private final int status;
     private final String message;
