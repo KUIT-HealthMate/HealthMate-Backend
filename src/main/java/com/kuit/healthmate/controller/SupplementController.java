@@ -10,12 +10,14 @@ import com.kuit.healthmate.service.SupplementService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -34,11 +36,11 @@ public class SupplementController {
     }
 
     @PostMapping("/register")
-    public void registerSupplement(@RequestBody SupplementRegisterRequest supplementRegisterRequest) {
-        supplementService.registerSupplement(supplementRegisterRequest);
-        return;
+    public ApiResponse<Long> registerSupplement(@RequestBody SupplementRegisterRequest supplementRegisterRequest) {
+        return new ApiResponse<>(supplementService.registerSupplement(supplementRegisterRequest));
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{supplementId}")
     public void updateSupplement(@PathVariable Long supplementId,
                                  @RequestBody SupplementUpdateRequest supplementUpdateRequest) {
@@ -46,6 +48,7 @@ public class SupplementController {
         return;
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @PutMapping("/delete/{supplementId}")
     public void deleteSupplement(@PathVariable Long supplementId,
                                  @RequestBody SupplementDeleteRequest supplementDeleteRequest) {
@@ -53,8 +56,10 @@ public class SupplementController {
     }
 
     @PutMapping("/check-status/{supplementId}")
-    public void checkSupplementChecker(@PathVariable Long supplementId,
+    public ApiResponse<Boolean> checkSupplementChecker(@PathVariable Long supplementId,
                                        @RequestBody SupplementCheckerRequest supplementCheckerRequest) {
-        supplementService.checkSupplementChecker(supplementId, supplementCheckerRequest);
+        return new ApiResponse<>(
+                supplementService.checkSupplementChecker(supplementId, supplementCheckerRequest)
+        );
     }
 }

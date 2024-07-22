@@ -44,7 +44,7 @@ public class SupplementService {
     }
 
     @Transactional
-    public void registerSupplement(SupplementRegisterRequest supplementRegisterRequest) {
+    public Long registerSupplement(SupplementRegisterRequest supplementRegisterRequest) {
         User user = userRepository.findById(supplementRegisterRequest.getUserId()).orElseThrow(
                 () -> new UserException(ExceptionResponseStatus.INVALID_USER_ID)
         );
@@ -62,6 +62,8 @@ public class SupplementService {
 
         supplementTimeRepository.saveAll(supplementTimes);
         supplement.setSupplementTimes(supplementTimes); // 양방향도 설정 해 주기
+
+        return supplement.getId();
     }
 
     @Transactional
@@ -85,12 +87,12 @@ public class SupplementService {
     }
 
     @Transactional
-    public void checkSupplementChecker(Long supplementId, SupplementCheckerRequest supplementCheckerRequest) {
+    public Boolean checkSupplementChecker(Long supplementId, SupplementCheckerRequest supplementCheckerRequest) {
         Supplement supplement = supplementRepository.findById(supplementId).orElseThrow(
                 () -> new SupplementException(ExceptionResponseStatus.INVALID_SUPPLEMENT_ID)
         );
         SupplementChecker supplementChecker = supplementCheckerRepository.findBySupplementIdAndCheckDateAndTimeSlot(
                 supplementId, LocalDate.now(), supplementCheckerRequest.getTimeSlot());
-        supplementChecker.toggleStatus();
+        return supplementChecker.toggleStatus();
     }
 }
