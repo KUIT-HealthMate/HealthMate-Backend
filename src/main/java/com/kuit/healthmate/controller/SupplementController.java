@@ -31,12 +31,12 @@ public class SupplementController {
         return new ApiResponse<>(supplementService.getSupplementChallengesByUserId(userId));
     }
 
-    @PostMapping("/register")
+    @PostMapping("")
     public ApiResponse<Long> registerSupplement(@RequestBody SupplementRegisterRequest supplementRegisterRequest) {
         return new ApiResponse<>(supplementService.registerSupplement(supplementRegisterRequest));
     }
 
-    @PutMapping("/{supplementId}")
+    @PutMapping("/edit/{supplementId}")
     public ApiResponse<Object> updateSupplement(@PathVariable Long supplementId,
                                  @RequestBody SupplementUpdateRequest supplementUpdateRequest) {
         supplementService.updateSupplement(supplementId, supplementUpdateRequest);
