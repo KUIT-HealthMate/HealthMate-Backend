@@ -1,5 +1,6 @@
 package com.kuit.healthmate.controller;
 
+import com.kuit.healthmate.dto.supplement.SupplementCheckerRequest;
 import com.kuit.healthmate.dto.supplement.SupplementDeleteRequest;
 import com.kuit.healthmate.dto.supplement.SupplementRegisterRequest;
 import com.kuit.healthmate.dto.supplement.SupplementResponse;
@@ -39,13 +40,21 @@ public class SupplementController {
     }
 
     @PutMapping("/{supplementId}")
-    public void updateSupplement(@PathVariable Long supplementId, @RequestBody SupplementUpdateRequest supplementUpdateRequest) {
+    public void updateSupplement(@PathVariable Long supplementId,
+                                 @RequestBody SupplementUpdateRequest supplementUpdateRequest) {
         supplementService.updateSupplement(supplementId, supplementUpdateRequest);
         return;
     }
 
     @PutMapping("/delete/{supplementId}")
-    public void deleteSupplement(@PathVariable Long supplementId, @RequestBody SupplementDeleteRequest supplementDeleteRequest) {
+    public void deleteSupplement(@PathVariable Long supplementId,
+                                 @RequestBody SupplementDeleteRequest supplementDeleteRequest) {
         supplementService.deleteSupplement(supplementId, supplementDeleteRequest);
+    }
+
+    @PutMapping("/check-status/{supplementId}")
+    public void checkSupplementChecker(@PathVariable Long supplementId,
+                                       @RequestBody SupplementCheckerRequest supplementCheckerRequest) {
+        supplementService.checkSupplementChecker(supplementId, supplementCheckerRequest);
     }
 }
