@@ -3,6 +3,7 @@ package com.kuit.healthmate.challenge.habit.domain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -23,4 +24,16 @@ public class HabitChecker {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "habit_id")
     private Habit habit;
+
+    public void toggleStatus() {
+        this.status = !this.status;
+    }
+
+    @Builder
+    public HabitChecker(Long id, LocalDateTime createdAt, Boolean status, Habit habit){
+        this.id = id;
+        this.createdAt = createdAt;
+        this.status = status;
+        this.habit = habit;
+    }
 }

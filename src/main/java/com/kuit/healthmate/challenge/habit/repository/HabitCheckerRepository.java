@@ -10,5 +10,5 @@ import java.util.Optional;
 
 @Repository
 public interface HabitCheckerRepository extends JpaRepository<HabitChecker,Long> {
-    Optional<HabitChecker> findByHabitAndCreatedAtBetween(Habit habit, LocalDateTime startOfDay, LocalDateTime endOfDay);
+    Optional<HabitChecker> findByHabitAndCreatedAt(Habit habit, LocalDateTime day);
 }

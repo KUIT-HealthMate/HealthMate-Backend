@@ -2,7 +2,9 @@ package com.kuit.healthmate.challenge.habit.service;
 
 import com.kuit.healthmate.challenge.common.domain.Status;
 import com.kuit.healthmate.challenge.habit.domain.Habit;
+import com.kuit.healthmate.challenge.habit.domain.HabitChecker;
 import com.kuit.healthmate.challenge.habit.domain.HabitTime;
+import com.kuit.healthmate.challenge.habit.repository.HabitCheckerRepository;
 import com.kuit.healthmate.challenge.habit.repository.HabitRepository;
 import com.kuit.healthmate.challenge.habit.repository.HabitTimeRepository;
 import com.kuit.healthmate.challenge.habit.dto.PatchEditHabitRequest;
@@ -16,7 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -25,6 +29,7 @@ public class HabitService {
 
     private final HabitRepository habitRepository;
     private final HabitTimeRepository habitTimeRepository;
+    private final HabitCheckerRepository habitCheckerRepository;
 
     @Transactional
     public Habit createHabit(PostCreateHabitRequest postCreateHabitRequest){
@@ -77,5 +82,25 @@ public class HabitService {
         Habit habit = habitRepository.findById(habitId)
                 .orElseThrow(() -> new HabitException(ExceptionResponseStatus.NOT_EXIST_HABIT));
         habitRepository.updateHabitStatus(habitId);
+    }
+    @Transactional
+    public void checkHabit(Long habitId) {
+        Habit habit = habitRepository.findById(habitId)
+                .orElseThrow(() -> new HabitException(ExceptionResponseStatus.NOT_EXIST_HABIT));
+
+        Optional<HabitChecker> optionalHabitChecker = habitCheckerRepository.findByHabitAndCreatedAt(habit, LocalDateTime.now());
+
+        HabitChecker habitChecker;
+        if (optionalHabitChecker.isPresent()) {
+            habitChecker = optionalHabitChecker.get();
+            habitChecker.toggleStatus();
+        } else {
+            habitChecker = HabitChecker.builder()
+                    .id(habitId)
+                    .createdAt(LocalDateTime.now())
+                    .status(Boolean.TRUE)
+                    .habit(habit).build();
+        }
+        habitCheckerRepository.save(habitChecker);
     }
 }
