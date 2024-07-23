@@ -1,17 +1,9 @@
 package com.kuit.healthmate;
 
 
-import com.kuit.healthmate.domain.habit.entity.Habit;
-import com.kuit.healthmate.domain.habit.repository.HabitRepository;
-import com.kuit.healthmate.domain.user.User;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import com.kuit.healthmate.challenge.habit.repository.HabitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
 
 @DataJpaTest
 public class HabitTest {
