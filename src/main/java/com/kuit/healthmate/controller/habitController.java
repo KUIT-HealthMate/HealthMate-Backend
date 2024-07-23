@@ -1,4 +1,4 @@
-package com.kuit.healthmate.Controller;
+package com.kuit.healthmate.controller;
 
 
 import com.kuit.healthmate.domain.habit.entity.Habit;

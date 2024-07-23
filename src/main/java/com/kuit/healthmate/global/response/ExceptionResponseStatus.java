@@ -31,7 +31,12 @@ public enum ExceptionResponseStatus {
     /**
      * 5000: User 관련 오류
      */
-    INVALID_USER_ID(5000, HttpStatus.BAD_REQUEST.value(), "유효하지 않은 유저 아이디 입니다.");
+    INVALID_USER_ID(5000, HttpStatus.BAD_REQUEST.value(), "유효하지 않은 유저 아이디 입니다."),
+
+    /**
+     * 6000: Supplement 관련 오류
+     */
+    INVALID_SUPPLEMENT_ID(5000, HttpStatus.BAD_REQUEST.value(), "유효하지 않은 영양제 아이디 입니다.");
 
     private final int code;
     private final int status;
