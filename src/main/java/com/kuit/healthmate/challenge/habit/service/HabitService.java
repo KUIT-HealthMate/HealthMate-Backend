@@ -84,7 +84,7 @@ public class HabitService {
         habitRepository.updateHabitStatus(habitId);
     }
     @Transactional
-    public void checkHabit(Long habitId) {
+    public void checkHabit(LocalDateTime date, Long habitId) {
         Habit habit = habitRepository.findById(habitId)
                 .orElseThrow(() -> new HabitException(ExceptionResponseStatus.NOT_EXIST_HABIT));
 
@@ -97,7 +97,7 @@ public class HabitService {
         } else {
             habitChecker = HabitChecker.builder()
                     .id(habitId)
-                    .createdAt(LocalDateTime.now())
+                    .createdAt(date)
                     .status(Boolean.TRUE)
                     .habit(habit).build();
         }
