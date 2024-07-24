@@ -4,6 +4,8 @@ package com.kuit.healthmate.challenge.habit.controller;
 import com.kuit.healthmate.challenge.habit.domain.Habit;
 import com.kuit.healthmate.challenge.habit.dto.PatchEditHabitRequest;
 import com.kuit.healthmate.challenge.habit.dto.PostCreateHabitRequest;
+import com.kuit.healthmate.challenge.habit.dto.PutCheckHabitRequest;
+import com.kuit.healthmate.challenge.supplement.dto.SupplementCheckerRequest;
 import com.kuit.healthmate.global.exception.HabitException;
 import com.kuit.healthmate.global.response.ApiResponse;
 import com.kuit.healthmate.challenge.habit.service.HabitService;
@@ -58,6 +60,14 @@ public class habitController {
     @PatchMapping("/delete/{habitId}")
     public ApiResponse<Object> updateHabitStatus(@PathVariable Long habitId){
          habitService.deleteHabit(habitId);
+        return new ApiResponse<>(null);
+    }
+    /**
+     * 습관 챌린지 체크/언체크
+     */
+    @PutMapping("/check-status/{habitId}")
+    public ApiResponse<Boolean> checkHabitChecker(@RequestBody PutCheckHabitRequest putCheckHabitRequest,BindingResult bindingResult, @PathVariable Long habitId) {
+        habitService.checkHabit(putCheckHabitRequest.getDate(), habitId);
         return new ApiResponse<>(null);
     }
 }
