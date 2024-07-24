@@ -35,4 +35,14 @@ public class CommonChallengeServiceImpl implements CommonChallengeService{
         // ex
         return 80;
     }
+
+    @Override
+    public ChallengeResponse getChallengesForMonth() {
+        return null;
+    }
+
+    @Override
+    public ChallengeResponse getChallengesForWeek() {
+        return null;
+    }
 }
