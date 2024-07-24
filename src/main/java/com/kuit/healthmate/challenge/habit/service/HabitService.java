@@ -91,17 +91,11 @@ public class HabitService {
                         }
                 )
                 .orElseGet(() -> HabitChecker.builder()
+                        .id(habitId)
                         .createdAt(date)
                         .status(Boolean.TRUE)
                         .habit(habit).build());
 
         habitCheckerRepository.save(habitChecker);
-    }
-    private HabitChecker creatHabitChecker(LocalDateTime date, Long habitId, Habit habit){
-        return HabitChecker.builder()
-                .id(habitId)
-                .createdAt(date)
-                .status(Boolean.TRUE)
-                .habit(habit).build();
     }
 }
