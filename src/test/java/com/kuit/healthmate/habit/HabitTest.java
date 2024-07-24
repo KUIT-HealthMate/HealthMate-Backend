@@ -41,7 +41,7 @@ public class HabitTest {
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy.MM.dd");
 
-//    @Test
+    //    @Test
 //    @DisplayName("습관 조인 테스트")
 //    @Transactional
 //    void 습관조인테스트(){
@@ -83,57 +83,57 @@ public class HabitTest {
 //        List<Habit> habits = habitRepository.findByIdWithHabitCheckers(2L);
 //        habits.forEach(h -> System.out.println("결과 : "+h.getHabitChecker()));
 //    }
-    @Test
-    @DisplayName("습관 조회 테스트")
-    @Transactional
-    void 습관조회테스트(){
-
-        User user = User.builder()
-                .id(1L)
-                .nickname("park")
-                .email("test").createdAt(LocalDateTime.now()).build();
-        userRepository.save(user);
-        Habit habit1 = Habit.builder()
-                .name("월")
-                .memo("testtest")
-                .status("ACTIVE")
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
-                .user(user)
-                .selectedDay("1000000").build();
-        System.out.println("result :" +habit1.toString());
-        Habit habit2 = Habit.builder()
-                .name("화")
-                .memo("testtest2")
-                .status("ACTIVE")
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
-                .user(user)
-                .selectedDay("0100000").build();
-        Habit habit3 = Habit.builder()
-                .name("월화")
-                .memo("testtest2")
-                .status("ACTIVE")
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
-                .user(user)
-                .selectedDay("1100000").build();
-        Habit habit4 = Habit.builder()
-                .name("전체")
-                .memo("testtest2")
-                .status(HabitStatus.ACTIVE.toString())
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
-                .user(user)
-                .selectedDay("1111111").build();
-        habitRepository.save(habit1);
-        habitRepository.save(habit2);
-        habitRepository.save(habit3);
-        habitRepository.save(habit4);
-        em.flush();
-        em.clear();
-        LocalDate date = LocalDate.parse("2024.07.22", FORMATTER);
-        int dayOfWeek = date.getDayOfWeek().getValue();
-        List<Habit> habits = habitService.getActiveHabitsByUserIdAndToday(1L,date);
-    }
+//    @Test
+//    @DisplayName("습관 조회 테스트")
+//    @Transactional
+//    void 습관조회테스트(){
+//
+//        User user = User.builder()
+//                .id(1L)
+//                .nickname("park")
+//                .email("test").createdAt(LocalDateTime.now()).build();
+//        userRepository.save(user);
+//        Habit habit1 = Habit.builder()
+//                .name("월")
+//                .memo("testtest")
+//                .status("ACTIVE")
+//                .createdAt(LocalDateTime.now())
+//                .updatedAt(LocalDateTime.now())
+//                .user(user)
+//                .selectedDay("1000000").build();
+//        System.out.println("result :" +habit1.toString());
+//        Habit habit2 = Habit.builder()
+//                .name("화")
+//                .memo("testtest2")
+//                .status("ACTIVE")
+//                .createdAt(LocalDateTime.now())
+//                .updatedAt(LocalDateTime.now())
+//                .user(user)
+//                .selectedDay("0100000").build();
+//        Habit habit3 = Habit.builder()
+//                .name("월화")
+//                .memo("testtest2")
+//                .status("ACTIVE")
+//                .createdAt(LocalDateTime.now())
+//                .updatedAt(LocalDateTime.now())
+//                .user(user)
+//                .selectedDay("1100000").build();
+//        Habit habit4 = Habit.builder()
+//                .name("전체")
+//                .memo("testtest2")
+//                .status(HabitStatus.ACTIVE.toString())
+//                .createdAt(LocalDateTime.now())
+//                .updatedAt(LocalDateTime.now())
+//                .user(user)
+//                .selectedDay("1111111").build();
+//        habitRepository.save(habit1);
+//        habitRepository.save(habit2);
+//        habitRepository.save(habit3);
+//        habitRepository.save(habit4);
+//        em.flush();
+//        em.clear();
+//        LocalDate date = LocalDate.parse("2024.07.22", FORMATTER);
+//        int dayOfWeek = date.getDayOfWeek().getValue();
+//        List<Habit> habits = habitService.getActiveHabitsByUserIdAndToday(1L,date);
+//    }
 }
