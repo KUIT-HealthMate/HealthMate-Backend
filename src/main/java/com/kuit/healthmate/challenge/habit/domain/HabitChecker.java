@@ -36,4 +36,12 @@ public class HabitChecker {
         this.status = status;
         this.habit = habit;
     }
+    @Override
+    public String toString() {
+        return "HabitChecker{" +
+                "id=" + id +
+                ", createdAt=" + createdAt +
+                ", status=" + status +
+                '}';
+    }
 }
