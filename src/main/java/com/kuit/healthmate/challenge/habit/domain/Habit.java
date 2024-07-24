@@ -4,10 +4,7 @@ import com.kuit.healthmate.challenge.common.domain.Status;
 import com.kuit.healthmate.user.domain.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
@@ -18,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "habits")
 @Getter
+@ToString
 public class Habit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

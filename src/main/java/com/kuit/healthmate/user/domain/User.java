@@ -1,10 +1,12 @@
 package com.kuit.healthmate.user.domain;
 
 
+import com.kuit.healthmate.challenge.common.domain.Status;
 import com.kuit.healthmate.challenge.supplement.domain.Supplement;
 import com.kuit.healthmate.challenge.habit.domain.Habit;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -40,4 +42,12 @@ public class User {
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    @Builder
+    public User(Long id, String email, String nickname,LocalDateTime createdAt) {
+        this.id = id;
+        this.email = email;
+        this.nickname = nickname;
+        this.createdAt = createdAt;
+    }
 }
