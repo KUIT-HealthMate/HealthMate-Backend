@@ -14,3 +14,6 @@ values (2, 1, 'test2', '30', '0000000', true, true, true, '2012-12-12', '2012-12
 
 insert Into supplement_checker(supplement_checker_id, supplement_id, time_slot, status, check_date)
 values (1, 1, 'LUNCH', true, current_date);
+
+insert Into supplement_checker(supplement_checker_id, supplement_id, time_slot, status, check_date)
+values (2, 1, 'LUNCH', true, '2012-12-14');

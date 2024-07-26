@@ -100,4 +100,20 @@ public class SupplementService {
                 );
         return supplementChecker.getStatus();
     }
+
+    public List<Supplement> getSupplementForDay(Long userId, LocalDate localDate) {
+        return supplementRepository.findAllByUserIdAndCheckedDateBetween(userId, localDate, localDate);
+    }
+
+    public List<Supplement> getSupplementForToday() {
+        return null;
+    }
+
+    public List<Supplement> getSupplementForMonth() {
+        return null;
+    }
+
+    public List<Supplement> getSupplementForWeek() {
+        return null;
+    }
 }

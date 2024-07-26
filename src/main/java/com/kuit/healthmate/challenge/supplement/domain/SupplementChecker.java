@@ -47,4 +47,13 @@ public class SupplementChecker {
         this.status = Boolean.TRUE;
     }
 
+    @Override
+    public String toString() {
+        return "SupplementChecker{" +
+                "id=" + id +
+                ", checkDate=" + checkDate +
+                ", timeSlot=" + timeSlot +
+                ", status=" + status +
+                '}';
+    }
 }
