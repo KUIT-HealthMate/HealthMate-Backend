@@ -2,9 +2,7 @@ package com.kuit.healthmate.challenge.habit.controller;
 
 
 import com.kuit.healthmate.challenge.habit.domain.Habit;
-import com.kuit.healthmate.challenge.habit.dto.PatchEditHabitRequest;
-import com.kuit.healthmate.challenge.habit.dto.PostCreateHabitRequest;
-import com.kuit.healthmate.challenge.habit.dto.PutCheckHabitRequest;
+import com.kuit.healthmate.challenge.habit.dto.*;
 import com.kuit.healthmate.challenge.supplement.dto.SupplementCheckerRequest;
 import com.kuit.healthmate.global.exception.HabitException;
 import com.kuit.healthmate.global.response.ApiResponse;
@@ -15,6 +13,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static com.kuit.healthmate.global.response.ExceptionResponseStatus.INVALID_HABIT_VALUE;
@@ -26,12 +26,14 @@ import static com.kuit.healthmate.utils.BindingResultUtils.getErrorMessages;
 @RequestMapping("/habits")
 public class habitController {
     private final HabitService habitService;
+
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy.MM.dd");
     /**
      * 습관 챌린지 조회
      */
     @GetMapping("/{userId}")
-    public ApiResponse<List<Habit>> findHabitChallenge(@PathVariable long userId) {
-        return new ApiResponse<>(habitService.getActiveHabitsByUserIdAndToday(userId));
+    public ApiResponse<List<GetHabitResponse>> findHabitChallenge(@RequestBody GetHabitRequest getHabitRequest , @PathVariable long userId) {
+        return new ApiResponse<>(habitService.getActiveHabitsByUserIdAndToday(userId,LocalDate.parse(getHabitRequest.getDate(), FORMATTER)));
     }
     /**
      * 습관 챌린지 생성

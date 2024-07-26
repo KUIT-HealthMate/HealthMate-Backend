@@ -4,6 +4,7 @@ import com.kuit.healthmate.challenge.common.domain.Status;
 import com.kuit.healthmate.challenge.habit.domain.Habit;
 import com.kuit.healthmate.challenge.habit.domain.HabitChecker;
 import com.kuit.healthmate.challenge.habit.domain.HabitTime;
+import com.kuit.healthmate.challenge.habit.dto.GetHabitResponse;
 import com.kuit.healthmate.challenge.habit.repository.HabitCheckerRepository;
 import com.kuit.healthmate.challenge.habit.repository.HabitRepository;
 import com.kuit.healthmate.challenge.habit.repository.HabitTimeRepository;
@@ -17,10 +18,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -52,16 +53,16 @@ public class HabitService {
     }
 
     @Transactional(readOnly = true)
-    public List<Habit> getActiveHabitsByUserIdAndToday(Long userId) {
-        int dayOfWeek = LocalDateTime.now().getDayOfWeek().getValue();
+    public List<GetHabitResponse> getActiveHabitsByUserIdAndToday(Long userId, LocalDate date) {
+        int dayOfWeek = date.getDayOfWeek().getValue();
         // 요일을 월요일부터 시작하는 1부터 7까지의 값으로 맞추기 위해 필요
         // 월요일이 1, 화요일이 2, ..., 일요일이 7
-        log.info("dayOfweek : "+dayOfWeek);
-        List<Habit> habits = habitRepository.findActiveHabitsByUserIdAndDayOfWeek(userId, dayOfWeek);
-        log.info("habits : "+habits.size());
+        List<GetHabitResponse> habits = habitRepository.findActiveHabitsByUserIdAndDayOfWeek(userId, dayOfWeek)
+                .stream()
+                .map(GetHabitResponse::new)
+                .collect(Collectors.toList());
         return habits;
     }
-
     @Transactional
     public void updateHabit(PatchEditHabitRequest patchEditHabitRequest){
         Long habitId = patchEditHabitRequest.getHabitId();
@@ -88,19 +89,18 @@ public class HabitService {
         Habit habit = habitRepository.findById(habitId)
                 .orElseThrow(() -> new HabitException(ExceptionResponseStatus.NOT_EXIST_HABIT));
 
-        Optional<HabitChecker> optionalHabitChecker = habitCheckerRepository.findByHabitAndCreatedAt(habit, LocalDateTime.now());
+        HabitChecker habitChecker = habitCheckerRepository.findByHabitAndCreatedAt(habit, LocalDateTime.now())
+                .map( it ->{
+                    it.toggleStatus();
+                    return  it;
+                        }
+                )
+                .orElseGet(() -> HabitChecker.builder()
+                        .id(habitId)
+                        .createdAt(date)
+                        .status(Boolean.TRUE)
+                        .habit(habit).build());
 
-        HabitChecker habitChecker;
-        if (optionalHabitChecker.isPresent()) {
-            habitChecker = optionalHabitChecker.get();
-            habitChecker.toggleStatus();
-        } else {
-            habitChecker = HabitChecker.builder()
-                    .id(habitId)
-                    .createdAt(date)
-                    .status(Boolean.TRUE)
-                    .habit(habit).build();
-        }
         habitCheckerRepository.save(habitChecker);
     }
 }
