@@ -38,9 +38,6 @@ public class Supplement {
     private String name;
 
     @Embedded
-    private Period period;
-
-    @Embedded
     private SupplementRoutine supplementRoutine;
 
     @Enumerated(EnumType.STRING)
