@@ -5,7 +5,6 @@ import com.kuit.healthmate.challenge.supplement.domain.Supplement;
 import com.kuit.healthmate.challenge.supplement.domain.SupplementChecker;
 import com.kuit.healthmate.challenge.supplement.domain.SupplementRoutine;
 import com.kuit.healthmate.challenge.supplement.domain.SupplementTime;
-import com.kuit.healthmate.challenge.supplement.domain.TimeSlot;
 import com.kuit.healthmate.user.domain.User;
 import com.kuit.healthmate.challenge.supplement.dto.SupplementCheckerRequest;
 import com.kuit.healthmate.challenge.supplement.dto.SupplementRegisterRequest;
@@ -105,15 +104,15 @@ public class SupplementService {
         return supplementRepository.findAllByUserIdAndCheckedDateBetween(userId, localDate, localDate);
     }
 
-    public List<Supplement> getSupplementForToday() {
-        return null;
+    public List<Supplement> getSupplementForToday(Long userId) {
+        return supplementRepository.findAllByUserIdAndCheckedDateBetween(userId, LocalDate.now(), LocalDate.now());
     }
 
-    public List<Supplement> getSupplementForMonth() {
-        return null;
+    public List<Supplement> getSupplementForMonth(Long userId, LocalDate endDate) {
+        return supplementRepository.findAllByUserIdAndCheckedDateBetween(userId, endDate.withDayOfMonth(1), endDate);
     }
 
-    public List<Supplement> getSupplementForWeek() {
-        return null;
+    public List<Supplement> getSupplementForWeek(Long userId, LocalDate startDate, LocalDate endDate) {
+        return supplementRepository.findAllByUserIdAndCheckedDateBetween(userId, startDate, endDate);
     }
 }
