@@ -11,8 +11,10 @@ import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
+@ToString
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "supplements")
@@ -34,9 +36,6 @@ public class Supplement {
     private List<SupplementTime> supplementTimes = new ArrayList<>();
 
     private String name;
-
-    @Embedded
-    private Period period;
 
     @Embedded
     private SupplementRoutine supplementRoutine;

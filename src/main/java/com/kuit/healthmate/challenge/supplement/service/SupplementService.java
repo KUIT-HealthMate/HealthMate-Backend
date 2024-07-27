@@ -91,7 +91,28 @@ public class SupplementService {
                 () -> new SupplementException(ExceptionResponseStatus.INVALID_SUPPLEMENT_ID)
         );
         SupplementChecker supplementChecker = supplementCheckerRepository.findBySupplementIdAndCheckDateAndTimeSlot(
-                supplementId, LocalDate.now(), supplementCheckerRequest.getTimeSlot());
-        return supplementChecker.toggleStatus();
+                        supplementId, LocalDate.now(), supplementCheckerRequest.getTimeSlot())
+                .orElse(
+                        supplementCheckerRepository.save(
+                                new SupplementChecker(supplement, supplementCheckerRequest.getTimeSlot())
+                        )
+                );
+        return supplementChecker.getStatus();
+    }
+
+    public List<Supplement> getSupplementForDay(Long userId, LocalDate localDate) {
+        return supplementRepository.findAllByUserIdAndCheckedDateBetween(userId, localDate, localDate);
+    }
+
+    public List<Supplement> getSupplementForToday(Long userId) {
+        return supplementRepository.findAllByUserIdAndCheckedDateBetween(userId, LocalDate.now(), LocalDate.now());
+    }
+
+    public List<Supplement> getSupplementForMonth(Long userId, LocalDate endDate) {
+        return supplementRepository.findAllByUserIdAndCheckedDateBetween(userId, endDate.withDayOfMonth(1), endDate);
+    }
+
+    public List<Supplement> getSupplementForWeek(Long userId, LocalDate startDate, LocalDate endDate) {
+        return supplementRepository.findAllByUserIdAndCheckedDateBetween(userId, startDate, endDate);
     }
 }

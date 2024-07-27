@@ -1,8 +1,11 @@
 package com.kuit.healthmate.supplement;
 
+import com.kuit.healthmate.challenge.supplement.domain.Supplement;
 import com.kuit.healthmate.challenge.supplement.dto.SupplementRegisterRequest;
 import com.kuit.healthmate.challenge.supplement.dto.SupplementResponse;
 import com.kuit.healthmate.challenge.supplement.service.SupplementService;
+import jakarta.transaction.Transactional;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
@@ -37,5 +40,16 @@ public class SupplementServiceTest {
                 List.of(LocalTime.of(12, 12, 12))
         ));
         Assertions.assertEquals(supplementService.getSupplementChallengesByUserId(1L).size(), 3);
+    }
+
+    @Test
+    @Transactional
+    void 특정날짜_영양제_챌린지_조회() {
+        List<Supplement> supplementForDay = supplementService.getSupplementForDay(1L, LocalDate.now());
+        for (Supplement supplement : supplementForDay) {
+            System.out.println(supplement);
+//            System.out.println(supplement.getSupplementCheckers());
+        }
+        Assertions.assertEquals(supplementForDay.size(), 1);
     }
 }

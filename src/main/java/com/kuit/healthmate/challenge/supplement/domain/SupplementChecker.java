@@ -12,11 +12,13 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table
+@Getter
 public class SupplementChecker {
 
     @Id
@@ -36,5 +38,22 @@ public class SupplementChecker {
     public boolean toggleStatus() {
         this.status = !this.status;
         return this.status;
+    }
+
+    public SupplementChecker(Supplement supplement, TimeSlot timeSlot) {
+        this.supplement = supplement;
+        this.checkDate = LocalDate.now();
+        this.timeSlot = timeSlot;
+        this.status = Boolean.TRUE;
+    }
+
+    @Override
+    public String toString() {
+        return "SupplementChecker{" +
+                "id=" + id +
+                ", checkDate=" + checkDate +
+                ", timeSlot=" + timeSlot +
+                ", status=" + status +
+                '}';
     }
 }
