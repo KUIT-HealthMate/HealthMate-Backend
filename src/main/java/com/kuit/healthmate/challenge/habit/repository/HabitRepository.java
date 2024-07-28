@@ -18,7 +18,7 @@ public interface HabitRepository  extends JpaRepository<Habit, Long> {
     @Query("SELECT h FROM Habit h LEFT JOIN FETCH h.habitChecker WHERE h.id = :habitId")
     List<Habit> findByIdWithHabitCheckers(@Param("habitId") Long habitId);
 
-    @Query("SELECT h FROM Habit h WHERE h.user.id = :userId AND h.status = 'ACTIVE' AND SUBSTRING(h.selectedDay, :dayOfWeek, 1) = '1'")
+    @Query("SELECT h FROM Habit h join fetch h.habitChecker hc WHERE h.user.id = :userId AND h.status = 'ACTIVE' AND SUBSTRING(h.selectedDay, :dayOfWeek, 1) = '1'")
     List<Habit> findActiveHabitsByUserIdAndDayOfWeek(@Param("userId") Long userId, @Param("dayOfWeek") int dayOfWeek);
 
     @Query("SELECT DISTINCT h from Habit h join fetch h.habitChecker hc WHERE h.user.id= :userId and hc.createdAt between :startDate and :endDate")
