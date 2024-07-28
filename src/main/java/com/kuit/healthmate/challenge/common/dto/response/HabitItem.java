@@ -1,4 +1,4 @@
-package com.kuit.healthmate.challenge.common.dto;
+package com.kuit.healthmate.challenge.common.dto.response;
 
 import com.kuit.healthmate.challenge.habit.domain.Habit;
 import com.kuit.healthmate.challenge.habit.domain.HabitChecker;

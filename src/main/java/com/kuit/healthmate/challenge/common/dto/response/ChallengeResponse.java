@@ -1,8 +1,7 @@
-package com.kuit.healthmate.challenge.common.dto;
+package com.kuit.healthmate.challenge.common.dto.response;
 
 import lombok.Getter;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Getter

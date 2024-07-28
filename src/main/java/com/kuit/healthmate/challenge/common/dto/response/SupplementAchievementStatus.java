@@ -1,4 +1,4 @@
-package com.kuit.healthmate.challenge.common.dto;
+package com.kuit.healthmate.challenge.common.dto.response;
 
 import lombok.Getter;
 import lombok.Setter;
