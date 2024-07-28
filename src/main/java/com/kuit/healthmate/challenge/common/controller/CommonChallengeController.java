@@ -1,5 +1,6 @@
 package com.kuit.healthmate.challenge.common.controller;
 
+import com.kuit.healthmate.challenge.common.dto.ChallengeByPeriodResponse;
 import com.kuit.healthmate.challenge.common.dto.ChallengeRequest;
 import com.kuit.healthmate.challenge.common.dto.ChallengeResponse;
 import com.kuit.healthmate.challenge.common.service.CommonChallengeService;
@@ -54,7 +55,7 @@ public class CommonChallengeController {
      * @return 금일의 챌린지 정보
      */
     @GetMapping("/week")
-    public ApiResponse<List<ChallengeResponse>> getChallengesByWeek(@RequestBody ChallengeRequest challengeRequest) {
+    public ApiResponse<ChallengeByPeriodResponse> getChallengesByWeek(@RequestBody ChallengeRequest challengeRequest) {
         log.info("");
         return new ApiResponse<>(commonChallengeService.getChallengesForWeek(challengeRequest.getUserId(),
                 challengeRequest.getStartDate(), challengeRequest.getEndDate()));
@@ -65,7 +66,7 @@ public class CommonChallengeController {
      * @return 금일의 챌린지 정보
      */
     @GetMapping("/month")
-    public ApiResponse<List<ChallengeResponse>> getChallengesByMonth(@RequestBody ChallengeRequest challengeRequest) {
+    public ApiResponse<ChallengeByPeriodResponse> getChallengesByMonth(@RequestBody ChallengeRequest challengeRequest) {
         log.info("");
         return new ApiResponse<>(commonChallengeService.getChallengesForMonth(challengeRequest.getUserId(),
                 challengeRequest.getStartDate(), challengeRequest.getEndDate()));
