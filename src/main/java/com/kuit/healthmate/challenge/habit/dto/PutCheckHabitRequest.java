@@ -2,8 +2,10 @@ package com.kuit.healthmate.challenge.habit.dto;
 
 import lombok.Getter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+
+
 @Getter
 public class PutCheckHabitRequest {
-    LocalDateTime date;
+    LocalDate date;
 }

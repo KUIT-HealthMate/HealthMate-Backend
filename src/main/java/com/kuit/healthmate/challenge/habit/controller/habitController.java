@@ -32,7 +32,7 @@ public class habitController {
      * 습관 챌린지 조회
      */
     @GetMapping("/{userId}")
-    public ApiResponse<List<GetHabitResponse>> findHabitChallenge(@RequestBody GetHabitRequest getHabitRequest , @PathVariable long userId) {
+    public ApiResponse<List<Habit>> findHabitChallenge(@RequestBody GetHabitRequest getHabitRequest , @PathVariable long userId) {
         return new ApiResponse<>(habitService.getActiveHabitsByUserIdAndToday(userId,LocalDate.parse(getHabitRequest.getDate(), FORMATTER)));
     }
     /**

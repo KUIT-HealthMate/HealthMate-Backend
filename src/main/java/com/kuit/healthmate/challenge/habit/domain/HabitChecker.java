@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -17,7 +18,7 @@ public class HabitChecker {
     private Long id;
 
     @NotNull
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
     
     private Boolean status;
 
@@ -30,7 +31,7 @@ public class HabitChecker {
     }
 
     @Builder
-    public HabitChecker(Long id, LocalDateTime createdAt, Boolean status, Habit habit){
+    public HabitChecker(Long id, LocalDate createdAt, Boolean status, Habit habit){
         this.id = id;
         this.createdAt = createdAt;
         this.status = status;
