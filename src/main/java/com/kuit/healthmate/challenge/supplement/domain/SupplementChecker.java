@@ -56,4 +56,16 @@ public class SupplementChecker {
                 ", status=" + status +
                 '}';
     }
+
+    public boolean isLunchChecked() {
+        return this.timeSlot == TimeSlot.LUNCH && Boolean.TRUE.equals(this.status);
+    }
+
+    public boolean isBreakfastChecked() {
+        return this.timeSlot == TimeSlot.BREAKFAST && Boolean.TRUE.equals(this.status);
+    }
+
+    public boolean isDinnerChecked() {
+        return this.timeSlot == TimeSlot.DINNER && Boolean.TRUE.equals(this.status);
+    }
 }

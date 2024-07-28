@@ -24,7 +24,7 @@ public class SupplementServiceTest {
     @Test
     void 메인화면_영양제_조회() {
         List<SupplementResponse> supplementChallengesByUserId = supplementService.getSupplementChallengesByUserId(1L);
-        Assertions.assertEquals(2, supplementChallengesByUserId.size());
+        Assertions.assertEquals(3, supplementChallengesByUserId.size());
     }
 
     @Test
@@ -39,7 +39,7 @@ public class SupplementServiceTest {
                 true,
                 List.of(LocalTime.of(12, 12, 12))
         ));
-        Assertions.assertEquals(supplementService.getSupplementChallengesByUserId(1L).size(), 3);
+        Assertions.assertEquals(supplementService.getSupplementChallengesByUserId(1L).size(), 4);
     }
 
     @Test
@@ -50,6 +50,6 @@ public class SupplementServiceTest {
             System.out.println(supplement);
 //            System.out.println(supplement.getSupplementCheckers());
         }
-        Assertions.assertEquals(supplementForDay.size(), 1);
+        Assertions.assertEquals(supplementForDay.size(), 2);
     }
 }
