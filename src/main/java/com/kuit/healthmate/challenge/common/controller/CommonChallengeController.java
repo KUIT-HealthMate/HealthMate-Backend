@@ -6,8 +6,10 @@ import com.kuit.healthmate.challenge.common.dto.request.ChallengeRequest;
 import com.kuit.healthmate.challenge.common.dto.response.ChallengeResponse;
 import com.kuit.healthmate.challenge.common.service.CommonChallengeService;
 import com.kuit.healthmate.global.response.ApiResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -17,6 +19,7 @@ import java.time.format.DateTimeFormatter;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/challenges")
+@Validated
 public class CommonChallengeController {
     private final CommonChallengeService commonChallengeService;
     // 불변 객체 계속 사용할 변수임.
@@ -28,8 +31,9 @@ public class CommonChallengeController {
      * @return 해당 날짜의 챌린지 정보
      */
     @GetMapping("/by-day")
-    public ApiResponse<ChallengeResponse> getChallengesByDay(@RequestBody ChallengeByTodayRequest challenge) {
-        return new ApiResponse<>(commonChallengeService.getChallengesForDay(challenge.getUserId(), challenge.getDate()));
+    public ApiResponse<ChallengeResponse> getChallengesByDay(@RequestBody @Valid ChallengeByTodayRequest challenge) {
+        LocalDate date = LocalDate.parse(challenge.getDate(), FORMATTER);
+        return new ApiResponse<>(commonChallengeService.getChallengesForDay(challenge.getUserId(), date));
     }
 
     /**
@@ -47,10 +51,12 @@ public class CommonChallengeController {
      * @return 금일의 챌린지 정보
      */
     @GetMapping("/week")
-    public ApiResponse<ChallengeByPeriodResponse> getChallengesByWeek(@RequestBody ChallengeRequest challengeRequest) {
-        log.info("");
+    public ApiResponse<ChallengeByPeriodResponse> getChallengesByWeek(@RequestBody @Valid ChallengeRequest challengeRequest) {
+        LocalDate dateStart = LocalDate.parse(challengeRequest.getStartDate(), FORMATTER);
+        LocalDate dateEnd = LocalDate.parse(challengeRequest.getEndDate(), FORMATTER);
+
         return new ApiResponse<>(commonChallengeService.getChallengesForWeek(challengeRequest.getUserId(),
-                challengeRequest.getStartDate(), challengeRequest.getEndDate()));
+                dateStart, dateEnd));
     }
 
     /**
@@ -58,10 +64,11 @@ public class CommonChallengeController {
      * @return 금일의 챌린지 정보
      */
     @GetMapping("/month")
-    public ApiResponse<ChallengeByPeriodResponse> getChallengesByMonth(@RequestBody ChallengeRequest challengeRequest) {
-        log.info("");
+    public ApiResponse<ChallengeByPeriodResponse> getChallengesByMonth(@RequestBody @Valid ChallengeRequest challengeRequest) {
+        LocalDate dateStart = LocalDate.parse(challengeRequest.getStartDate(), FORMATTER);
+        LocalDate dateEnd = LocalDate.parse(challengeRequest.getEndDate(), FORMATTER);
         return new ApiResponse<>(commonChallengeService.getChallengesForMonth(challengeRequest.getUserId(),
-                challengeRequest.getStartDate(), challengeRequest.getEndDate()));
+                dateStart, dateEnd));
     }
 
 }

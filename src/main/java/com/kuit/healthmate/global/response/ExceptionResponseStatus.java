@@ -21,6 +21,7 @@ public enum ExceptionResponseStatus {
      */
     BAD_REQUEST(2000, HttpStatus.BAD_REQUEST.value(), "유효하지 않은 요청입니다."),
     URL_NOT_FOUND(2001, HttpStatus.BAD_REQUEST.value(), "유효하지 않은 URL 입니다."),
+    INVALID_REQUEST_BODY(2002, HttpStatus.BAD_REQUEST.value(), "body 값이 유효하지 않습니다."),
     /**
      * 3000: Habit 오류
      */
