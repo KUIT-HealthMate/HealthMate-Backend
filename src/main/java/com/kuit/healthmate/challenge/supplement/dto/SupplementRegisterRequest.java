@@ -51,7 +51,6 @@ public class SupplementRegisterRequest {
                 selectedDay.append("0");
             }
         }
-
         return selectedDay.toString();
     }
 }
