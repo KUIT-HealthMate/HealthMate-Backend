@@ -54,9 +54,9 @@ public class SupplementService {
                 supplementRoutine);// TODO: NULL related exception should be held
         supplementRepository.save(supplement);  // 뒤에서 save해도 persistence context will manage the object?
 
-        List<SupplementTime> supplementTimes = supplementRegisterRequest.getTimes()
+        List<SupplementTime> supplementTimes = supplementRegisterRequest.getNotificationTime()
                 .stream()
-                .map(time -> new SupplementTime(supplement, time))
+                .map(time -> new SupplementTime(supplement, time.toLocalTime()))
                 .toList();
 
         supplementTimeRepository.saveAll(supplementTimes);
