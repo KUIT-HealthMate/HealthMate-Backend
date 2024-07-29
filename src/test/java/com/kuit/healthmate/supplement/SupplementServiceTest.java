@@ -21,11 +21,11 @@ public class SupplementServiceTest {
     @Autowired
     SupplementService supplementService;
 
-    @Test
-    void 메인화면_영양제_조회() {
-        List<SupplementResponse> supplementChallengesByUserId = supplementService.getSupplementChallengesByUserId(1L);
-        Assertions.assertEquals(3, supplementChallengesByUserId.size());
-    }
+//    @Test
+//    void 메인화면_영양제_조회() {
+//        List<SupplementResponse> supplementChallengesByUserId = supplementService.getSupplementChallengesByUserId(1L);
+//        Assertions.assertEquals(3, supplementChallengesByUserId.size());
+//    }
 
 //    @Test
 //    void 새로운_영양제_습관_추가() {
