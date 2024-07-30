@@ -18,12 +18,24 @@ public class SymptomQuestionnaire {
     private Long id;
 
     @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "symptomType", column = @Column(name = "first_symptomType")),
+            @AttributeOverride(name = "symptomName", column = @Column(name = "first_symptomName"))
+    })
     private SymptomInfo first;
 
     @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "symptomType", column = @Column(name = "second_symptomType")),
+            @AttributeOverride(name = "symptomName", column = @Column(name = "second_symptomName"))
+    })
     private SymptomInfo second;
 
     @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "symptomType", column = @Column(name = "third_symptomType")),
+            @AttributeOverride(name = "symptomName", column = @Column(name = "third_symptomName"))
+    })
     private SymptomInfo third;
 
     @Column(nullable = false)
