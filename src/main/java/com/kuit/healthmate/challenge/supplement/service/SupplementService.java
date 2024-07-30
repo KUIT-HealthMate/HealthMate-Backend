@@ -87,17 +87,22 @@ public class SupplementService {
 
     @Transactional
     public Boolean checkSupplementChecker(Long supplementId, SupplementCheckerRequest supplementCheckerRequest) {
-        Supplement supplement = supplementRepository.findById(supplementId).orElseThrow(
-                () -> new SupplementException(ExceptionResponseStatus.INVALID_SUPPLEMENT_ID)
-        );
-        SupplementChecker supplementChecker = supplementCheckerRepository.findBySupplementIdAndCheckDateAndTimeSlot(
-                        supplementId, LocalDate.now(), supplementCheckerRequest.getTimeSlot())
+        Supplement supplement = supplementRepository.findSupplementAndChecker(supplementId)
+                .orElseThrow(
+                        () -> new SupplementException(ExceptionResponseStatus.INVALID_SUPPLEMENT_ID)
+                );
+
+        SupplementChecker supplementChecker = supplement.getSupplementCheckers().stream()
+                .filter(x -> x.isDateMatch(LocalDate.now()))
+                .filter(x -> x.isTimeSlotMatch(supplementCheckerRequest.getTimeSlot()))
+                .findAny()
                 .orElse(
                         supplementCheckerRepository.save(
                                 new SupplementChecker(supplement, supplementCheckerRequest.getTimeSlot())
                         )
                 );
-        return supplementChecker.getStatus();
+
+        return supplementChecker.toggleStatus();
     }
 
     public List<Supplement> getSupplementForDay(Long userId, LocalDate localDate) {
