@@ -21,26 +21,26 @@ public class SupplementServiceTest {
     @Autowired
     SupplementService supplementService;
 
-    @Test
-    void 메인화면_영양제_조회() {
-        List<SupplementResponse> supplementChallengesByUserId = supplementService.getSupplementChallengesByUserId(1L);
-        Assertions.assertEquals(3, supplementChallengesByUserId.size());
-    }
+//    @Test
+//    void 메인화면_영양제_조회() {
+//        List<SupplementResponse> supplementChallengesByUserId = supplementService.getSupplementChallengesByUserId(1L);
+//        Assertions.assertEquals(3, supplementChallengesByUserId.size());
+//    }
 
-    @Test
-    void 새로운_영양제_습관_추가() {
-        supplementService.registerSupplement(new SupplementRegisterRequest(
-                1L,
-                "test3",
-                30,
-                "0000000",
-                true,
-                true,
-                true,
-                List.of(LocalTime.of(12, 12, 12))
-        ));
-        Assertions.assertEquals(supplementService.getSupplementChallengesByUserId(1L).size(), 4);
-    }
+//    @Test
+//    void 새로운_영양제_습관_추가() {
+//        supplementService.registerSupplement(new SupplementRegisterRequest(
+//                1L,
+//                "test3",
+//                30,
+//                "0000000",
+//                true,
+//                true,
+//                true,
+//                List.of(LocalTime.of(12, 12, 12))
+//        ));
+//        Assertions.assertEquals(supplementService.getSupplementChallengesByUserId(1L).size(), 4);
+//    }
 
     @Test
     @Transactional

@@ -44,7 +44,7 @@ public class SupplementChecker {
         this.supplement = supplement;
         this.checkDate = LocalDate.now();
         this.timeSlot = timeSlot;
-        this.status = Boolean.TRUE;
+        this.status = Boolean.FALSE;
     }
 
     @Override
@@ -67,5 +67,13 @@ public class SupplementChecker {
 
     public boolean isDinnerChecked() {
         return this.timeSlot == TimeSlot.DINNER && Boolean.TRUE.equals(this.status);
+    }
+
+    public boolean isDateMatch(LocalDate checkDate) {
+        return this.checkDate.equals(checkDate);
+    }
+
+    public boolean isTimeSlotMatch(TimeSlot timeSlot) {
+        return this.timeSlot.equals(timeSlot);
     }
 }
