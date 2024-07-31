@@ -47,18 +47,29 @@ public class LifeStyleTodayFormatter {
         response.append("예 (2점)\n");
         response.append("아니요 (1점)\n\n");
 
-        response.append("각각의 문항에서 내가 ").append(environmentScore).append(",").append(focusTimeScore).append(",").append(coffeeConsumptionScore).append(",").append(exerciseTimeScore).append(",").append(postureDiscomfortScore).append(" 점의 점수를 얻었고\n");
+        response.append("각각의 문항에서 내가 ").append(environmentScore).append(",").append(focusTimeScore).append(",").append(coffeeConsumptionScore).append(",").append(exerciseTimeScore).append(",").append(postureDiscomfortScore).append(" 의 번호를 선택했어\n");
         response.append("오늘 느껴진 이상 증세 - ");
-        for (SymptomInfo symptomInfo : symptomInfos) {
-            response.append(symptomInfo.getSymptomName());
+        if (symptomInfos.isEmpty()) {
+            response.append("없음\n");
+        } else {
+            for (SymptomInfo symptomInfo : symptomInfos) {
+                response.append(symptomInfo.getSymptomName()).append(", ");
+            }
+            response.setLength(response.length() - 2);
+            response.append("\n");
         }
-        response.append(" 일 때 위의 평가와 이상 증세를 가지고 자세한 의심 질환과 분석 내용을 예시와 같은 형식으로 위의 내용을 분석을 해줘.\n\n");
 
+        response.append(" 위의 평가와 이상 증세를 가지고 자세한 의심 질환과 분석 내용을 예시와 같은 형식으로 위의 내용을 분석을 해줘. 아래의 내용은 예시야. 만약 이상 증세가 없다면 위의 다른 값들을 가지고 종합 평가해. 형식을 맞춰줘.\n\n");
+
+        response.append("여기부터는 예시\n\n");
         response.append("[진단 내용]\n\n");
-        response.append(patientName).append(" 님의 하루 생활 습관을 분석한 결과,\n");
-        response.append("쿠잇 님의 하루 생활 습관을 분석한 결과,\n 빈혈이 걱정돼요.\n\n하지정맥류가 있으면 무거운 느낌이 나고\n다리가 쉽게 피곤해지는 것 같고\n때로는 아리거나 아픈 느낌이 들기도 해요.\n오래 서 있거나 의자에 앉아 있으면 증상이 더\n심해질 수 있고, 특히 새벽녘에 종아리가 저리거나\n쥐남으로 잠을 깰 수도 있어요.\n\n겉으로 보면 피부에 거미줄 모양의 가는 실핏줄처럼 나타나기도 하고, 병이 좀 더 진행되면 늘어난\n정맥이 피부 밖으로 돌출되어 보이고\n만지면 부드럽지만 어떤 곳은 아픈 부위도 있어요.\n정확한 진단을 위해 근처의 혈관외과 방문을\n추천드려요.").append("\n\n");
-
-        response.append("[생활 습관의 규칙성](0~100)\\n20\\n\\n[일에 대한 몰입도](0~100)\\n80\\n\\n[자세의 바른 정도](0~100)\\n60\\n\\n[위험 증세 수치]\\n80\\n\\n[위험 증세]\\n빈혈\\n\\n[추천 챌린지]\\n걷기, 달리기, 스트레칭\n");
+        response.append("쿠잇 님의 하루 생활 습관을 분석한 결과,\n 하지정맥류가 걱정돼요.\n\n하지정맥류가 있으면 무거운 느낌이 나고\n다리가 쉽게 피곤해지는 것 같고\n때로는 아리거나 아픈 느낌이 들기도 해요.\n오래 서 있거나 의자에 앉아 있으면 증상이 더\n심해질 수 있고, 특히 새벽녘에 종아리가 저리거나\n쥐남으로 잠을 깰 수도 있어요.\n\n겉으로 보면 피부에 거미줄 모양의 가는 실핏줄처럼 나타나기도 하고, 병이 좀 더 진행되면 늘어난\n정맥이 피부 밖으로 돌출되어 보이고\n만지면 부드럽지만 어떤 곳은 아픈 부위도 있어요.\n정확한 진단을 위해 근처의 혈관외과 방문을\n추천드려요.").append("\n\n");
+        response.append("[생활 습관의 규칙성](0~100)\n").append("20\n\n");
+        response.append("[일에 대한 몰입도](0~100)\n").append("80\n\n");
+        response.append("[자세의 바른 정도](0~100)\n").append("60\n\n");
+        response.append("[위험 증세 수치]\n").append("80\n\n");
+        response.append("[위험 증세]\n").append("하지정맥류");
+        response.append("[추천 챌린지]\n)").append("걷기, 달리기, 스트레칭\n").append("\n\n");
         return response.toString();
     }
 }
