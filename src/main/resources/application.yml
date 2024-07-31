@@ -9,7 +9,18 @@ spring:
     url: jdbc:h2:mem:test;mode=mysql
     username: sa
     password:
-
+springdoc:
+  packages-to-scan: com.kuit.healthmate
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+  swagger-ui:
+    path: /API-doc
+    url: /v3/api-docs
+    disable-swagger-default-url: true
+    display-request-duration: true
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
   h2:
     console:
       enabled: true
