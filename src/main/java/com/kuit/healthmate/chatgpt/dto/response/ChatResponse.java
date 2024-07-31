@@ -1,5 +1,6 @@
-package com.kuit.healthmate.chatgpt.dto;
+package com.kuit.healthmate.chatgpt.dto.response;
 
+import com.kuit.healthmate.chatgpt.dto.request.Message;
 import lombok.Getter;
 
 import java.util.List;

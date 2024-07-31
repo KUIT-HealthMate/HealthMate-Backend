@@ -1,8 +1,8 @@
 package com.kuit.healthmate.chatgpt.service;
 
-import com.kuit.healthmate.chatgpt.dto.ChatRequest;
-import com.kuit.healthmate.chatgpt.dto.ChatResponse;
-import com.kuit.healthmate.chatgpt.dto.RequestDto;
+import com.kuit.healthmate.chatgpt.dto.request.ChatRequest;
+import com.kuit.healthmate.chatgpt.dto.response.ChatResponse;
+import com.kuit.healthmate.chatgpt.dto.request.RequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,4 +1,4 @@
-package com.kuit.healthmate.chatgpt.dto;
+package com.kuit.healthmate.chatgpt.dto.request;
 
 import lombok.Getter;
 
