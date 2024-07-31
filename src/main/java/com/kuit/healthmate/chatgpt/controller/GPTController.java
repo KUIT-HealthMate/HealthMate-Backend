@@ -3,6 +3,10 @@ package com.kuit.healthmate.chatgpt.controller;
 import com.kuit.healthmate.chatgpt.dto.request.ChatRequest;
 import com.kuit.healthmate.chatgpt.dto.response.ChatResponse;
 import com.kuit.healthmate.chatgpt.dto.request.RequestDto;
+import com.kuit.healthmate.chatgpt.dto.response.LifeStyleToday;
+import com.kuit.healthmate.chatgpt.service.GptService;
+import com.kuit.healthmate.diagnosis.dto.PostDiagnosisRequest;
+import com.kuit.healthmate.global.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,26 +21,11 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 @RequiredArgsConstructor
 public class GPTController {
-    @Qualifier("openaiRestTemplate")
-    @Autowired
-    private RestTemplate restTemplate;
-
-    @Value("${openai.model}")
-    private String model;
-
-    @Value("${openai.api.url}")
-    private String apiUrl;
+    private final GptService gptService;
 
     @GetMapping("/chat")
-    public String chat(@RequestBody RequestDto prompt) {
-        ChatRequest request = new ChatRequest(model, prompt.getMessage());
+    public ApiResponse<LifeStyleToday> chat(@RequestBody PostDiagnosisRequest request) {
 
-        ChatResponse response = restTemplate.postForObject(apiUrl, request, ChatResponse.class);
-
-        if (response == null || response.getChoices() == null || response.getChoices().isEmpty()) {
-            return "No response";
-        }
-
-        return response.getChoices().get(0).getMessage().getContent();
+        return new ApiResponse<>(gptService.getPrompt(request));
     }
 }
