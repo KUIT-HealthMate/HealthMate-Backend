@@ -1,7 +1,9 @@
 package com.kuit.healthmate.chatgpt.service;
 
 import com.kuit.healthmate.chatgpt.dto.request.RequestDto;
+import com.kuit.healthmate.chatgpt.dto.response.LifeStyleToday;
+import com.kuit.healthmate.diagnosis.dto.PostDiagnosisRequest;
 
 public interface GptService {
-    String getPrompt(RequestDto requestDto);
+    LifeStyleToday getPrompt(PostDiagnosisRequest request);
 }
