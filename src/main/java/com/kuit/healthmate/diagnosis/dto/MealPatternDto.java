@@ -1,5 +1,8 @@
 package com.kuit.healthmate.diagnosis.dto;
 
+import lombok.Getter;
+
+@Getter
 public class MealPatternDto {
     private int mealTimeScore;
     private int foodType;
