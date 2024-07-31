@@ -4,8 +4,12 @@ import com.kuit.healthmate.challenge.supplement.dto.SupplementCheckerRequest;
 import com.kuit.healthmate.challenge.supplement.dto.SupplementRegisterRequest;
 import com.kuit.healthmate.challenge.supplement.dto.SupplementResponse;
 import com.kuit.healthmate.challenge.supplement.dto.SupplementUpdateRequest;
+import com.kuit.healthmate.global.exception.SupplementException;
+import com.kuit.healthmate.global.exception.UserException;
 import com.kuit.healthmate.global.response.ApiResponse;
 import com.kuit.healthmate.challenge.supplement.service.SupplementService;
+import com.kuit.healthmate.global.response.ExceptionResponseStatus;
+import com.kuit.healthmate.user.domain.User;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -55,5 +59,11 @@ public class SupplementController {
         return new ApiResponse<>(
                 supplementService.checkSupplementChecker(supplementId, supplementCheckerRequest)
         );
+    }
+
+    @PostMapping("/error")
+    public void errorTest() {
+        throw new SupplementException(ExceptionResponseStatus.INVALID_SUPPLEMENT_ID);
+//        throw new UserException(ExceptionResponseStatus.INVALID_SUPPLEMENT_ID);
     }
 }
