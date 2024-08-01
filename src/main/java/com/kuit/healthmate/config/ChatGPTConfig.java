@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-@Configuration
+@Component
 public class ChatGPTConfig {
     @Value("${openai.api.key}")
     private String openaiApiKey;
