@@ -1,4 +1,4 @@
-package com.kuit.healthmate.chatgpt.util;
+package com.kuit.healthmate.chatgpt.util.formatter;
 
 import com.kuit.healthmate.diagnosis.dto.PostDiagnosisRequest;
 import com.kuit.healthmate.diagnosis.symtom.domain.SymptomInfo;

@@ -1,4 +1,4 @@
-package com.kuit.healthmate.chatgpt.util;
+package com.kuit.healthmate.chatgpt.util.parser;
 
 import com.kuit.healthmate.chatgpt.dto.response.LifeStyleToday;
 
