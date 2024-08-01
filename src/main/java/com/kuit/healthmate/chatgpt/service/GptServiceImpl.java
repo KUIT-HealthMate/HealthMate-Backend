@@ -33,7 +33,7 @@ public class GptServiceImpl implements GptService{
     private String apiUrl;
 
     @Override
-    public LifeStyleToday getPrompt(PostDiagnosisRequest requestDto) {
+    public LifeStyleToday getPromptByLifeStyle(PostDiagnosisRequest requestDto) {
         LifeStyleTodayParser lifeStyleTodayParser = new LifeStyleTodayParser();
         LifeStyleTodayFormatter lifeStyleTodayFormatter = new LifeStyleTodayFormatter();
 

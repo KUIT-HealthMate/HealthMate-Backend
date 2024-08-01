@@ -7,7 +7,7 @@ import com.kuit.healthmate.chatgpt.dto.response.SleepPatternToday;
 import com.kuit.healthmate.diagnosis.dto.PostDiagnosisRequest;
 
 public interface GptService {
-    LifeStyleToday getPrompt(PostDiagnosisRequest request);
+    LifeStyleToday getPromptByLifeStyle(PostDiagnosisRequest request);
 
     MealPatternToday getPromptByMeal(PostDiagnosisRequest request);
 

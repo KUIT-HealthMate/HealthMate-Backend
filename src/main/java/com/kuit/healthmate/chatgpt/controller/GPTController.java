@@ -28,7 +28,7 @@ public class GPTController {
     @GetMapping("/chat")
     public ApiResponse<LifeStyleToday> chat(@RequestBody PostDiagnosisRequest request) {
 
-        return new ApiResponse<>(gptService.getPrompt(request));
+        return new ApiResponse<>(gptService.getPromptByLifeStyle(request));
     }
 
     @GetMapping("/chat2")
