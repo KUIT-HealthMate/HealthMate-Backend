@@ -57,7 +57,7 @@ public class SleepPatternTodayFormatter {
             response.append("\n");
         }
 
-        response.append(" 위의 평가와 이상 증세를 가지고 자세한 의심 질환과 분석 내용을 예시와 같은 형식으로 위의 내용을 분석을 해줘. 아래의 내용은 예시야. 만약 이상 증세가 없다면 위의 다른 값들을 가지고 종합 평가해. 형식을 맞춰줘.\n\n");
+        response.append(" 위의 평가와 이상 증세를 가지고 자세한 의심 질환과 분석 내용을 예시와 같은 형식으로 위의 내용을 분석을 해줘. 아래의 내용은 예시야. 그리고 챌린지는 명사로 제시해줘. 만약 이상 증세가 없다면 위의 다른 값들을 가지고 종합 평가해. 형식을 맞춰줘.\n\n");
 
         response.append("여기부터는 예시이므로 아래의 형식을 참고\n\n");
         response.append("[진단 내용]\n\n");
@@ -78,7 +78,7 @@ public class SleepPatternTodayFormatter {
         response.append("[수면의 집중도](0~100)\n").append("60\n\n");
         response.append("[위험 증세 수치]\n").append("80\n\n");
         response.append("[위험 증세]\n").append("없음\n\n");
-        response.append("[추천 챌린지]\n)").append("걷기, 달리기, 스트레칭\n").append("\n\n");
+        response.append("[추천 챌린지]\n").append("명상\n").append("\n\n");
 
         return response.toString();
     }

@@ -104,7 +104,7 @@ public class MealPatternTodayFormatter {
         response.append("[영양분 섭취 정도](0~100)\n").append("60\n\n");
         response.append("[위험 증세 수치]\n").append("80\n\n");
         response.append("[위험 증세]\n").append("없음\n\n");
-        response.append("[추천 챌린지]\n)").append("15번 이상 씹기\n").append("\n\n");
+        response.append("[추천 챌린지]\n").append("15번 이상 씹기\n").append("\n\n");
 
         return response.toString();
     }

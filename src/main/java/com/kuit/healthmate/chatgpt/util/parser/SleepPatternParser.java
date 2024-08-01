@@ -21,7 +21,7 @@ public class SleepPatternParser {
     private static final Pattern RISK_SYMPTOMS_PATTERN =
             Pattern.compile("\\[위험 증세\\]\\n(.+)");
     private static final Pattern CHALLENGES_PATTERN =
-            Pattern.compile("\\[추천 챌린지\\]\\n(.+)", Pattern.DOTALL);
+            Pattern.compile("\\[추천 챌린지\\]\\n([^\n]*)");
 
     private static String extractGroup(Pattern pattern, String text) {
         Matcher matcher = pattern.matcher(text);
