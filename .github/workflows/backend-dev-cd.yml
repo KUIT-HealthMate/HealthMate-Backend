@@ -37,9 +37,9 @@ jobs:
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build \
-            --build-arg API_KEY=${{ openai.api.API_KEY }} \
-            --build-arg URL=${{ openai.api.URL }} \
-            --build-arg MODEL=${{ openai.model.MODEL }} \
+            --build-arg API_KEY=${{ secrets.API_KEY }} \
+            --build-arg URL=${{ secrets.URL }} \
+            --build-arg MODEL=${{ secrets.MODEL }} \
           -f ./infra/docker/Dockerfile -t ${{ secrets.DOCKER_REPO }} .
           docker push ${{ secrets.DOCKER_REPO }}
 
