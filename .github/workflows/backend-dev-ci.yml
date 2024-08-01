@@ -28,7 +28,7 @@ jobs:
 
       - name: Build with Gradle
         env:
-          KEY: ${{ openai.api.KEY }}
+          API_KEY: ${{ openai.api.API_KEY }}
           URL: ${{ openai.api.URL }}
           MODEL: ${{ openai.model.MODEL }}
         run: ./gradlew build

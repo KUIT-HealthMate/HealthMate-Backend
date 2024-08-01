@@ -45,7 +45,7 @@ openai:
   model: ${MODEL} # 모델명 기입하기
   api:
     url: ${URL} # 해당 api url ex) https://api.openai.com/v1/chat/completions
-    key: ${KEY} # 발급 받은 key
+    key: ${API_KEY} # 발급 받은 key
 ---
 spring:
   config:
