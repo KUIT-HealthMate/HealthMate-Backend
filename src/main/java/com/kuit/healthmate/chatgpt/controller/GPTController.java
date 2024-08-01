@@ -28,4 +28,16 @@ public class GPTController {
 
         return new ApiResponse<>(gptService.getPrompt(request));
     }
+
+    @GetMapping("/chat2")
+    public String chat2(@RequestBody PostDiagnosisRequest request) {
+
+        return gptService.getPromptByMeal(request);
+    }
+
+    @GetMapping("/chat3")
+    public String chat3(@RequestBody PostDiagnosisRequest request) {
+
+        return gptService.getPromptByMeal(request);
+    }
 }
