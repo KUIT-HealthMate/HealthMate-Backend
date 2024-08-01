@@ -4,10 +4,13 @@ import com.kuit.healthmate.chatgpt.dto.request.ChatRequest;
 import com.kuit.healthmate.chatgpt.dto.response.ChatResponse;
 import com.kuit.healthmate.chatgpt.dto.response.LifeStyleToday;
 import com.kuit.healthmate.chatgpt.dto.response.MealPatternToday;
+import com.kuit.healthmate.chatgpt.dto.response.SleepPatternToday;
 import com.kuit.healthmate.chatgpt.util.formatter.LifeStyleTodayFormatter;
 import com.kuit.healthmate.chatgpt.util.formatter.MealPatternTodayFormatter;
 import com.kuit.healthmate.chatgpt.util.formatter.SleepPatternTodayFormatter;
 import com.kuit.healthmate.chatgpt.util.parser.LifeStyleTodayParser;
+import com.kuit.healthmate.chatgpt.util.parser.MealPatternTodayParser;
+import com.kuit.healthmate.chatgpt.util.parser.SleepPatternParser;
 import com.kuit.healthmate.diagnosis.dto.PostDiagnosisRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,8 +55,9 @@ public class GptServiceImpl implements GptService{
     }
 
     @Override
-    public String getPromptByMeal(PostDiagnosisRequest requestDto) {
+    public MealPatternToday getPromptByMeal(PostDiagnosisRequest requestDto) {
         MealPatternTodayFormatter mealPatternTodayFormatter = new MealPatternTodayFormatter();
+        MealPatternTodayParser mealPatternTodayParser = new MealPatternTodayParser();
 
         String message = mealPatternTodayFormatter.formatResponse(requestDto);
 
@@ -69,13 +73,14 @@ public class GptServiceImpl implements GptService{
             return null;
         }
 
-        return response.getChoices().get(0).getMessage().getContent();
+        return mealPatternTodayParser.parse(response.getChoices().get(0).getMessage().getContent());
 
     }
 
     @Override
-    public String getPromptBySleep(PostDiagnosisRequest requestDto) {
+    public SleepPatternToday getPromptBySleep(PostDiagnosisRequest requestDto) {
         SleepPatternTodayFormatter sleepPatternTodayFormatter = new SleepPatternTodayFormatter();
+        SleepPatternParser sleepPatternParser = new SleepPatternParser();
 
         String message = sleepPatternTodayFormatter.formatResponse(requestDto);
 
@@ -91,6 +96,6 @@ public class GptServiceImpl implements GptService{
             return null;
         }
 
-        return response.getChoices().get(0).getMessage().getContent();
+        return sleepPatternParser.parse(response.getChoices().get(0).getMessage().getContent());
     }
 }
