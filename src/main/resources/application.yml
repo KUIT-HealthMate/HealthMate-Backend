@@ -40,6 +40,12 @@ springdoc:
     path: /v3/api-docs
 server:
   port: 9000
+
+openai:
+  model: ${MODEL} # 모델명 기입하기
+  api:
+    url: ${URL} # 해당 api url ex) https://api.openai.com/v1/chat/completions
+    key: ${API_KEY} # 발급 받은 key
 ---
 spring:
   config:
@@ -90,3 +96,9 @@ springdoc:
     path: /v3/api-docs
 server:
   port: 9000
+
+openai:
+  model: ${MODEL} # 모델명 기입하기
+  api:
+    url: ${URL} # 해당 api url ex) https://api.openai.com/v1/chat/completions
+    key: ${API_KEY} # 발급 받은 key
