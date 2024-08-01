@@ -1,5 +1,12 @@
 package com.kuit.healthmate.chatgpt.dto.response;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@NoArgsConstructor
+@Setter
+@Getter
 public class SleepPatternToday {
     private String description;
     private int regularity; // 수면 패턴의 규칙성
