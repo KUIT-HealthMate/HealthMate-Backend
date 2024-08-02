@@ -1,5 +1,7 @@
 package com.kuit.healthmate.chatgpt.dto.response;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -7,7 +9,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
+@Embeddable
 public class MealPatternToday {
+    @Column(columnDefinition = "TEXT")
     private String description;
     private int regularity; // 식사 패턴의 규칙성
     private int alcoholFrequency; // 음주 빈도

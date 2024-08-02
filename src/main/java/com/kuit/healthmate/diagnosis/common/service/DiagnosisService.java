@@ -8,6 +8,8 @@ import com.kuit.healthmate.diagnosis.dto.LifeStyleDto;
 import com.kuit.healthmate.diagnosis.dto.MealPatternDto;
 import com.kuit.healthmate.diagnosis.dto.PostDiagnosisRequest;
 import com.kuit.healthmate.diagnosis.dto.SleepPatternDto;
+import com.kuit.healthmate.diagnosis.gpt.domain.GptResult;
+import com.kuit.healthmate.diagnosis.gpt.repository.GptResultRepository;
 import com.kuit.healthmate.diagnosis.life.domain.LifeStyleQuestionnaire;
 import com.kuit.healthmate.diagnosis.life.repository.LifeStyleQuestionnaireRepository;
 import com.kuit.healthmate.diagnosis.meal.domain.MealPatternQuestionnaire;
@@ -21,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -31,7 +34,7 @@ public class DiagnosisService {
     private final MealPatternQuestionnaireRepository mealPatternQuestionnaireRepository;
     private final SleepPatternQuestionnaireRepository sleepPatternQuestionnaireRepository;
     private final SymptomQuestionnaireRepository symptomQuestionnaireRepository;
-    private final GptService gptService;
+    private final GptResultRepository gptResultRepository;
 
     @Transactional
     public Boolean saveDiagnosisResult(PostDiagnosisRequest postDiagnosisRequest) {
@@ -89,6 +92,11 @@ public class DiagnosisService {
     }
 
     public void saveGptResult(LifeStyleToday lifeStyleToday, MealPatternToday mealPatternToday, SleepPatternToday sleepPatternToday) {
-
+        GptResult gptResult = GptResult.builder()
+                .date(LocalDate.now())
+                .lifeStyleToday(lifeStyleToday)
+                .mealPatternToday(mealPatternToday)
+                .sleepPatternToday(sleepPatternToday).build();
+        gptResultRepository.save(gptResult);
     }
 }
