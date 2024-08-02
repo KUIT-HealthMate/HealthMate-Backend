@@ -8,7 +8,9 @@ import java.util.List;
 
 @Getter
 public class PostDiagnosisRequest {
-    @NotNull(message = "lifeStyleDto: {Notnull}")
+    @NotNull(message = "userId: {Notnull}")
+    Long userId;
+    @NotNull(message = "userName: {Notnull}")
     String userName;
 
     @NotNull(message = "lifeStyleDto: {Notnull}")
