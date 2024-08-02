@@ -1,5 +1,8 @@
 package com.kuit.healthmate.diagnosis.common.service;
 
+import com.kuit.healthmate.chatgpt.dto.response.LifeStyleToday;
+import com.kuit.healthmate.chatgpt.dto.response.MealPatternToday;
+import com.kuit.healthmate.chatgpt.dto.response.SleepPatternToday;
 import com.kuit.healthmate.chatgpt.service.GptService;
 import com.kuit.healthmate.diagnosis.dto.LifeStyleDto;
 import com.kuit.healthmate.diagnosis.dto.MealPatternDto;
@@ -50,6 +53,7 @@ public class DiagnosisService {
         if (listSize > 2){
             builder.third(symptomInfoList.get(2));
         }
+        builder.timestamp(LocalDateTime.now());
         symptomQuestionnaire = builder.build();
 
         //객체 생성
@@ -84,4 +88,7 @@ public class DiagnosisService {
         return true;
     }
 
+    public void saveGptResult(LifeStyleToday lifeStyleToday, MealPatternToday mealPatternToday, SleepPatternToday sleepPatternToday) {
+
+    }
 }

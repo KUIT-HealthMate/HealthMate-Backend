@@ -4,6 +4,7 @@ import com.kuit.healthmate.diagnosis.symtom.domain.SymptomInfo;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -24,6 +25,9 @@ public class PostDiagnosisRequest {
 
     @NotNull(message = "symptomInfos: {Notnull}")
     List<SymptomInfo> symptomInfos;
+
+    @NotNull(message = "date: {Notnull}")
+    LocalDate date;
 
 }
 
