@@ -24,3 +24,12 @@ values (2, 1, 'LUNCH', true, '2012-12-14');
 
 insert Into supplement_checker(supplement_checker_id, supplement_id, time_slot, status, check_date)
 values (3, 2, 'LUNCH', true, current_date);
+
+INSERT INTO life_style (user_name,environment_score, focus_time_score, coffee_consumption_score, exercise_time_score, posture_discomfort_score, timestamp, user_id)
+VALUES ('김광일', 7, 5, 3, 6, 4, NOW(), 1);
+
+INSERT INTO life_style (user_name,environment_score, focus_time_score, coffee_consumption_score, exercise_time_score, posture_discomfort_score, timestamp, user_id)
+VALUES ('김광일',1, 1, 1, 1, 1, NOW()+1, 1);
+
+INSERT INTO life_style (user_name,environment_score, focus_time_score, coffee_consumption_score, exercise_time_score, posture_discomfort_score, timestamp, user_id)
+VALUES ('김광일' ,1, 2, 1, 2, 1, NOW()+2, 1);
