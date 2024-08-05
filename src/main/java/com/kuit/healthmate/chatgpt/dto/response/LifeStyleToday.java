@@ -1,5 +1,7 @@
 package com.kuit.healthmate.chatgpt.dto.response;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -7,6 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
+@Embeddable
 public class LifeStyleToday {
     private String description;
     private int regularness;

@@ -1,9 +1,13 @@
 package com.kuit.healthmate.user.domain;
 
 
-import com.kuit.healthmate.challenge.common.domain.Status;
 import com.kuit.healthmate.challenge.supplement.domain.Supplement;
 import com.kuit.healthmate.challenge.habit.domain.Habit;
+import com.kuit.healthmate.diagnosis.gpt.domain.GptResult;
+import com.kuit.healthmate.diagnosis.life.domain.LifeStyleQuestionnaire;
+import com.kuit.healthmate.diagnosis.meal.domain.MealPatternQuestionnaire;
+import com.kuit.healthmate.diagnosis.sleep.domain.SleepPatternQuestionnaire;
+import com.kuit.healthmate.diagnosis.symtom.domain.SymptomQuestionnaire;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -35,6 +39,22 @@ public class User {
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Supplement> supplements = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<LifeStyleQuestionnaire> lifeStyleQuestionnaires = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<SleepPatternQuestionnaire> sleepPatternQuestionnaires = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<MealPatternQuestionnaire> mealPatternQuestionnaires = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<SymptomQuestionnaire> symptomQuestionnaires = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<GptResult> gptResults = new ArrayList<>();
+
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)

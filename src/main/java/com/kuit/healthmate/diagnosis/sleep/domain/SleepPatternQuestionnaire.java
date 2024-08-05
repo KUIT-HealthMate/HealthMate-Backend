@@ -1,7 +1,9 @@
 package com.kuit.healthmate.diagnosis.sleep.domain;
 
+import com.kuit.healthmate.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -37,6 +39,19 @@ public class SleepPatternQuestionnaire {
     @Column(nullable = false)
     private LocalDateTime timestamp;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id")
+    private User user;
+
+    @Builder
+    public SleepPatternQuestionnaire(int sleepDurationScore, int morningFatigueScore,int peakConditionTimeScore, int sleepRemarkScore, LocalDateTime timestamp, User user){
+        this.sleepDurationScore = sleepDurationScore;
+        this.morningFatigueScore = morningFatigueScore;
+        this.peakConditionTimeScore = peakConditionTimeScore;
+        this.sleepRemarkScore = sleepRemarkScore;
+        this.timestamp = timestamp;
+        this.user = user;
+    }
     // 총합 계산 메소드
     public int calculateTotalScore() {
         return sleepDurationScore + morningFatigueScore + peakConditionTimeScore + sleepRemarkScore;
