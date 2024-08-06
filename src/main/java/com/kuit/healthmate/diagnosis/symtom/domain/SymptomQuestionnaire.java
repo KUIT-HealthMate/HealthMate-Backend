@@ -1,8 +1,10 @@
 package com.kuit.healthmate.diagnosis.symtom.domain;
 
 
+import com.kuit.healthmate.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -40,4 +42,17 @@ public class SymptomQuestionnaire {
 
     @Column(nullable = false)
     private LocalDateTime timestamp;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @Builder
+    public SymptomQuestionnaire(SymptomInfo first, SymptomInfo second, SymptomInfo third, LocalDateTime timestamp, User user){
+        this.first = first;
+        this.second = second;
+        this.third =third;
+        this.timestamp = timestamp;
+        this.user = user;
+    }
 }

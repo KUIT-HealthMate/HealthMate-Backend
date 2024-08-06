@@ -1,7 +1,9 @@
 package com.kuit.healthmate.diagnosis.life.domain;
 
+import com.kuit.healthmate.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -41,9 +43,23 @@ public class LifeStyleQuestionnaire {
     @Column(nullable = false)
     private LocalDateTime timestamp;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id")
+    private User user;
+
     // 총합 계산 메소드
     public int calculateTotalScore() {
         return environmentScore + focusTimeScore + coffeeConsumptionScore + exerciseTimeScore + postureDiscomfortScore;
+    }
+    @Builder
+    public LifeStyleQuestionnaire(int environmentScore, int focusTimeScore, int coffeeConsumptionScore, int exerciseTimeScore, int postureDiscomfortScore, LocalDateTime timestamp, User user){
+        this.environmentScore = environmentScore;
+        this.focusTimeScore = focusTimeScore;
+        this.coffeeConsumptionScore = coffeeConsumptionScore;
+        this.exerciseTimeScore = exerciseTimeScore;
+        this.postureDiscomfortScore = postureDiscomfortScore;
+        this.timestamp = timestamp;
+        this.user = user;
     }
 
 }
