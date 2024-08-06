@@ -26,6 +26,9 @@ spring:
         format_sql: true      # 쿼리 로그 포맷 (정렬)
         show_sql: true        # 쿼리 로그 출력
         generate-ddl: true
+  batch:
+    jdbc:
+      initialize-schema: always
 springdoc:
   packages-to-scan: com.kuit.healthmate
   default-consumes-media-type: application/json;charset=UTF-8
@@ -82,6 +85,9 @@ spring:
       data-locations: classpath*:test.sql
       mode: always
       platform: h2
+  batch:
+    jdbc:
+      initialize-schema: always
 springdoc:
   packages-to-scan: com.kuit.healthmate
   default-consumes-media-type: application/json;charset=UTF-8

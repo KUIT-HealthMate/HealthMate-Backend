@@ -26,6 +26,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'com.h2database:h2'
+    implementation 'org.springframework.boot:spring-boot-starter-batch'
+    testImplementation 'org.springframework.batch:spring-batch-test'
 //    implementation 'mysql:mysql-connector-java:8.0.32'
 
     compileOnly 'org.projectlombok:lombok'

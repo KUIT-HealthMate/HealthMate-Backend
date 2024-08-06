@@ -1,14 +1,16 @@
 package com.kuit.healthmate.diagnosis.common.service;
 
-import com.kuit.healthmate.chatgpt.dto.response.LifeStyleToday;
-import com.kuit.healthmate.chatgpt.dto.response.MealPatternToday;
-import com.kuit.healthmate.chatgpt.dto.response.SleepPatternToday;
+import com.kuit.healthmate.chatgpt.dto.response.LifeStyleResponse;
+import com.kuit.healthmate.chatgpt.dto.response.MealPatternResponse;
+import com.kuit.healthmate.chatgpt.dto.response.SleepPatternResponse;
 import com.kuit.healthmate.chatgpt.service.GptService;
+import com.kuit.healthmate.chatgpt.util.formatter.LifeStyleTodayFormatter;
+import com.kuit.healthmate.chatgpt.util.formatter.month.LifeStyleMonthFormatter;
 import com.kuit.healthmate.diagnosis.dto.LifeStyleDto;
 import com.kuit.healthmate.diagnosis.dto.MealPatternDto;
 import com.kuit.healthmate.diagnosis.dto.PostDiagnosisRequest;
 import com.kuit.healthmate.diagnosis.dto.SleepPatternDto;
-import com.kuit.healthmate.diagnosis.gpt.domain.GptResult;
+import com.kuit.healthmate.diagnosis.gpt.domain.GptResultToday;
 import com.kuit.healthmate.diagnosis.gpt.repository.GptResultRepository;
 import com.kuit.healthmate.diagnosis.life.domain.LifeStyleQuestionnaire;
 import com.kuit.healthmate.diagnosis.life.repository.LifeStyleQuestionnaireRepository;
@@ -20,6 +22,7 @@ import com.kuit.healthmate.diagnosis.symtom.domain.SymptomInfo;
 import com.kuit.healthmate.diagnosis.symtom.domain.SymptomQuestionnaire;
 import com.kuit.healthmate.diagnosis.symtom.repository.SymptomQuestionnaireRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,15 +32,17 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class DiagnosisService {
     private final LifeStyleQuestionnaireRepository lifeStyleQuestionnaireRepository;
     private final MealPatternQuestionnaireRepository mealPatternQuestionnaireRepository;
     private final SleepPatternQuestionnaireRepository sleepPatternQuestionnaireRepository;
     private final SymptomQuestionnaireRepository symptomQuestionnaireRepository;
     private final GptResultRepository gptResultRepository;
+    private final GptService gptService;
 
     @Transactional
-    public Boolean saveDiagnosisResult(PostDiagnosisRequest postDiagnosisRequest) {
+    public void saveDiagnosisResult(PostDiagnosisRequest postDiagnosisRequest) {
         //추후에 userId 로 매핑시켜주기
         LifeStyleDto lifeStyleDto =  postDiagnosisRequest.getLifeStyleDto();
         SleepPatternDto sleepPatternDto = postDiagnosisRequest.getSleepPatternDto();
@@ -88,15 +93,25 @@ public class DiagnosisService {
         mealPatternQuestionnaireRepository.save(mealPatternQuestionnaire);
         sleepPatternQuestionnaireRepository.save(sleepPatternQuestionnaire);
         symptomQuestionnaireRepository.save(symptomQuestionnaire);
-        return true;
     }
 
-    public void saveGptResult(LifeStyleToday lifeStyleToday, MealPatternToday mealPatternToday, SleepPatternToday sleepPatternToday) {
-        GptResult gptResult = GptResult.builder()
+    public void saveGptResult(LifeStyleResponse lifeStyleToday, MealPatternResponse mealPatternToday, SleepPatternResponse sleepPatternToday) {
+        GptResultToday gptResult = GptResultToday.builder()
                 .date(LocalDate.now())
                 .lifeStyleToday(lifeStyleToday)
                 .mealPatternToday(mealPatternToday)
                 .sleepPatternToday(sleepPatternToday).build();
         gptResultRepository.save(gptResult);
+    }
+
+    public LifeStyleResponse createMonthlyDiagnosis(Long userId, List<LifeStyleQuestionnaire> dailyDiagnoses) {
+        //gptRequest 만들고
+        LifeStyleMonthFormatter lifeStyleMonthFormatter = new LifeStyleMonthFormatter();
+        String message = lifeStyleMonthFormatter.formatResponse(dailyDiagnoses);
+        //gptservice 호출
+        log.info(gptService.getPrompt(message));
+        // 결과를 parser로 엔티티로 변환
+        // 월간 엔티티에 저장하고 결과 반환
+        return null;
     }
 }

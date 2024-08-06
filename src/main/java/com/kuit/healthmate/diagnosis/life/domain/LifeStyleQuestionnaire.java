@@ -43,23 +43,21 @@ public class LifeStyleQuestionnaire {
     @Column(nullable = false)
     private LocalDateTime timestamp;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id")
-    private User user;
+    private Long userId;
 
     // 총합 계산 메소드
     public int calculateTotalScore() {
         return environmentScore + focusTimeScore + coffeeConsumptionScore + exerciseTimeScore + postureDiscomfortScore;
     }
     @Builder
-    public LifeStyleQuestionnaire(int environmentScore, int focusTimeScore, int coffeeConsumptionScore, int exerciseTimeScore, int postureDiscomfortScore, LocalDateTime timestamp, User user){
+    public LifeStyleQuestionnaire(int environmentScore, int focusTimeScore, int coffeeConsumptionScore, int exerciseTimeScore, int postureDiscomfortScore, LocalDateTime timestamp, Long user){
         this.environmentScore = environmentScore;
         this.focusTimeScore = focusTimeScore;
         this.coffeeConsumptionScore = coffeeConsumptionScore;
         this.exerciseTimeScore = exerciseTimeScore;
         this.postureDiscomfortScore = postureDiscomfortScore;
         this.timestamp = timestamp;
-        this.user = user;
+        this.userId = user;
     }
 
 }

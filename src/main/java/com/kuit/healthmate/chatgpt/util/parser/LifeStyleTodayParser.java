@@ -1,6 +1,6 @@
 package com.kuit.healthmate.chatgpt.util.parser;
 
-import com.kuit.healthmate.chatgpt.dto.response.LifeStyleToday;
+import com.kuit.healthmate.chatgpt.dto.response.LifeStyleResponse;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,8 +33,8 @@ public class LifeStyleTodayParser {
         return result != null ? Integer.parseInt(result) : null;
     }
 
-    public LifeStyleToday parse(String promptResponse) {
-        LifeStyleToday dto = new LifeStyleToday();
+    public LifeStyleResponse parse(String promptResponse) {
+        LifeStyleResponse dto = new LifeStyleResponse();
 
         String description = extractGroup(DESCRIPTION_PATTERN, promptResponse);
         if (description != null) {

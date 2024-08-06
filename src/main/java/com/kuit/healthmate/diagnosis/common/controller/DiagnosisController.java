@@ -1,9 +1,9 @@
 package com.kuit.healthmate.diagnosis.common.controller;
 
 
-import com.kuit.healthmate.chatgpt.dto.response.LifeStyleToday;
-import com.kuit.healthmate.chatgpt.dto.response.MealPatternToday;
-import com.kuit.healthmate.chatgpt.dto.response.SleepPatternToday;
+import com.kuit.healthmate.chatgpt.dto.response.LifeStyleResponse;
+import com.kuit.healthmate.chatgpt.dto.response.MealPatternResponse;
+import com.kuit.healthmate.chatgpt.dto.response.SleepPatternResponse;
 import com.kuit.healthmate.chatgpt.service.GptService;
 import com.kuit.healthmate.diagnosis.common.service.DiagnosisService;
 import com.kuit.healthmate.diagnosis.dto.DiagnosisResponseDTO;
@@ -24,9 +24,9 @@ public class DiagnosisController {
     @PostMapping("")
     public ApiResponse<DiagnosisResponseDTO> saveDiagnosisResult(@RequestBody PostDiagnosisRequest postDiagnosisRequest){
         diagnosisService.saveDiagnosisResult(postDiagnosisRequest); //DB에 저장
-        LifeStyleToday lifeStyleToday = gptService.getPromptByLifeStyle(postDiagnosisRequest);
-        MealPatternToday mealPatternToday =  gptService.getPromptByMeal(postDiagnosisRequest);
-        SleepPatternToday sleepPatternToday =  gptService.getPromptBySleep(postDiagnosisRequest); //GPT 호출
+        LifeStyleResponse lifeStyleToday = gptService.getPromptByLifeStyle(postDiagnosisRequest);
+        MealPatternResponse mealPatternToday =  gptService.getPromptByMeal(postDiagnosisRequest);
+        SleepPatternResponse sleepPatternToday =  gptService.getPromptBySleep(postDiagnosisRequest); //GPT 호출
         diagnosisService.saveGptResult(lifeStyleToday,mealPatternToday,sleepPatternToday);
         DiagnosisResponseDTO diagnosisResponseDTO = new DiagnosisResponseDTO(lifeStyleToday,mealPatternToday,sleepPatternToday);
         return new ApiResponse<>(diagnosisResponseDTO);
