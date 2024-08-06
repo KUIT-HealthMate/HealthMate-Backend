@@ -1,4 +1,4 @@
-package com.kuit.healthmate.security;
+package com.kuit.healthmate.auth.jwt;
 
 import static com.kuit.healthmate.global.response.ExceptionResponseStatus.INVALID_TOKEN;
 import static com.kuit.healthmate.global.response.ExceptionResponseStatus.MALFORMED_TOKEN;
@@ -72,5 +72,13 @@ public class JwtProvider {
                 .parseSignedClaims(token)
                 .getPayload()
                 .getSubject();
+    }
+
+    public Long getUserId(String token) {
+        return Jwts.parser()
+                .setSigningKey(JWT_SECRET_KEY).build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("userId", Long.TYPE);
     }
 }

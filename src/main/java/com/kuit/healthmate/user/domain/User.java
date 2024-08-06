@@ -28,10 +28,13 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
-    @Column(nullable = false,name = "email")
+    @Column(nullable = true,name = "email")
     private String email;
 
-    @Column(nullable = false,name = "nickname")
+    @Column(nullable = true)
+    private String username;
+
+    @Column(nullable = true,name = "nickname")
     private String nickname;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
@@ -60,12 +63,13 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(name = "created_at", nullable = true, updatable = false)
     private LocalDateTime createdAt;
 
     @Builder
-    public User(Long id, String email, String nickname,LocalDateTime createdAt) {
+    public User(Long id, String username, String email, String nickname,LocalDateTime createdAt) {
         this.id = id;
+        this.username = username;
         this.email = email;
         this.nickname = nickname;
         this.createdAt = createdAt;
