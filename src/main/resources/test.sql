@@ -33,3 +33,11 @@ VALUES ('김광일',1, 1, 1, 1, 1, NOW()+1, 1);
 
 INSERT INTO life_style (user_name,environment_score, focus_time_score, coffee_consumption_score, exercise_time_score, posture_discomfort_score, timestamp, user_id)
 VALUES ('김광일' ,1, 2, 1, 2, 1, NOW()+2, 1);
+
+
+INSERT INTO life_style (user_name,environment_score, focus_time_score, coffee_consumption_score, exercise_time_score, posture_discomfort_score, timestamp, user_id)
+VALUES ('김광일' ,1, 2, 1, 2, 1, NOW()+2, 1);
+INSERT INTO meal_pattern (user_name,meal_time_score,food_type,regular_meal_time_score,meal_duration_score,seasoning_consumption_score,screen_usage,meal_remark,timestamp,user_id)
+VALUES ( '김광일',1, 1,1,1,1,1,1,NOW(),1);
+INSERT INTO meal_pattern (user_name,meal_time_score,food_type,regular_meal_time_score,meal_duration_score,seasoning_consumption_score,screen_usage,meal_remark,timestamp,user_id)
+VALUES ( '김광일',1, 1,1,1,1,1,1,NOW()+1,1);
