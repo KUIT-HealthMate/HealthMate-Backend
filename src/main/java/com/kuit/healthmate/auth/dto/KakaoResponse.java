@@ -1,4 +1,4 @@
-package com.kuit.healthmate.security;
+package com.kuit.healthmate.auth.dto;
 
 import java.util.Map;
 import lombok.Getter;

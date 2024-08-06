@@ -1,4 +1,4 @@
-package com.kuit.healthmate.security;
+package com.kuit.healthmate.auth.dto;
 
 public interface OAuth2Response {
 

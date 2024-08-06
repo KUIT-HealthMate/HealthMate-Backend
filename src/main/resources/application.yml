@@ -26,6 +26,31 @@ spring:
         format_sql: true      # 쿼리 로그 포맷 (정렬)
         show_sql: true        # 쿼리 로그 출력
         generate-ddl: true
+
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            redirect-uri: http://localhost:9000/login/oauth2/code/kakao
+            client-id: 0ebd7df8674a8166d1df4515d73d70c1
+            client-secret: FniGizSxIAMLbfbC8kiwU4w4X0EihIfm
+            client-authentication-method: client_secret_post
+            authorization-grant-type: authorization_code
+            scope: profile_nickname
+            client-name: Kakao
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+
+secret:
+  jwt-secret-key: eyJhbGciOiJIUzI1NiJ9xeyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQcMgOsygXloaQRJC2aclPpgLNr85uitvTUetbwWYweMmk
+  jwt-expired-in: 360000
+
+
 springdoc:
   packages-to-scan: com.kuit.healthmate
   default-consumes-media-type: application/json;charset=UTF-8

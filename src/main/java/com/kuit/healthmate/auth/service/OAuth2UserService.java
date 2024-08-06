@@ -1,18 +1,16 @@
-package com.kuit.healthmate.user;
+package com.kuit.healthmate.auth.service;
 
 import com.kuit.healthmate.challenge.supplement.repository.UserRepository;
-import com.kuit.healthmate.security.CustomOAuth2User;
-import com.kuit.healthmate.security.KakaoResponse;
-import com.kuit.healthmate.security.OAuth2Response;
+import com.kuit.healthmate.auth.CustomOAuth2User;
+import com.kuit.healthmate.auth.dto.KakaoResponse;
+import com.kuit.healthmate.auth.dto.OAuth2Response;
 import com.kuit.healthmate.user.domain.User;
-import java.util.Map;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
