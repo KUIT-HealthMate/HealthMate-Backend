@@ -1,4 +1,4 @@
-package com.kuit.healthmate.diagnosis.batch;
+package com.kuit.healthmate.batch;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;

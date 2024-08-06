@@ -1,9 +1,9 @@
-package com.kuit.healthmate.diagnosis.batch;
+package com.kuit.healthmate.batch;
 
 
-import com.kuit.healthmate.diagnosis.batch.task.FetchHealthDataTasklet;
-import com.kuit.healthmate.diagnosis.batch.task.SendToGptAndSaveTasklet;
-import com.kuit.healthmate.diagnosis.batch.task.TransformPromptTasklet;
+import com.kuit.healthmate.batch.task.FetchHealthDataTasklet;
+import com.kuit.healthmate.batch.task.SendToGptAndSaveTasklet;
+import com.kuit.healthmate.batch.task.TransformPromptTasklet;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;

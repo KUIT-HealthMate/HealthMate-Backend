@@ -1,4 +1,4 @@
-package com.kuit.healthmate.diagnosis.batch.task;
+package com.kuit.healthmate.batch.task;
 
 import com.kuit.healthmate.chatgpt.dto.response.LifeStyleToday;
 import com.kuit.healthmate.chatgpt.dto.response.MealPatternToday;
