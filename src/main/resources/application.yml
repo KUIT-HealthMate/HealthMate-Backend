@@ -33,8 +33,8 @@ spring:
         registration:
           kakao:
             redirect-uri: http://localhost:9000/login/oauth2/code/kakao
-            client-id: 0ebd7df8674a8166d1df4515d73d70c1
-            client-secret: FniGizSxIAMLbfbC8kiwU4w4X0EihIfm
+            client-id: ${CLIENT_ID}
+            client-secret: ${CLIENT_SECRET}
             client-authentication-method: client_secret_post
             authorization-grant-type: authorization_code
             scope: profile_nickname
@@ -47,8 +47,8 @@ spring:
             user-name-attribute: id
 
 secret:
-  jwt-secret-key: eyJhbGciOiJIUzI1NiJ9xeyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQcMgOsygXloaQRJC2aclPpgLNr85uitvTUetbwWYweMmk
-  jwt-expired-in: 360000
+  jwt-secret-key: ${JWT_SECRET_KEY}
+  jwt-expired-in: ${JWT_EXPIRES_IN}
 
 
 springdoc:
