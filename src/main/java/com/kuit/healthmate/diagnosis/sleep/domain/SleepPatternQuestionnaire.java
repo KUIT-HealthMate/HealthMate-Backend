@@ -1,5 +1,6 @@
 package com.kuit.healthmate.diagnosis.sleep.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kuit.healthmate.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -7,17 +8,21 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "sleepPattern")
 @Getter
-public class SleepPatternQuestionnaire {
+public class SleepPatternQuestionnaire implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
+    private String user_name;
 
     // 수면 시간 점수
     @Column(nullable = false)
@@ -41,6 +46,7 @@ public class SleepPatternQuestionnaire {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
+    @JsonIgnore
     private User user;
 
     @Builder

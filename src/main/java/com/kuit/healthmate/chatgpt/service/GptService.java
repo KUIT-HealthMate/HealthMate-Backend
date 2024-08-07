@@ -12,4 +12,6 @@ public interface GptService {
     MealPatternToday getPromptByMeal(PostDiagnosisRequest request);
 
     SleepPatternToday getPromptBySleep(PostDiagnosisRequest request);
+
+    String getPrompt(String request);
 }

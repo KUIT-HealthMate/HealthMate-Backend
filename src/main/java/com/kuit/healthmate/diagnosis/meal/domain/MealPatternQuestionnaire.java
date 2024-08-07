@@ -1,5 +1,6 @@
 package com.kuit.healthmate.diagnosis.meal.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kuit.healthmate.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -7,17 +8,22 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "mealPattern")
 @Getter
-public class MealPatternQuestionnaire {
+public class MealPatternQuestionnaire implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
+    private String user_name;
+
 
     // 식사 시간 점수 (아침, 점심, 저녁)
     @Column(nullable = false)
@@ -53,6 +59,7 @@ public class MealPatternQuestionnaire {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
+    @JsonIgnore
     private User user;
 
     @Builder
