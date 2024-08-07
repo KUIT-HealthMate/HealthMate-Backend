@@ -79,6 +79,6 @@ public class JwtProvider {
                 .setSigningKey(JWT_SECRET_KEY).build()
                 .parseSignedClaims(token)
                 .getPayload()
-                .get("userId", Long.TYPE);
+                .get("userId", Long.class);
     }
 }

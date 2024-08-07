@@ -29,12 +29,15 @@ public class JwtAuthInterceptor implements HandlerInterceptor {
 
         Long userId = jwtProvider.getUserId(accessToken);
 
+        log.info("User Id: " + userId + " intercepted");
+
         request.setAttribute("userId", userId);
+
         return true;
     }
 
     private String resolveAccessToken(HttpServletRequest request) {
-        String token = request.getHeader(HttpHeaders.AUTHORIZATION);
+        String token = request.getHeader("Jwt");
         validateToken(token);
         return token.substring(JWT_TOKEN_PREFIX.length());
     }

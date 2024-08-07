@@ -29,7 +29,7 @@ public class SecurityConfig {
                         .userInfoEndpoint((userInfoEndpointConfig ->
                                 userInfoEndpointConfig.userService(oAuth2UserService))))
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/login").permitAll() // 개발중 모든 사용자에게 허용
+                        .requestMatchers("/**").permitAll() // 개발중 모든 사용자에게 허용
                         .anyRequest().authenticated());
 
         return http.build();

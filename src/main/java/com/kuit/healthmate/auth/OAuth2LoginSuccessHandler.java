@@ -26,7 +26,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         Long userId = oAuth2User.getUserId();
         String token = jwtProvider.createToken(oAuth2User.getName(), userId);
 
-        log.info("success handler called" + token);
+        log.info("success handler called " + token);
 
         response.sendRedirect("http://localhost:9000/login/success?jwt=" + token);
     }
