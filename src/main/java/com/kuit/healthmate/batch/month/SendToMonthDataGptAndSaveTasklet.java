@@ -1,4 +1,4 @@
-package com.kuit.healthmate.batch.task;
+package com.kuit.healthmate.batch.month;
 
 import com.kuit.healthmate.chatgpt.dto.response.LifeStyleResponse;
 import com.kuit.healthmate.chatgpt.dto.response.MealPatternResponse;
@@ -20,12 +20,12 @@ import java.util.Map;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class SendToGptAndSaveTasklet implements Tasklet {
+public class SendToMonthDataGptAndSaveTasklet implements Tasklet {
     private final GptService gptService;
 
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-        log.info("Sending data to GPT...");
+        log.info("Month..Sending data to GPT...");
 
         LifeStyleTodayParser lifeStyleTodayParser = new LifeStyleTodayParser();
         Map<String, String> lifeDataJson = (Map<String, String>) chunkContext.getStepContext()
@@ -53,7 +53,6 @@ public class SendToGptAndSaveTasklet implements Tasklet {
 
         for (String value : mealDataJson.values()) {
             String response = gptService.getPrompt(value);
-            log.info(response);
             if (response != null) {
                 meal = mealPatternTodayParser.parse(response);
                 // 추가 로직: meal 객체를 저장하거나 사용

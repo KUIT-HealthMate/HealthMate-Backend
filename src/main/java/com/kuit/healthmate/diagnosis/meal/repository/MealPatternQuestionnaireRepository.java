@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface MealPatternQuestionnaireRepository extends JpaRepository<MealPatternQuestionnaire,Long> {
 
-    @Query("SELECT m FROM MealPatternQuestionnaire m WHERE m.timestamp >= :weekStartDate AND m.timestamp <= :weekEndDate")
-    List<MealPatternQuestionnaire> findByWeek(LocalDateTime weekStartDate, LocalDateTime weekEndDate);
+    @Query("SELECT m FROM MealPatternQuestionnaire m WHERE m.timestamp >= :StartDate AND m.timestamp <= :EndDate")
+    List<MealPatternQuestionnaire> findByDate(LocalDateTime StartDate, LocalDateTime EndDate);
 }

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name = "lifestyle")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "lifeStyle")
 @Getter
