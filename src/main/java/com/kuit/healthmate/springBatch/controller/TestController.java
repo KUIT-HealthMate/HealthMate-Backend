@@ -15,8 +15,9 @@ public class TestController {
     private final JobLauncher jobLauncher;
 
     @SneakyThrows
-    @GetMapping("/test")
-    public void test(){
+    @GetMapping("/testBatch")
+    public String test(){
         jobLauncher.run(testJob, new JobParameters());
+        return null;
     }
 }

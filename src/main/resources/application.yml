@@ -29,6 +29,8 @@ spring:
   batch:
     jdbc:
       initialize-schema: always
+    job:
+      enabled: false
 springdoc:
   packages-to-scan: com.kuit.healthmate
   default-consumes-media-type: application/json;charset=UTF-8
@@ -88,6 +90,8 @@ spring:
   batch:
     jdbc:
       initialize-schema: always
+    job:
+      enabled: false
 springdoc:
   packages-to-scan: com.kuit.healthmate
   default-consumes-media-type: application/json;charset=UTF-8
