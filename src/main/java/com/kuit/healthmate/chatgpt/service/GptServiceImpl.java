@@ -77,6 +77,7 @@ public class GptServiceImpl implements GptService{
 
     }
 
+
     @Override
     public SleepPatternToday getPromptBySleep(PostDiagnosisRequest requestDto) {
         SleepPatternTodayFormatter sleepPatternTodayFormatter = new SleepPatternTodayFormatter();
@@ -97,5 +98,20 @@ public class GptServiceImpl implements GptService{
         }
 
         return sleepPatternParser.parse(response.getChoices().get(0).getMessage().getContent());
+    }
+
+    @Override
+    public String getPrompt(String message) {
+        ChatRequest request = new ChatRequest(model, message);
+
+        ChatResponse response = restTemplate.postForObject(apiUrl, request, ChatResponse.class);
+
+        log.info(response.getChoices().get(0).getMessage().getContent());
+
+        if (response == null || response.getChoices() == null || response.getChoices().isEmpty()) {
+            return null;
+        }
+
+        return response.getChoices().get(0).getMessage().getContent();
     }
 }
