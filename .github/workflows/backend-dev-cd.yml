@@ -33,7 +33,12 @@ jobs:
         env:
           API_KEY: ${{ secrets.API_KEY }}
           URL: ${{ secrets.URL }}
-          MODEL: ${{ secrets.MODEL }} 
+          MODEL: ${{ secrets.MODEL }}
+
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+          JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN }}
         run: ./gradlew build
 
         # dockerfile을 통해 이미지를 빌드하고, 이를 docker repo로 push
@@ -44,6 +49,10 @@ jobs:
             --build-arg API_KEY=${{ secrets.API_KEY }} \
             --build-arg URL=${{ secrets.URL }} \
             --build-arg MODEL=${{ secrets.MODEL }} \
+            --build-arg MODEL=${{ secrets.CLIENT_ID }} \
+            --build-arg MODEL=${{ secrets.JWT_SECRET_KEY }} \
+            --build-arg MODEL=${{ secrets.JWT_SECRET_KEY }} \
+            --build-arg MODEL=${{ secrets.JWT_EXPIRES_IN }} \
           -f ./infra/docker/Dockerfile -t ${{ secrets.DOCKER_REPO }} .
           docker push ${{ secrets.DOCKER_REPO }}
 

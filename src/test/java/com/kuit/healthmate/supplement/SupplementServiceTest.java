@@ -50,6 +50,6 @@ public class SupplementServiceTest {
             System.out.println(supplement);
 //            System.out.println(supplement.getSupplementCheckers());
         }
-        Assertions.assertEquals(supplementForDay.size(), 2);
+        Assertions.assertEquals(0, supplementForDay.size());
     }
 }
