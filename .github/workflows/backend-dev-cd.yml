@@ -49,6 +49,10 @@ jobs:
             --build-arg API_KEY=${{ secrets.API_KEY }} \
             --build-arg URL=${{ secrets.URL }} \
             --build-arg MODEL=${{ secrets.MODEL }} \
+            --build-arg MODEL=${{ secrets.CLIENT_ID }} \
+            --build-arg MODEL=${{ secrets.JWT_SECRET_KEY }} \
+            --build-arg MODEL=${{ secrets.JWT_SECRET_KEY }} \
+            --build-arg MODEL=${{ secrets.JWT_EXPIRES_IN }} \
           -f ./infra/docker/Dockerfile -t ${{ secrets.DOCKER_REPO }} .
           docker push ${{ secrets.DOCKER_REPO }}
 
