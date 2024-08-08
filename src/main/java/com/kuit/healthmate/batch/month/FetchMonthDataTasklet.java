@@ -1,4 +1,4 @@
-package com.kuit.healthmate.batch.task;
+package com.kuit.healthmate.batch.month;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -23,27 +23,26 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class FetchHealthDataTasklet implements Tasklet {
+public class FetchMonthDataTasklet implements Tasklet {
     private final LifeStyleQuestionnaireRepository lifeStyleQuestionnaireRepository;
     private final MealPatternQuestionnaireRepository mealPatternQuestionnaireRepository;
     private final SleepPatternQuestionnaireRepository sleepPatternQuestionnaireRepository;
 
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-        log.info("Fetching health data...");
+        log.info("Month..Fetching health data...");
         ObjectMapper objectMapper = new ObjectMapper();
 
-        LocalDateTime today = LocalDateTime.now();
-        LocalDateTime startOfWeek = today.with(DayOfWeek.MONDAY);
-        LocalDateTime endOfWeek = startOfWeek.plusDays(6);
+        LocalDateTime firstDayOfMonth = LocalDateTime.now().withDayOfMonth(1);
+        LocalDateTime lastDayOfMonth = firstDayOfMonth.plusMonths(1).minusDays(1);
 
-        List<LifeStyleQuestionnaire> lifeData = lifeStyleQuestionnaireRepository.findByDate(startOfWeek, endOfWeek);
+        List<LifeStyleQuestionnaire> lifeData = lifeStyleQuestionnaireRepository.findByDate(firstDayOfMonth, lastDayOfMonth);
         String lifeDataJson = objectMapper.registerModule(new JavaTimeModule()).writeValueAsString(lifeData);
 
-        List<MealPatternQuestionnaire> mealData = mealPatternQuestionnaireRepository.findByDate(startOfWeek, endOfWeek);
+        List<MealPatternQuestionnaire> mealData = mealPatternQuestionnaireRepository.findByDate(firstDayOfMonth, lastDayOfMonth);
         String mealDataJson = objectMapper.registerModule(new JavaTimeModule()).writeValueAsString(mealData);
 
-        List<SleepPatternQuestionnaire> sleepData = sleepPatternQuestionnaireRepository.findByDate(startOfWeek, endOfWeek);
+        List<SleepPatternQuestionnaire> sleepData = sleepPatternQuestionnaireRepository.findByDate(firstDayOfMonth, lastDayOfMonth);
         String sleepDataJson = objectMapper.registerModule(new JavaTimeModule()).writeValueAsString(sleepData);
 
         chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext().put("life", lifeDataJson);

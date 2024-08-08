@@ -2,9 +2,9 @@ package com.kuit.healthmate.chatgpt.service;
 
 import com.kuit.healthmate.chatgpt.dto.request.ChatRequest;
 import com.kuit.healthmate.chatgpt.dto.response.ChatResponse;
-import com.kuit.healthmate.chatgpt.dto.response.LifeStyleToday;
-import com.kuit.healthmate.chatgpt.dto.response.MealPatternToday;
-import com.kuit.healthmate.chatgpt.dto.response.SleepPatternToday;
+import com.kuit.healthmate.chatgpt.dto.response.LifeStyleResponse;
+import com.kuit.healthmate.chatgpt.dto.response.MealPatternResponse;
+import com.kuit.healthmate.chatgpt.dto.response.SleepPatternResponse;
 import com.kuit.healthmate.chatgpt.util.formatter.LifeStyleTodayFormatter;
 import com.kuit.healthmate.chatgpt.util.formatter.MealPatternTodayFormatter;
 import com.kuit.healthmate.chatgpt.util.formatter.SleepPatternTodayFormatter;
@@ -33,7 +33,7 @@ public class GptServiceImpl implements GptService{
     private String apiUrl;
 
     @Override
-    public LifeStyleToday getPromptByLifeStyle(PostDiagnosisRequest requestDto) {
+    public LifeStyleResponse getPromptByLifeStyle(PostDiagnosisRequest requestDto) {
         LifeStyleTodayParser lifeStyleTodayParser = new LifeStyleTodayParser();
         LifeStyleTodayFormatter lifeStyleTodayFormatter = new LifeStyleTodayFormatter();
 
@@ -55,7 +55,7 @@ public class GptServiceImpl implements GptService{
     }
 
     @Override
-    public MealPatternToday getPromptByMeal(PostDiagnosisRequest requestDto) {
+    public MealPatternResponse getPromptByMeal(PostDiagnosisRequest requestDto) {
         MealPatternTodayFormatter mealPatternTodayFormatter = new MealPatternTodayFormatter();
         MealPatternTodayParser mealPatternTodayParser = new MealPatternTodayParser();
 
@@ -79,7 +79,7 @@ public class GptServiceImpl implements GptService{
 
 
     @Override
-    public SleepPatternToday getPromptBySleep(PostDiagnosisRequest requestDto) {
+    public SleepPatternResponse getPromptBySleep(PostDiagnosisRequest requestDto) {
         SleepPatternTodayFormatter sleepPatternTodayFormatter = new SleepPatternTodayFormatter();
         SleepPatternParser sleepPatternParser = new SleepPatternParser();
 

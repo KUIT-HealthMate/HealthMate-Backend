@@ -1,21 +1,21 @@
 package com.kuit.healthmate.diagnosis.dto;
 
-import com.kuit.healthmate.chatgpt.dto.response.LifeStyleToday;
-import com.kuit.healthmate.chatgpt.dto.response.MealPatternToday;
-import com.kuit.healthmate.chatgpt.dto.response.SleepPatternToday;
+import com.kuit.healthmate.chatgpt.dto.response.LifeStyleResponse;
+import com.kuit.healthmate.chatgpt.dto.response.MealPatternResponse;
+import com.kuit.healthmate.chatgpt.dto.response.SleepPatternResponse;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
 public class DiagnosisResponseDTO {
-    private LifeStyleToday lifeStyleToday;
+    private LifeStyleResponse lifeStyleToday;
 
-    private MealPatternToday mealPatternToday;
+    private MealPatternResponse mealPatternToday;
 
-    private SleepPatternToday sleepPatternToday;
+    private SleepPatternResponse sleepPatternToday;
 
-    public DiagnosisResponseDTO(LifeStyleToday lifestyle, MealPatternToday meal, SleepPatternToday sleep) {
+    public DiagnosisResponseDTO(LifeStyleResponse lifestyle, MealPatternResponse meal, SleepPatternResponse sleep) {
         this.lifeStyleToday = lifestyle;
         this.mealPatternToday = meal;
         this.sleepPatternToday = sleep;

@@ -1,13 +1,18 @@
 package com.kuit.healthmate.batch;
 
 
+import com.kuit.healthmate.batch.month.FetchMonthDataTasklet;
+import com.kuit.healthmate.batch.month.SendToMonthDataGptAndSaveTasklet;
+import com.kuit.healthmate.batch.month.TransformMonthDataPromptTasklet;
 import com.kuit.healthmate.batch.task.FetchHealthDataTasklet;
 import com.kuit.healthmate.batch.task.SendToGptAndSaveTasklet;
 import com.kuit.healthmate.batch.task.TransformPromptTasklet;
+import com.kuit.healthmate.diagnosis.life.domain.LifeStyleQuestionnaire;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.DuplicateJobException;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
@@ -26,9 +31,14 @@ public class BatchConfig {
     private final TransformPromptTasklet transformPromptTasklet;
     private final SendToGptAndSaveTasklet sendToGptAndSaveTasklet;
 
+    //월간 job
+    private final FetchMonthDataTasklet fetchMonthDataTasklet;
+    private final TransformMonthDataPromptTasklet transformMonthDataPromptTasklet;
+    private final SendToMonthDataGptAndSaveTasklet sendToMonthDataGptAndSaveTasklet;
+
 
     @Bean
-    public Job job() {
+    public Job jobWeek() {
         return new JobBuilder("health", jobRepository)
                 .start(fetchHealthDataStep())
                 .next(transformPromptStep())
@@ -57,4 +67,33 @@ public class BatchConfig {
                 .build();
     }
 
+    @Bean
+    public Job jobMonth() {
+        return new JobBuilder("jobMonth", jobRepository)
+                .start(fetchMonthDataStep())
+                .next(transformMonthDataPromptStep())
+                .next(sendToMonthDataGptStep())
+                .build();
+    }
+
+    @Bean
+    public Step fetchMonthDataStep() {
+        return new StepBuilder("fetchMonthDataTasklet", jobRepository)
+                .tasklet(fetchMonthDataTasklet, transactionManager)
+                .build();
+    }
+
+    @Bean
+    public Step transformMonthDataPromptStep() {
+        return new StepBuilder("transformMonthDataPromptStep", jobRepository)
+                .tasklet(transformMonthDataPromptTasklet, transactionManager)
+                .build();
+    }
+
+    @Bean
+    public Step sendToMonthDataGptStep() {
+        return new StepBuilder("sendToMonthDataGptStep", jobRepository)
+                .tasklet(sendToMonthDataGptAndSaveTasklet, transactionManager)
+                .build();
+    }
 }

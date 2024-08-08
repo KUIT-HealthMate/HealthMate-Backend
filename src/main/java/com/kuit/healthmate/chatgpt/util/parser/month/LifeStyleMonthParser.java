@@ -1,12 +1,11 @@
-package com.kuit.healthmate.chatgpt.util.parser;
+package com.kuit.healthmate.chatgpt.util.parser.month;
 
 import com.kuit.healthmate.chatgpt.dto.response.LifeStyleResponse;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LifeStyleTodayParser {
-
+public class LifeStyleMonthParser {
     private static final Pattern DESCRIPTION_PATTERN =
             Pattern.compile("\\[진단 내용\\]\\s*\\n*([\\s\\S]*?)\\n*\\[생활 습관의 규칙성\\]", Pattern.DOTALL);
 

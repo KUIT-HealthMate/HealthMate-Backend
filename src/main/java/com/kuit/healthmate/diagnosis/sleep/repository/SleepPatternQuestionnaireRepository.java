@@ -11,6 +11,6 @@ import java.util.List;
 
 @Repository
 public interface SleepPatternQuestionnaireRepository extends JpaRepository<SleepPatternQuestionnaire,Long> {
-    @Query("SELECT s FROM SleepPatternQuestionnaire s WHERE s.timestamp >= :weekStartDate AND s.timestamp <= :weekEndDate")
-    List<SleepPatternQuestionnaire> findByWeek(LocalDateTime weekStartDate, LocalDateTime weekEndDate);
+    @Query("SELECT s FROM SleepPatternQuestionnaire s WHERE s.timestamp >= :StartDate AND s.timestamp <= :EndDate")
+    List<SleepPatternQuestionnaire> findByDate(LocalDateTime StartDate, LocalDateTime EndDate);
 }

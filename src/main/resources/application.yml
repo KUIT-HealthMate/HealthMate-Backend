@@ -18,6 +18,8 @@ spring:
   batch:
     jdbc:
       initialize-schema: always
+    job:
+      enabled: false
 
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
@@ -86,7 +88,6 @@ spring:
     url: jdbc:h2:mem:test;mode=mysql
     username: sa
     password:
-
   h2:
     console:
       enabled: true
@@ -96,6 +97,8 @@ spring:
   batch:
     jdbc:
       initialize-schema: always
+    job:
+      enabled: false
 
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
