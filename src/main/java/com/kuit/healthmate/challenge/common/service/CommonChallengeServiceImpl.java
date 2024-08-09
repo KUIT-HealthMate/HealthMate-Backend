@@ -107,7 +107,7 @@ public class CommonChallengeServiceImpl implements CommonChallengeService{
         double achievementRate = 0;
         double totalAchievement = 0;
 
-        List<Supplement> supplements = supplementService.getSupplementForWeek(userId,startDate,endDate);
+        List<Supplement> supplements = supplementService.getSupplementBetween(userId,startDate,endDate);
         List<Habit> habits = habitService.getHabitForWeek(userId, startDate, endDate);
 
         Map<LocalDate, List<SupplementItem>> supplementsByDate = new HashMap<>();
@@ -158,7 +158,7 @@ public class CommonChallengeServiceImpl implements CommonChallengeService{
         double achievementRate = 0;
         double totalAchievement = 0;
 
-        List<Supplement> supplements = supplementService.getSupplementForWeek(userId,startDate,endDate);
+        List<Supplement> supplements = supplementService.getSupplementBetween(userId,startDate,endDate);
         List<Habit> habits = habitService.getHabitForWeek(userId, startDate, endDate);
 
         Map<LocalDate, List<SupplementItem>> supplementsByDate = new HashMap<>();

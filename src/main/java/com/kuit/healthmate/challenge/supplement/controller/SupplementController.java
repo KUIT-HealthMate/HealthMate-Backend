@@ -1,5 +1,6 @@
 package com.kuit.healthmate.challenge.supplement.controller;
 
+import com.kuit.healthmate.auth.jwt.Jwt;
 import com.kuit.healthmate.challenge.supplement.dto.SupplementCheckerRequest;
 import com.kuit.healthmate.challenge.supplement.dto.SupplementRegisterRequest;
 import com.kuit.healthmate.challenge.supplement.dto.SupplementResponse;
@@ -29,15 +30,10 @@ public class SupplementController {
 
     private final SupplementService supplementService;
 
-
-    @GetMapping("/{userId}")
-    public ApiResponse<List<SupplementResponse>> getSupplementByUserId(@PathVariable Long userId) {
-        return new ApiResponse<>(supplementService.getSupplementChallengesByUserId(userId));
-    }
-
-    @PostMapping("")
-    public ApiResponse<Long> registerSupplement(@RequestBody SupplementRegisterRequest supplementRegisterRequest) {
-        return new ApiResponse<>(supplementService.registerSupplement(supplementRegisterRequest));
+    @PostMapping("/register")
+    public ApiResponse<Long> registerSupplement(@Jwt Long userId,
+                                                @RequestBody SupplementRegisterRequest supplementRegisterRequest) {
+        return new ApiResponse<>(supplementService.registerSupplement(userId, supplementRegisterRequest));
     }
 
     @PutMapping("/edit/{supplementId}")
@@ -59,11 +55,5 @@ public class SupplementController {
         return new ApiResponse<>(
                 supplementService.checkSupplementChecker(supplementId, supplementCheckerRequest)
         );
-    }
-
-    @PostMapping("/error")
-    public void errorTest() {
-        throw new SupplementException(ExceptionResponseStatus.INVALID_SUPPLEMENT_ID);
-//        throw new UserException(ExceptionResponseStatus.INVALID_SUPPLEMENT_ID);
     }
 }

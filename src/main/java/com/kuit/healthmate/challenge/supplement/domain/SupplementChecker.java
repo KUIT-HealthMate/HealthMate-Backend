@@ -48,7 +48,7 @@ public class SupplementChecker {
     }
 
     @Override
-    public String toString() {
+    public String toString() {  // TODO: 확인 끝났으면 삭제
         return "SupplementChecker{" +
                 "id=" + id +
                 ", checkDate=" + checkDate +
