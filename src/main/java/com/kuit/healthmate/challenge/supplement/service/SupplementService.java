@@ -15,12 +15,10 @@ import com.kuit.healthmate.global.response.ExceptionResponseStatus;
 import com.kuit.healthmate.challenge.supplement.repository.SupplementCheckerRepository;
 import com.kuit.healthmate.challenge.supplement.repository.SupplementRepository;
 import com.kuit.healthmate.challenge.supplement.repository.SupplementTimeRepository;
-import com.kuit.healthmate.challenge.supplement.dto.SupplementResponse;
 import com.kuit.healthmate.challenge.supplement.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -106,11 +104,7 @@ public class SupplementService {
         return supplementRepository.findAllByUserIdAndCheckedDateBetween(userId, LocalDate.now(), LocalDate.now());
     }
 
-    public List<Supplement> getSupplementForMonth(Long userId, LocalDate endDate) {
-        return supplementRepository.findAllByUserIdAndCheckedDateBetween(userId, endDate.withDayOfMonth(1), endDate);
-    }
-
-    public List<Supplement> getSupplementForWeek(Long userId, LocalDate startDate, LocalDate endDate) {
+    public List<Supplement> getSupplementBetween(Long userId, LocalDate startDate, LocalDate endDate) {
         return supplementRepository.findAllByUserIdAndCheckedDateBetween(userId, startDate, endDate);
     }
 }
