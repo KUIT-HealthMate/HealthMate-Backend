@@ -2,6 +2,7 @@ package com.kuit.healthmate.user.controller;
 
 import com.kuit.healthmate.auth.jwt.Jwt;
 import com.kuit.healthmate.global.response.ApiResponse;
+import com.kuit.healthmate.user.dto.AlarmRequest;
 import com.kuit.healthmate.user.dto.EditNicknameRequest;
 import com.kuit.healthmate.user.dto.EditProfileRequest;
 import com.kuit.healthmate.user.service.UserService;
@@ -28,6 +29,13 @@ public class UserController {
     @PatchMapping("/edit/profile")
     public ApiResponse<Object> editProfile(@Jwt Long userId, @RequestBody EditProfileRequest editProfileRequest) {
         userService.editProfile(userId, editProfileRequest.getProfile());
+
+        return new ApiResponse<>(null);
+    }
+
+    @PatchMapping("/edit/alarm")
+    public ApiResponse<Object> setAlarm(@Jwt Long userId, @RequestBody AlarmRequest alarmRequest) {
+        userService.setAlarm(userId, alarmRequest.getIsAlarm());
 
         return new ApiResponse<>(null);
     }

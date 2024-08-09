@@ -40,6 +40,9 @@ public class User {
     @Column(nullable = true)
     private String profile;
 
+    @Column()
+    private Boolean isAlarm;
+
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Habit> habits = new ArrayList<>();
 
@@ -70,10 +73,11 @@ public class User {
     private LocalDateTime createdAt;
 
     @Builder
-    public User(Long id, String username, String profile, String email, String nickname,LocalDateTime createdAt) {
+    public User(Long id, String username, String profile, Boolean isAlarm, String email, String nickname,LocalDateTime createdAt) {
         this.id = id;
         this.username = username;
         this.profile = profile;
+        this.isAlarm = isAlarm;
         this.email = email;
         this.nickname = nickname;
         this.createdAt = createdAt;
@@ -85,5 +89,9 @@ public class User {
 
     public void editProfile(String profile) {
         this.profile = profile;
+    }
+
+    public void editAlarmStatus(Boolean isAlarm) {
+        this.isAlarm = isAlarm;
     }
 }

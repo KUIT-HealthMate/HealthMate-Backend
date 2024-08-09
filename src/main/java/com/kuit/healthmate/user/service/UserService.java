@@ -28,4 +28,11 @@ public class UserService {
         );
         user.editProfile(profile);
     }
+
+    public void setAlarm(Long userId, Boolean on) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new UserException(ExceptionResponseStatus.INVALID_USER_ID)
+        );
+        user.editAlarmStatus(on);
+    }
 }
