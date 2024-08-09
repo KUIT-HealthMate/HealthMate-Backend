@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class SupplementUpdateRequest {
-    private Long userId;    // JWT ??
 
     @JsonProperty("id")
     private Long supplementId;

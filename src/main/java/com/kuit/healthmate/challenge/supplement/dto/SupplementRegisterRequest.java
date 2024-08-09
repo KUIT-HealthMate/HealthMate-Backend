@@ -11,8 +11,6 @@ import lombok.Getter;
 @Getter
 public class SupplementRegisterRequest {
 
-    private Long userId;    // JWT ??
-
     @JsonProperty("id")
     private Long supplementId;
     private String name;

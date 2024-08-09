@@ -34,8 +34,8 @@ public class SupplementService {
     private final SupplementTimeRepository supplementTimeRepository;
 
     @Transactional
-    public Long registerSupplement(SupplementRegisterRequest supplementRegisterRequest) {
-        User user = userRepository.findById(supplementRegisterRequest.getUserId()).orElseThrow(
+    public Long registerSupplement(Long userId, SupplementRegisterRequest supplementRegisterRequest) {
+        User user = userRepository.findById(userId).orElseThrow(
                 () -> new UserException(ExceptionResponseStatus.INVALID_USER_ID)
         );
         String name = supplementRegisterRequest.getName();
@@ -59,7 +59,7 @@ public class SupplementService {
     @Transactional
     public void updateSupplement(Long supplementId, SupplementUpdateRequest supplementUpdateRequest) {
         Supplement supplement = supplementRepository.findById(supplementId).orElseThrow(
-                () -> new UserException(ExceptionResponseStatus.INVALID_USER_ID)
+                () -> new SupplementException(ExceptionResponseStatus.INVALID_SUPPLEMENT_ID)
         );
 
         supplement.update(supplementUpdateRequest.getName(), supplementUpdateRequest.getAfterMeal(),
@@ -70,7 +70,7 @@ public class SupplementService {
     @Transactional
     public void deleteSupplement(Long supplementId) {
         Supplement supplement = supplementRepository.findById(supplementId).orElseThrow(
-                () -> new UserException(ExceptionResponseStatus.INVALID_USER_ID)
+                () -> new SupplementException(ExceptionResponseStatus.INVALID_SUPPLEMENT_ID)
         );
 
         supplement.setStatus(Status.INACTIVE);
