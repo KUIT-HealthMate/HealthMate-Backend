@@ -87,10 +87,10 @@ public class SupplementService {
                 .filter(x -> x.isDateMatch(LocalDate.now()))
                 .filter(x -> x.isTimeSlotMatch(supplementCheckerRequest.getTimeSlot()))
                 .findAny()
-                .orElse(
-                        supplementCheckerRepository.save(
-                                new SupplementChecker(supplement, supplementCheckerRequest.getTimeSlot())
-                        )
+                .orElseGet(
+                        () -> supplementCheckerRepository.save(
+                                    new SupplementChecker(supplement, supplementCheckerRequest.getTimeSlot())
+                            )
                 );
 
         return supplementChecker.toggleStatus();

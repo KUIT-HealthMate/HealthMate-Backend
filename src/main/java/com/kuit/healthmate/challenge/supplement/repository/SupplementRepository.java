@@ -20,7 +20,7 @@ public interface SupplementRepository extends JpaRepository<Supplement, Long> {
                                                           @Param("startDate") LocalDate startDate,
                                                           @Param("endDate") LocalDate endDate);
 
-    @Query("select distinct s from Supplement s join fetch s.supplementCheckers sc "
+    @Query("select distinct s from Supplement s left join fetch s.supplementCheckers sc "
             + "where s.id = :supplementId")
     Optional<Supplement> findSupplementAndChecker(@Param("supplementId") Long supplementId);
 }

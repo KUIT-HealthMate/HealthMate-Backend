@@ -15,8 +15,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SupplementUpdateRequest {
 
-    @JsonProperty("id")
-    private Long supplementId;
     private String name;
 
     private Map<String, Integer> intakeTime;   // 섭취 시간 (식전 1 식후 2, 분 number로)
