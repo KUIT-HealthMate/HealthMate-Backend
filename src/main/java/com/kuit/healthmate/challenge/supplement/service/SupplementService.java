@@ -35,13 +35,6 @@ public class SupplementService {
     private final SupplementCheckerRepository supplementCheckerRepository;
     private final SupplementTimeRepository supplementTimeRepository;
 
-    public List<SupplementResponse> getSupplementChallengesByUserId(Long userId) {
-        return supplementRepository.findAllByUserIdAndStatus(userId, Status.ACTIVE)
-                .stream()
-                .map(SupplementResponse::new)
-                .collect(Collectors.toList());
-    }
-
     @Transactional
     public Long registerSupplement(SupplementRegisterRequest supplementRegisterRequest) {
         User user = userRepository.findById(supplementRegisterRequest.getUserId()).orElseThrow(

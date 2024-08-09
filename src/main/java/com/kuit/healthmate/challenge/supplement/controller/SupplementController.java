@@ -29,12 +29,6 @@ public class SupplementController {
 
     private final SupplementService supplementService;
 
-
-    @GetMapping("/{userId}")
-    public ApiResponse<List<SupplementResponse>> getSupplementByUserId(@PathVariable Long userId) {
-        return new ApiResponse<>(supplementService.getSupplementChallengesByUserId(userId));
-    }
-
     @PostMapping("")
     public ApiResponse<Long> registerSupplement(@RequestBody SupplementRegisterRequest supplementRegisterRequest) {
         return new ApiResponse<>(supplementService.registerSupplement(supplementRegisterRequest));
