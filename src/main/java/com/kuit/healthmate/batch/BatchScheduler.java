@@ -22,12 +22,12 @@ public class BatchScheduler {
         this.job = job;
     }
 
-    @Scheduled(fixedRate = 600000)
-    public void runBatchJob() throws Exception {
-        JobParameters jobParameters = new JobParametersBuilder()
-                .addLong("run.id", System.currentTimeMillis()) // 여기서 JobParameters에 파라미터 추가
-                .toJobParameters();
-
-        jobLauncher.run(job, jobParameters); // Job 실행
-    }
+//    @Scheduled(fixedRate = 600000)
+//    public void runBatchJob() throws Exception {
+//        JobParameters jobParameters = new JobParametersBuilder()
+//                .addLong("run.id", System.currentTimeMillis()) // 여기서 JobParameters에 파라미터 추가
+//                .toJobParameters();
+//
+//        jobLauncher.run(job, jobParameters); // Job 실행
+//    }
 }

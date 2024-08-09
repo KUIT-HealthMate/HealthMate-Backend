@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DiagnosisController {
     private final DiagnosisService diagnosisService;
     private final GptService gptService;
+    @Deprecated
     @PostMapping("")
     public ApiResponse<DiagnosisResponseDTO> saveDiagnosisResult(@RequestBody PostDiagnosisRequest postDiagnosisRequest){
         diagnosisService.saveDiagnosisResult(postDiagnosisRequest); //DB에 저장

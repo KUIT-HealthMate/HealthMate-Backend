@@ -24,19 +24,19 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 public class GPTController {
     private final GptService gptService;
-
+    @Deprecated
     @GetMapping("/chat")
     public ApiResponse<LifeStyleToday> chat(@RequestBody PostDiagnosisRequest request) {
 
         return new ApiResponse<>(gptService.getPromptByLifeStyle(request));
     }
-
+    @Deprecated
     @GetMapping("/chat2")
     public ApiResponse<MealPatternToday> chat2(@RequestBody PostDiagnosisRequest request) {
 
         return new ApiResponse<>(gptService.getPromptByMeal(request));
     }
-
+    @Deprecated
     @GetMapping("/chat3")
     public ApiResponse<SleepPatternToday> chat3(@RequestBody PostDiagnosisRequest request) {
 
