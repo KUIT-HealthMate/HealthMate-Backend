@@ -54,10 +54,4 @@ public class SupplementController {
                 supplementService.checkSupplementChecker(supplementId, supplementCheckerRequest)
         );
     }
-
-    @PostMapping("/error")
-    public void errorTest() {
-        throw new SupplementException(ExceptionResponseStatus.INVALID_SUPPLEMENT_ID);
-//        throw new UserException(ExceptionResponseStatus.INVALID_SUPPLEMENT_ID);
-    }
 }
