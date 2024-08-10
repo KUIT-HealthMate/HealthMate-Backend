@@ -43,16 +43,17 @@ public class SymptomQuestionnaire {
     @Column(nullable = false)
     private LocalDateTime timestamp;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    private Long userId;
+
+    private String user_name;
 
     @Builder
-    public SymptomQuestionnaire(SymptomInfo first, SymptomInfo second, SymptomInfo third, LocalDateTime timestamp, User user){
+    public SymptomQuestionnaire(SymptomInfo first, SymptomInfo second, SymptomInfo third, LocalDateTime timestamp, Long userId, String user_name){
         this.first = first;
         this.second = second;
         this.third =third;
         this.timestamp = timestamp;
-        this.user = user;
+        this.userId = userId;
+        this.user_name =user_name;
     }
 }

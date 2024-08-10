@@ -40,25 +40,25 @@ public class User {
     @Column(nullable = true)
     private String profile;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToMany
     private List<Habit> habits = new ArrayList<>();
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Supplement> supplements = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToMany
     private List<LifeStyleQuestionnaire> lifeStyleQuestionnaires = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToMany
     private List<SleepPatternQuestionnaire> sleepPatternQuestionnaires = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToMany
     private List<MealPatternQuestionnaire> mealPatternQuestionnaires = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToMany
     private List<SymptomQuestionnaire> symptomQuestionnaires = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToMany
     private List<GptResult> gptResults = new ArrayList<>();
 
 

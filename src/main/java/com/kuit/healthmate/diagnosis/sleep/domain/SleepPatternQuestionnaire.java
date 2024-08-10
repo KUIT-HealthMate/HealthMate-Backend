@@ -1,7 +1,5 @@
 package com.kuit.healthmate.diagnosis.sleep.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.kuit.healthmate.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -44,19 +42,17 @@ public class SleepPatternQuestionnaire implements Serializable {
     @Column(nullable = false)
     private LocalDateTime timestamp;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id")
-    @JsonIgnore
-    private User user;
+    private Long userId;
 
     @Builder
-    public SleepPatternQuestionnaire(int sleepDurationScore, int morningFatigueScore,int peakConditionTimeScore, int sleepRemarkScore, LocalDateTime timestamp, User user){
+    public SleepPatternQuestionnaire(int sleepDurationScore, int morningFatigueScore,int peakConditionTimeScore, int sleepRemarkScore, LocalDateTime timestamp, Long userId,String user_name){
         this.sleepDurationScore = sleepDurationScore;
         this.morningFatigueScore = morningFatigueScore;
         this.peakConditionTimeScore = peakConditionTimeScore;
         this.sleepRemarkScore = sleepRemarkScore;
         this.timestamp = timestamp;
-        this.user = user;
+        this.userId = userId;
+        this.user_name = user_name;
     }
     // 총합 계산 메소드
     public int calculateTotalScore() {
