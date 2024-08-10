@@ -15,12 +15,10 @@ import com.kuit.healthmate.global.response.ExceptionResponseStatus;
 import com.kuit.healthmate.challenge.supplement.repository.SupplementCheckerRepository;
 import com.kuit.healthmate.challenge.supplement.repository.SupplementRepository;
 import com.kuit.healthmate.challenge.supplement.repository.SupplementTimeRepository;
-import com.kuit.healthmate.challenge.supplement.dto.SupplementResponse;
 import com.kuit.healthmate.challenge.supplement.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -35,16 +33,9 @@ public class SupplementService {
     private final SupplementCheckerRepository supplementCheckerRepository;
     private final SupplementTimeRepository supplementTimeRepository;
 
-    public List<SupplementResponse> getSupplementChallengesByUserId(Long userId) {
-        return supplementRepository.findAllByUserIdAndStatus(userId, Status.ACTIVE)
-                .stream()
-                .map(SupplementResponse::new)
-                .collect(Collectors.toList());
-    }
-
     @Transactional
-    public Long registerSupplement(SupplementRegisterRequest supplementRegisterRequest) {
-        User user = userRepository.findById(supplementRegisterRequest.getUserId()).orElseThrow(
+    public Long registerSupplement(Long userId, SupplementRegisterRequest supplementRegisterRequest) {
+        User user = userRepository.findById(userId).orElseThrow(
                 () -> new UserException(ExceptionResponseStatus.INVALID_USER_ID)
         );
         String name = supplementRegisterRequest.getName();
@@ -68,7 +59,7 @@ public class SupplementService {
     @Transactional
     public void updateSupplement(Long supplementId, SupplementUpdateRequest supplementUpdateRequest) {
         Supplement supplement = supplementRepository.findById(supplementId).orElseThrow(
-                () -> new UserException(ExceptionResponseStatus.INVALID_USER_ID)
+                () -> new SupplementException(ExceptionResponseStatus.INVALID_SUPPLEMENT_ID)
         );
 
         supplement.update(supplementUpdateRequest.getName(), supplementUpdateRequest.getAfterMeal(),
@@ -79,7 +70,7 @@ public class SupplementService {
     @Transactional
     public void deleteSupplement(Long supplementId) {
         Supplement supplement = supplementRepository.findById(supplementId).orElseThrow(
-                () -> new UserException(ExceptionResponseStatus.INVALID_USER_ID)
+                () -> new SupplementException(ExceptionResponseStatus.INVALID_SUPPLEMENT_ID)
         );
 
         supplement.setStatus(Status.INACTIVE);
@@ -96,10 +87,10 @@ public class SupplementService {
                 .filter(x -> x.isDateMatch(LocalDate.now()))
                 .filter(x -> x.isTimeSlotMatch(supplementCheckerRequest.getTimeSlot()))
                 .findAny()
-                .orElse(
-                        supplementCheckerRepository.save(
-                                new SupplementChecker(supplement, supplementCheckerRequest.getTimeSlot())
-                        )
+                .orElseGet(
+                        () -> supplementCheckerRepository.save(
+                                    new SupplementChecker(supplement, supplementCheckerRequest.getTimeSlot())
+                            )
                 );
 
         return supplementChecker.toggleStatus();
@@ -113,11 +104,7 @@ public class SupplementService {
         return supplementRepository.findAllByUserIdAndCheckedDateBetween(userId, LocalDate.now(), LocalDate.now());
     }
 
-    public List<Supplement> getSupplementForMonth(Long userId, LocalDate endDate) {
-        return supplementRepository.findAllByUserIdAndCheckedDateBetween(userId, endDate.withDayOfMonth(1), endDate);
-    }
-
-    public List<Supplement> getSupplementForWeek(Long userId, LocalDate startDate, LocalDate endDate) {
+    public List<Supplement> getSupplementBetween(Long userId, LocalDate startDate, LocalDate endDate) {
         return supplementRepository.findAllByUserIdAndCheckedDateBetween(userId, startDate, endDate);
     }
 }
