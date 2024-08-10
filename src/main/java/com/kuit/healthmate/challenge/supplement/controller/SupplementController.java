@@ -1,5 +1,6 @@
 package com.kuit.healthmate.challenge.supplement.controller;
 
+import com.kuit.healthmate.auth.jwt.Jwt;
 import com.kuit.healthmate.challenge.supplement.dto.SupplementCheckerRequest;
 import com.kuit.healthmate.challenge.supplement.dto.SupplementRegisterRequest;
 import com.kuit.healthmate.challenge.supplement.dto.SupplementResponse;
@@ -29,41 +30,30 @@ public class SupplementController {
 
     private final SupplementService supplementService;
 
-    @Deprecated
-    @GetMapping("/{userId}")
-    public ApiResponse<List<SupplementResponse>> getSupplementByUserId(@PathVariable Long userId) {
-        return new ApiResponse<>(supplementService.getSupplementChallengesByUserId(userId));
+    @PostMapping("/register")
+    public ApiResponse<Long> registerSupplement(@Jwt Long userId,
+                                                @RequestBody SupplementRegisterRequest supplementRegisterRequest) {
+        return new ApiResponse<>(supplementService.registerSupplement(userId, supplementRegisterRequest));
     }
-    @Deprecated
-    @PostMapping("")
-    public ApiResponse<Long> registerSupplement(@RequestBody SupplementRegisterRequest supplementRegisterRequest) {
-        return new ApiResponse<>(supplementService.registerSupplement(supplementRegisterRequest));
-    }
-    @Deprecated
+
     @PutMapping("/edit/{supplementId}")
     public ApiResponse<Object> updateSupplement(@PathVariable Long supplementId,
                                  @RequestBody SupplementUpdateRequest supplementUpdateRequest) {
         supplementService.updateSupplement(supplementId, supplementUpdateRequest);
         return new ApiResponse<>(null);
     }
-    @Deprecated
+
     @PutMapping("/delete/{supplementId}")
     public ApiResponse<Object> deleteSupplement(@PathVariable Long supplementId) {
         supplementService.deleteSupplement(supplementId);
         return new ApiResponse<>(null);
     }
-    @Deprecated
+
     @PutMapping("/check-status/{supplementId}")
     public ApiResponse<Boolean> checkSupplementChecker(@PathVariable Long supplementId,
                                        @RequestBody SupplementCheckerRequest supplementCheckerRequest) {
         return new ApiResponse<>(
                 supplementService.checkSupplementChecker(supplementId, supplementCheckerRequest)
         );
-    }
-    @Deprecated
-    @PostMapping("/error")
-    public void errorTest() {
-        throw new SupplementException(ExceptionResponseStatus.INVALID_SUPPLEMENT_ID);
-//        throw new UserException(ExceptionResponseStatus.INVALID_SUPPLEMENT_ID);
     }
 }
