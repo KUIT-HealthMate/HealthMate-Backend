@@ -8,9 +8,10 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface GptResultRepository extends JpaRepository<GptResult,Long> {
     @Query("SELECT gr FROM GptResult gr WHERE gr.userId = :userId AND gr.date = :date")
-    GptResult findDiagnosisResultByUserIdAndDate(@Param("userId") Long userId, @Param("date") LocalDate date);
+    Optional<GptResult> findDiagnosisResultByUserIdAndDate(@Param("userId") Long userId, @Param("date") LocalDate date);
 }

@@ -69,14 +69,30 @@ public class User {
     @Column(name = "created_at", nullable = true, updatable = false)
     private LocalDateTime createdAt;
 
+    private int balance; // 사용자의 현재 코인 잔액
+
+    // 코인 잔액을 증가시키는 메서드
+    public void addCoins(int amount) {
+        this.balance += amount;
+    }
+
+    // 코인 잔액을 감소시키는 메서드
+    public void subtractCoins(int amount) {
+        if (this.balance < amount) {
+            this.balance = 0;
+        }
+        this.balance -= amount;
+    }
+
     @Builder
-    public User(Long id, String username, String profile, String email, String nickname,LocalDateTime createdAt) {
+    public User(Long id, String username, String profile, String email, String nickname,LocalDateTime createdAt, int balance) {
         this.id = id;
         this.username = username;
         this.profile = profile;
         this.email = email;
         this.nickname = nickname;
         this.createdAt = createdAt;
+        this.balance = balance;
     }
 
     public void editNickname(String nickname) {
