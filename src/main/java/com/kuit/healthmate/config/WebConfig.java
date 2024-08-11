@@ -30,7 +30,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .order(1)
                 .addPathPatterns("/supplements/**")
                 .addPathPatterns("/habits/**")
-                .addPathPatterns("/user/**")
+                .addPathPatterns("/users/**")
                 .addPathPatterns("/challenges/**")
                 .addPathPatterns("/diagnosis/**");
     }
