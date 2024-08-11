@@ -1,4 +1,4 @@
-package com.kuit.healthmate.challenge.habit.dto;
+package com.kuit.healthmate.challenge.habit.dto.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

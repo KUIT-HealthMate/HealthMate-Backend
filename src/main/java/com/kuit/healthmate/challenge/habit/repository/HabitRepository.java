@@ -18,10 +18,10 @@ public interface HabitRepository  extends JpaRepository<Habit, Long> {
     @Query("SELECT h FROM Habit h LEFT JOIN FETCH h.habitChecker WHERE h.id = :habitId")
     List<Habit> findByIdWithHabitCheckers(@Param("habitId") Long habitId);
 
-    @Query("SELECT h FROM Habit h join fetch h.habitChecker hc WHERE h.user.id = :userId AND h.status = 'ACTIVE' AND SUBSTRING(h.selectedDay, :dayOfWeek, 1) = '1'")
+    @Query("SELECT h FROM Habit h join fetch h.habitChecker hc WHERE h.userId = :userId AND h.status = 'ACTIVE' AND SUBSTRING(h.selectedDay, :dayOfWeek, 1) = '1'")
     List<Habit> findActiveHabitsByUserIdAndDayOfWeek(@Param("userId") Long userId, @Param("dayOfWeek") int dayOfWeek);
 
-    @Query("SELECT DISTINCT h from Habit h join fetch h.habitChecker hc WHERE h.user.id= :userId and hc.createdAt between :startDate and :endDate")
+    @Query("SELECT DISTINCT h from Habit h join fetch h.habitChecker hc WHERE h.userId= :userId and hc.createdAt between :startDate and :endDate")
     List<Habit> findAllByUserIdAndCreatedAtBetween(@Param("userId") Long userId,
                                                    @Param("startDate") LocalDate startDate,
                                                    @Param("endDate") LocalDate endDate);
@@ -30,6 +30,6 @@ public interface HabitRepository  extends JpaRepository<Habit, Long> {
     void updateHabitStatus(@Param("habitId") Long habitId);
 
     @Modifying
-    @Query("UPDATE Habit h SET h.name = :name, h.memo = :memo, h.updatedAt = :updatedAt, h.selectedDay = :selectedDay WHERE h.id = :habitId")
-    void updateHabit(@Param("habitId") Long habitId, @Param("name") String name, @Param("memo") String memo, @Param("updatedAt")LocalDateTime updatedAt, @Param("selectedDay") String selectedDay);
+    @Query("UPDATE Habit h SET h.name = :name, h.updatedAt = :updatedAt, h.selectedDay = :selectedDay WHERE h.id = :habitId")
+    void updateHabit(@Param("habitId") Long habitId, @Param("name") String name,  @Param("updatedAt")LocalDateTime updatedAt, @Param("selectedDay") String selectedDay);
 }

@@ -5,10 +5,7 @@ import com.kuit.healthmate.chatgpt.dto.response.MealPatternResponse;
 import com.kuit.healthmate.chatgpt.dto.response.SleepPatternResponse;
 import com.kuit.healthmate.chatgpt.service.GptService;
 import com.kuit.healthmate.chatgpt.util.formatter.month.LifeStyleMonthFormatter;
-import com.kuit.healthmate.diagnosis.dto.LifeStyleDto;
-import com.kuit.healthmate.diagnosis.dto.MealPatternDto;
-import com.kuit.healthmate.diagnosis.dto.PostDiagnosisRequest;
-import com.kuit.healthmate.diagnosis.dto.SleepPatternDto;
+import com.kuit.healthmate.diagnosis.dto.*;
 import com.kuit.healthmate.diagnosis.gpt.domain.GptResult;
 import com.kuit.healthmate.diagnosis.gpt.repository.GptResultRepository;
 import com.kuit.healthmate.diagnosis.life.domain.LifeStyleQuestionnaire;
@@ -20,6 +17,8 @@ import com.kuit.healthmate.diagnosis.sleep.repository.SleepPatternQuestionnaireR
 import com.kuit.healthmate.diagnosis.symtom.domain.SymptomInfo;
 import com.kuit.healthmate.diagnosis.symtom.domain.SymptomQuestionnaire;
 import com.kuit.healthmate.diagnosis.symtom.repository.SymptomQuestionnaireRepository;
+import com.kuit.healthmate.global.exception.DiagnosisException;
+import com.kuit.healthmate.global.response.ExceptionResponseStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -40,10 +40,10 @@ public class DiagnosisService {
     private final SymptomQuestionnaireRepository symptomQuestionnaireRepository;
     private final GptResultRepository gptResultRepository;
     private final GptService gptService;
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Transactional
-    public Boolean saveDiagnosisResult(PostDiagnosisRequest postDiagnosisRequest) {
-        //추후에 userId 로 매핑시켜주기
+    public Boolean saveDiagnosisResult(Long userId,PostDiagnosisRequest postDiagnosisRequest) {
         LifeStyleDto lifeStyleDto =  postDiagnosisRequest.getLifeStyleDto();
         SleepPatternDto sleepPatternDto = postDiagnosisRequest.getSleepPatternDto();
         MealPatternDto  mealPatternDto = postDiagnosisRequest.getMealPatternDto();
@@ -51,7 +51,8 @@ public class DiagnosisService {
         int listSize  = symptomInfoList.size();
         SymptomQuestionnaire symptomQuestionnaire = null;
 
-        SymptomQuestionnaire.SymptomQuestionnaireBuilder builder = SymptomQuestionnaire.builder();
+        SymptomQuestionnaire.SymptomQuestionnaireBuilder builder = SymptomQuestionnaire.builder()
+                .userId(userId).user_name(postDiagnosisRequest.getUserName());
         if (listSize > 0) {
             builder.first(symptomInfoList.get(0));
         }
@@ -66,6 +67,8 @@ public class DiagnosisService {
 
         //객체 생성
         LifeStyleQuestionnaire lifeStyleQuestionnaire = LifeStyleQuestionnaire.builder()
+                .userId(userId)
+                .user_name(postDiagnosisRequest.getUserName())
                 .environmentScore(lifeStyleDto.getEnvironmentScore())
                 .focusTimeScore(lifeStyleDto.getFocusTimeScore())
                 .exerciseTimeScore(lifeStyleDto.getExerciseTimeScore())
@@ -73,6 +76,8 @@ public class DiagnosisService {
                 .postureDiscomfortScore(lifeStyleDto.getPostureDiscomfortScore())
                 .timestamp(LocalDateTime.now()).build();
         MealPatternQuestionnaire mealPatternQuestionnaire = MealPatternQuestionnaire.builder()
+                .userId(userId)
+                .user_name(postDiagnosisRequest.getUserName())
                 .mealDurationScore(mealPatternDto.getMealDurationScore())
                 .mealRemark(mealPatternDto.getMealRemark())
                 .foodType(mealPatternDto.getFoodType())
@@ -82,6 +87,8 @@ public class DiagnosisService {
                 .mealTimeScore(mealPatternDto.getMealTimeScore())
                 .timestamp(LocalDateTime.now()).build();
         SleepPatternQuestionnaire sleepPatternQuestionnaire = SleepPatternQuestionnaire.builder()
+                .userId(userId)
+                .user_name(postDiagnosisRequest.getUserName())
                 .sleepDurationScore(sleepPatternDto.getSleepDurationScore())
                 .morningFatigueScore(sleepPatternDto.getMorningFatigueScore())
                 .sleepRemarkScore(sleepPatternDto.getSleepRemarkScore())
@@ -96,29 +103,22 @@ public class DiagnosisService {
         return true;
     }
 
-    public void saveGptResult(LifeStyleResponse lifeStyleToday, MealPatternResponse mealPatternToday, SleepPatternResponse sleepPatternToday) {
+    public void saveGptResult(Long userId,LifeStyleResponse lifeStyleToday, MealPatternResponse mealPatternToday, SleepPatternResponse sleepPatternToday) {
         GptResult gptResult = GptResult.builder()
+                .userId(userId)
                 .date(LocalDate.now())
                 .lifeStyleToday(lifeStyleToday)
                 .mealPatternToday(mealPatternToday)
                 .sleepPatternToday(sleepPatternToday).build();
         gptResultRepository.save(gptResult);
     }
-    public LifeStyleResponse createMonthlyDiagnosis(Long userId, List<LifeStyleQuestionnaire> dailyDiagnoses) {
-        //gptRequest 만들고
-        LifeStyleMonthFormatter lifeStyleMonthFormatter = new LifeStyleMonthFormatter();
-        Map<String, String> formattedResponse = lifeStyleMonthFormatter.formatResponse(dailyDiagnoses);
-        //gptservice 호출
-        for (String s : formattedResponse.values()) {
-            String response = gptService.getPrompt(s);
-            if (response != null) {
-                log.info(response);
-                //life = lifeStyleTodayParser.parse(response);
-                // 추가 로직: life 객체를 저장하거나 사용
-            }
-        }
-        // 결과를 parser로 엔티티로 변환
 
-        return null;
+    public DiagnosisResponseDTO findDayDiagnosisResult(Long userId, String date) {
+        LocalDate formatDate = LocalDate.parse(date, FORMATTER);
+        GptResult gptResult = gptResultRepository.findDiagnosisResultByUserIdAndDate(userId,formatDate);
+        if(gptResult == null){
+            throw new DiagnosisException(ExceptionResponseStatus.INVALID_DIAGNOSIS_VALUE,"진단 결과가 존재하지 않습니다");
+        }
+        return new DiagnosisResponseDTO(formatDate,gptResult.getLifeStyleToday(),gptResult.getMealPatternToday(),gptResult.getSleepPatternToday());
     }
 }

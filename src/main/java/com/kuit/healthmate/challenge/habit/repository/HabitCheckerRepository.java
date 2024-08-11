@@ -5,10 +5,10 @@ import com.kuit.healthmate.challenge.habit.domain.HabitChecker;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Repository
 public interface HabitCheckerRepository extends JpaRepository<HabitChecker,Long> {
-    Optional<HabitChecker> findByHabitAndCreatedAt(Habit habit, LocalDateTime day);
+    Optional<HabitChecker> findByHabitAndCreatedAt(Habit habit, LocalDate day);
 }

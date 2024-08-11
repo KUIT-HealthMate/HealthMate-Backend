@@ -57,13 +57,10 @@ public class MealPatternQuestionnaire implements Serializable {
     @Column(nullable = false)
     private LocalDateTime timestamp;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id")
-    @JsonIgnore
-    private User user;
+    private Long userId;
 
     @Builder
-    public MealPatternQuestionnaire(int mealTimeScore, int foodType, int regularMealTimeScore, int mealDurationScore,int seasoningConsumptionScore, int screenUsage, int mealRemark,LocalDateTime timestamp, User user){
+    public MealPatternQuestionnaire(int mealTimeScore, int foodType, int regularMealTimeScore, int mealDurationScore,int seasoningConsumptionScore, int screenUsage, int mealRemark,LocalDateTime timestamp, Long userId,String user_name){
         this.mealTimeScore = mealTimeScore;
         this.foodType =foodType;
         this.regularMealTimeScore =regularMealTimeScore;
@@ -72,7 +69,8 @@ public class MealPatternQuestionnaire implements Serializable {
         this.screenUsage = screenUsage;
         this.mealRemark = mealRemark;
         this.timestamp = timestamp;
-        this.user= user;
+        this.userId= userId;
+        this.user_name = user_name;
     }
 
     // 총합 계산 메소드
