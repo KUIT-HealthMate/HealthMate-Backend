@@ -2,13 +2,11 @@ package com.kuit.healthmate.challenge.habit.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+@ToString
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -38,13 +36,5 @@ public class HabitChecker {
         this.createdAt = createdAt;
         this.status = status;
         this.habit = habit;
-    }
-    @Override
-    public String toString() {
-        return "HabitChecker{" +
-                "id=" + id +
-                ", createdAt=" + createdAt +
-                ", status=" + status +
-                '}';
     }
 }

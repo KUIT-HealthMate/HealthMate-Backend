@@ -1,6 +1,8 @@
 package com.kuit.healthmate.diagnosis.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kuit.healthmate.diagnosis.symtom.domain.SymptomInfo;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
@@ -9,8 +11,6 @@ import java.util.List;
 
 @Getter
 public class PostDiagnosisRequest {
-    @NotNull(message = "userId: {Notnull}")
-    Long userId;
     @NotNull(message = "userName: {Notnull}")
     String userName;
 
@@ -26,7 +26,8 @@ public class PostDiagnosisRequest {
     @NotNull(message = "symptomInfos: {Notnull}")
     List<SymptomInfo> symptomInfos;
 
-    @NotNull(message = "date: {Notnull}")
+    @NotBlank(message = "date: {NotBlank}")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     LocalDate date;
 
 }

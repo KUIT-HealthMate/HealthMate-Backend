@@ -4,13 +4,14 @@ import com.kuit.healthmate.challenge.common.domain.Status;
 import com.kuit.healthmate.challenge.habit.domain.Habit;
 import com.kuit.healthmate.challenge.habit.domain.HabitChecker;
 import com.kuit.healthmate.challenge.habit.domain.HabitTime;
-import com.kuit.healthmate.challenge.habit.dto.GetHabitResponse;
+import com.kuit.healthmate.challenge.habit.dto.response.PostCreateHabitResponse;
 import com.kuit.healthmate.challenge.habit.repository.HabitCheckerRepository;
 import com.kuit.healthmate.challenge.habit.repository.HabitRepository;
 import com.kuit.healthmate.challenge.habit.repository.HabitTimeRepository;
-import com.kuit.healthmate.challenge.habit.dto.PatchEditHabitRequest;
-import com.kuit.healthmate.challenge.habit.dto.PostCreateHabitRequest;
+import com.kuit.healthmate.challenge.habit.dto.request.PatchEditHabitRequest;
+import com.kuit.healthmate.challenge.habit.dto.request.PostCreateHabitRequest;
 import com.kuit.healthmate.challenge.habit.dto.SelectedTime;
+import com.kuit.healthmate.challenge.supplement.domain.SupplementTime;
 import com.kuit.healthmate.global.exception.HabitException;
 import com.kuit.healthmate.global.response.ExceptionResponseStatus;
 import lombok.RequiredArgsConstructor;
@@ -33,23 +34,28 @@ public class HabitService {
     private final HabitCheckerRepository habitCheckerRepository;
 
     @Transactional
-    public Habit createHabit(PostCreateHabitRequest postCreateHabitRequest){
-        //user 객체 생성하여 습관에 포함시켜 저장하는 방식으로 수정해야함
+    public PostCreateHabitResponse createHabit(PostCreateHabitRequest postCreateHabitRequest, Long userId){
+        //userID 주입
         List<SelectedTime> times = postCreateHabitRequest.getTimes();
         Habit habit = Habit.builder()
                 .name(postCreateHabitRequest.getName())
-                .memo(postCreateHabitRequest.getMemo())
                 .status(String.valueOf(Status.ACTIVE))
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .selectedDay(postCreateHabitRequest.getSelectedDay())
+                .userId(userId)
                 .build();
         log.info(habit.toString());
-        for(SelectedTime time : times){
-            HabitTime habitTime = HabitTime.builder().habit(habit).time(time.getTime()).build();
-            habitTimeRepository.save(habitTime);
-        }
-        return habitRepository.save(habit);
+        habitRepository.save(habit);
+        List<HabitTime> habitTimes = postCreateHabitRequest.getTimes()
+                .stream()
+                .map(time -> new HabitTime(habit, time.toLocalTime()))
+                .toList();
+        habitTimeRepository.saveAll(habitTimes);
+
+        habit.setHabitTimes(habitTimes);
+
+        return new PostCreateHabitResponse(habit,postCreateHabitRequest.getTimes());
     }
 
     //특정 날짜 기준 조회 ,,당일 or 특정 날짜
@@ -68,17 +74,16 @@ public class HabitService {
     }
 
     @Transactional
-    public void updateHabit(PatchEditHabitRequest patchEditHabitRequest){
-        Long habitId = patchEditHabitRequest.getHabitId();
+    public void updateHabit(Long habitId,PatchEditHabitRequest patchEditHabitRequest){
         Habit habit = habitRepository.findById(habitId)
                 .orElseThrow(() -> new HabitException(ExceptionResponseStatus.NOT_EXIST_HABIT));
-        habitRepository.updateHabit(habitId, patchEditHabitRequest.getName(), patchEditHabitRequest.getMemo(), LocalDateTime.now(), patchEditHabitRequest.getSelectedDay());
+        habitRepository.updateHabit(habitId, patchEditHabitRequest.getName(),  LocalDateTime.now(), patchEditHabitRequest.getSelectedDay());
         List<SelectedTime> times = patchEditHabitRequest.getTimes();
         // 기존 HabitTime 삭제하고
         // 새로운 HabitTime 추가
         habitTimeRepository.deleteAll(habit.getHabitTime());
         for (SelectedTime time : times) {
-            HabitTime habitTime = HabitTime.builder().habit(habit).time(time.getTime()).build();
+            HabitTime habitTime = new HabitTime(habit, time.toLocalTime());
             habitTimeRepository.save(habitTime);
         }
     }
@@ -93,14 +98,13 @@ public class HabitService {
         Habit habit = habitRepository.findById(habitId)
                 .orElseThrow(() -> new HabitException(ExceptionResponseStatus.NOT_EXIST_HABIT));
 
-        HabitChecker habitChecker = habitCheckerRepository.findByHabitAndCreatedAt(habit, LocalDateTime.now())
+        HabitChecker habitChecker = habitCheckerRepository.findByHabitAndCreatedAt(habit, LocalDate.now())
                 .map( it ->{
                     it.toggleStatus();
                     return  it;
                         }
                 )
                 .orElseGet(() -> HabitChecker.builder()
-                        .id(habitId)
                         .createdAt(date)
                         .status(Boolean.TRUE)
                         .habit(habit).build());

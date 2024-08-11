@@ -30,6 +30,7 @@ public class CommonChallengeController {
      *
      * @return 해당 날짜의 챌린지 정보
      */
+    @Deprecated
     @GetMapping("/by-day")
     public ApiResponse<ChallengeResponse> getChallengesByDay(@RequestBody @Valid ChallengeByTodayRequest challenge) {
         LocalDate date = LocalDate.parse(challenge.getDate(), FORMATTER);
@@ -40,6 +41,7 @@ public class CommonChallengeController {
      * 오늘의 챌린지를 가져옵니다.
      * @return 금일의 챌린지 정보
      */
+    @Deprecated
     @GetMapping("/today/{userId}")
     public ApiResponse<ChallengeResponse> getChallengesByToday(@PathVariable Long userId) {
         log.info("");
@@ -50,6 +52,7 @@ public class CommonChallengeController {
      * 금주의 챌린지를 가져옵니다.
      * @return 금일의 챌린지 정보
      */
+    @Deprecated
     @GetMapping("/week")
     public ApiResponse<ChallengeByPeriodResponse> getChallengesByWeek(@RequestBody @Valid ChallengeRequest challengeRequest) {
         LocalDate dateStart = LocalDate.parse(challengeRequest.getStartDate(), FORMATTER);
@@ -63,6 +66,7 @@ public class CommonChallengeController {
      * 이번 달의 챌린지를 가져옵니다.
      * @return 금일의 챌린지 정보
      */
+    @Deprecated
     @GetMapping("/month")
     public ApiResponse<ChallengeByPeriodResponse> getChallengesByMonth(@RequestBody @Valid ChallengeRequest challengeRequest) {
         LocalDate dateStart = LocalDate.parse(challengeRequest.getStartDate(), FORMATTER);

@@ -50,17 +50,14 @@ public class LifeStyleQuestionnaire implements Serializable {
     private LocalDateTime timestamp;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id")
-    @JsonIgnore
-    private User user;
+    private Long userId;
 
     // 총합 계산 메소드
     public int calculateTotalScore() {
         return environmentScore + focusTimeScore + coffeeConsumptionScore + exerciseTimeScore + postureDiscomfortScore;
     }
     @Builder
-    public LifeStyleQuestionnaire(String user_name, int environmentScore, int focusTimeScore, int coffeeConsumptionScore, int exerciseTimeScore, int postureDiscomfortScore, LocalDateTime timestamp, User user){
+    public LifeStyleQuestionnaire(String user_name, int environmentScore, int focusTimeScore, int coffeeConsumptionScore, int exerciseTimeScore, int postureDiscomfortScore, LocalDateTime timestamp, Long userId){
         this.user_name = user_name;
         this.environmentScore = environmentScore;
         this.focusTimeScore = focusTimeScore;
@@ -68,7 +65,7 @@ public class LifeStyleQuestionnaire implements Serializable {
         this.exerciseTimeScore = exerciseTimeScore;
         this.postureDiscomfortScore = postureDiscomfortScore;
         this.timestamp = timestamp;
-        this.user = user;
+        this.userId = userId;
     }
 
 }

@@ -17,19 +17,19 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class GPTController {
     private final GptService gptService;
-
+    @Deprecated
     @GetMapping("/chat")
     public ApiResponse<LifeStyleResponse> chat(@RequestBody PostDiagnosisRequest request) {
 
         return new ApiResponse<>(gptService.getPromptByLifeStyle(request));
     }
-
+    @Deprecated
     @GetMapping("/chat2")
     public ApiResponse<MealPatternResponse> chat2(@RequestBody PostDiagnosisRequest request) {
 
         return new ApiResponse<>(gptService.getPromptByMeal(request));
     }
-
+    @Deprecated
     @GetMapping("/chat3")
     public ApiResponse<SleepPatternResponse> chat3(@RequestBody PostDiagnosisRequest request) {
 
