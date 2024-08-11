@@ -1,4 +1,4 @@
-package com.kuit.healthmate.coin.domain;
+package com.kuit.healthmate.user.domain.coin.domain;
 
 
 import jakarta.persistence.*;

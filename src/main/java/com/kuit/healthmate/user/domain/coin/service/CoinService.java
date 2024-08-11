@@ -1,9 +1,9 @@
-package com.kuit.healthmate.coin.service;
+package com.kuit.healthmate.user.domain.coin.service;
 
 
 import com.kuit.healthmate.challenge.supplement.repository.UserRepository;
-import com.kuit.healthmate.coin.domain.CoinTransaction;
-import com.kuit.healthmate.coin.repository.CoinTransactionRepository;
+import com.kuit.healthmate.user.domain.coin.domain.CoinTransaction;
+import com.kuit.healthmate.user.domain.coin.repository.CoinTransactionRepository;
 import com.kuit.healthmate.user.domain.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
