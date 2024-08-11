@@ -8,6 +8,7 @@ import com.kuit.healthmate.diagnosis.life.domain.LifeStyleQuestionnaire;
 import com.kuit.healthmate.diagnosis.meal.domain.MealPatternQuestionnaire;
 import com.kuit.healthmate.diagnosis.sleep.domain.SleepPatternQuestionnaire;
 import com.kuit.healthmate.diagnosis.symtom.domain.SymptomQuestionnaire;
+import com.kuit.healthmate.user.Gender;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -39,6 +40,15 @@ public class User {
 
     @Column(nullable = true)
     private String profile;
+
+    @Column(nullable = true)
+    private Boolean isAlarm;
+
+    @Column(nullable = true)
+    private Integer age;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     @OneToMany
     private List<Habit> habits = new ArrayList<>();
@@ -85,10 +95,11 @@ public class User {
     }
 
     @Builder
-    public User(Long id, String username, String profile, String email, String nickname,LocalDateTime createdAt, int balance) {
+    public User(Long id, String username, String profile, Boolean isAlarm, String email, String nickname,LocalDateTime createdAt,int balance) {
         this.id = id;
         this.username = username;
         this.profile = profile;
+        this.isAlarm = isAlarm;
         this.email = email;
         this.nickname = nickname;
         this.createdAt = createdAt;
@@ -101,5 +112,14 @@ public class User {
 
     public void editProfile(String profile) {
         this.profile = profile;
+    }
+
+    public void editAlarmStatus(Boolean isAlarm) {
+        this.isAlarm = isAlarm;
+    }
+
+    public void setAdditionalInfo(int age, Gender gender) {
+        this.age = age;
+        this.gender = gender;
     }
 }
