@@ -37,6 +37,9 @@ jobs:
           JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
           JWT_EXPIRED_IN: ${{ secrets.JWT_EXPIRED_IN }}
 
+          ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          REGION: ${{ secrets.REGION }}
         run: ./gradlew build
 
       - name: Publish Test Results

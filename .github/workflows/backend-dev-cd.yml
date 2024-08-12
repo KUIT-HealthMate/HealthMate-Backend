@@ -39,6 +39,10 @@ jobs:
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
           JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
           JWT_EXPIRED_IN: ${{ secrets.JWT_EXPIRED_IN }}
+
+          ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          REGION: ${{ secrets.REGION }}
         run: ./gradlew build
 
         # dockerfile을 통해 이미지를 빌드하고, 이를 docker repo로 push
@@ -53,6 +57,9 @@ jobs:
             --build-arg CLIENT_SECRET=${{ secrets.CLIENT_SECRET }} \
             --build-arg JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} \
             --build-arg JWT_EXPIRED_IN=${{ secrets.JWT_EXPIRED_IN }} \
+            --build-arg ACCESS_KEY=${{ secrets.ACCESS_KEY }} \
+            --build-arg SECRET_KEY=${{ secrets.SECRET_KEY }} \
+            --build-arg REGION=${{ secrets.REGION }} \
           -f ./infra/docker/Dockerfile -t ${{ secrets.DOCKER_REPO }} .
           docker push ${{ secrets.DOCKER_REPO }}
 
