@@ -8,7 +8,9 @@ import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -58,4 +60,15 @@ public class Habit {
         this.habitTime = habitTime;
     }
 
+    public Map<String, Boolean> getWeeklyIntakeFrequency(){
+        String[] days = {"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"};
+
+        Map<String, Boolean> intakeFrequency = new HashMap<>();
+
+        for (int i = 0; i < 7; i++) {
+            char bit = this.selectedDay.charAt(i);
+            intakeFrequency.put(days[i], bit == '1');
+        }
+        return intakeFrequency;
+    }
 }
