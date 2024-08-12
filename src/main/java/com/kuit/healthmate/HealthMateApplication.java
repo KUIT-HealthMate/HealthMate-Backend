@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-@EnableBatchProcessing
 public class HealthMateApplication {
 
     public static void main(String[] args) {

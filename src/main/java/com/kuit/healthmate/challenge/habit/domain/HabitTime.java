@@ -6,6 +6,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalTime;
+
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table
@@ -19,10 +21,10 @@ public class HabitTime {
     @JoinColumn(name = "habit_id")
     private Habit habit;
 
-    private String time;
+    private LocalTime time;
 
-    @Builder
-    public HabitTime( Habit habit, String time){
+
+    public HabitTime( Habit habit, LocalTime time){
         this.habit = habit;
         this.time = time;
     }

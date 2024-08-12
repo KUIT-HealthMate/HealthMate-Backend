@@ -53,7 +53,7 @@ spring:
 
 secret:
   jwt-secret-key: ${JWT_SECRET_KEY}
-  jwt-expired-in: ${JWT_EXPIRES_IN}
+  jwt-expired-in: ${JWT_EXPIRED_IN}
 
 
 springdoc:
@@ -142,16 +142,15 @@ spring:
             token-uri: https://kauth.kakao.com/oauth/token
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
-
-secret:
-  jwt-secret-key: ${JWT_SECRET_KEY}
-  jwt-expired-in: ${JWT_EXPIRES_IN}
-
   sql:
     init:
       data-locations: classpath*:test.sql
       mode: always
       platform: h2
+
+secret:
+  jwt-secret-key: ${JWT_SECRET_KEY}
+  jwt-expired-in: ${JWT_EXPIRED_IN}
 
 springdoc:
   packages-to-scan: com.kuit.healthmate

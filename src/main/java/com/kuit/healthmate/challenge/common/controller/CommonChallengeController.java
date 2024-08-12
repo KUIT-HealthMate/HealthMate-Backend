@@ -1,5 +1,6 @@
 package com.kuit.healthmate.challenge.common.controller;
 
+import com.kuit.healthmate.auth.jwt.Jwt;
 import com.kuit.healthmate.challenge.common.dto.request.ChallengeByTodayRequest;
 import com.kuit.healthmate.challenge.common.dto.response.ChallengeByPeriodResponse;
 import com.kuit.healthmate.challenge.common.dto.request.ChallengeRequest;
@@ -30,18 +31,21 @@ public class CommonChallengeController {
      *
      * @return 해당 날짜의 챌린지 정보
      */
+    @Deprecated
     @GetMapping("/by-day")
-    public ApiResponse<ChallengeResponse> getChallengesByDay(@RequestBody @Valid ChallengeByTodayRequest challenge) {
-        LocalDate date = LocalDate.parse(challenge.getDate(), FORMATTER);
-        return new ApiResponse<>(commonChallengeService.getChallengesForDay(challenge.getUserId(), date));
+    // @Jwt Long userId , requestParam 또는 쿼리 스트링
+    public ApiResponse<ChallengeResponse> getChallengesByDay(@Jwt Long userId, @RequestParam("date") String dateString) {
+        LocalDate date = LocalDate.parse(dateString, FORMATTER);
+        return new ApiResponse<>(commonChallengeService.getChallengesForDay(userId, date));
     }
 
     /**
      * 오늘의 챌린지를 가져옵니다.
      * @return 금일의 챌린지 정보
      */
-    @GetMapping("/today/{userId}")
-    public ApiResponse<ChallengeResponse> getChallengesByToday(@PathVariable Long userId) {
+    @Deprecated
+    @GetMapping("/today")
+    public ApiResponse<ChallengeResponse> getChallengesByToday(@Jwt Long userId) {
         log.info("");
         return new ApiResponse<>(commonChallengeService.getChallengesForToday(userId));
     }
@@ -50,25 +54,29 @@ public class CommonChallengeController {
      * 금주의 챌린지를 가져옵니다.
      * @return 금일의 챌린지 정보
      */
+    @Deprecated
     @GetMapping("/week")
-    public ApiResponse<ChallengeByPeriodResponse> getChallengesByWeek(@RequestBody @Valid ChallengeRequest challengeRequest) {
-        LocalDate dateStart = LocalDate.parse(challengeRequest.getStartDate(), FORMATTER);
-        LocalDate dateEnd = LocalDate.parse(challengeRequest.getEndDate(), FORMATTER);
+    public ApiResponse<ChallengeByPeriodResponse> getChallengesByWeek(@Jwt Long userId,
+                                                                      @RequestParam("startDate") String startDate,
+                                                                      @RequestParam("endDate") String endDate) {
+        LocalDate dateStart = LocalDate.parse(startDate, FORMATTER);
+        LocalDate dateEnd = LocalDate.parse(endDate, FORMATTER);
 
-        return new ApiResponse<>(commonChallengeService.getChallengesForWeek(challengeRequest.getUserId(),
-                dateStart, dateEnd));
+        return new ApiResponse<>(commonChallengeService.getChallengesForWeek(userId, dateStart, dateEnd));
     }
 
     /**
      * 이번 달의 챌린지를 가져옵니다.
      * @return 금일의 챌린지 정보
      */
+    @Deprecated
     @GetMapping("/month")
-    public ApiResponse<ChallengeByPeriodResponse> getChallengesByMonth(@RequestBody @Valid ChallengeRequest challengeRequest) {
-        LocalDate dateStart = LocalDate.parse(challengeRequest.getStartDate(), FORMATTER);
-        LocalDate dateEnd = LocalDate.parse(challengeRequest.getEndDate(), FORMATTER);
-        return new ApiResponse<>(commonChallengeService.getChallengesForMonth(challengeRequest.getUserId(),
-                dateStart, dateEnd));
+    public ApiResponse<ChallengeByPeriodResponse> getChallengesByMonth(@Jwt Long userId,
+                                                                       @RequestParam("startDate") String startDate,
+                                                                       @RequestParam("endDate") String endDate) {
+        LocalDate dateStart = LocalDate.parse(startDate, FORMATTER);
+        LocalDate dateEnd = LocalDate.parse(endDate, FORMATTER);
+        return new ApiResponse<>(commonChallengeService.getChallengesForMonth(userId, dateStart, dateEnd));
     }
 
 }

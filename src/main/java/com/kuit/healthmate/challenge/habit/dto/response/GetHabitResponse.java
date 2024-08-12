@@ -1,4 +1,4 @@
-package com.kuit.healthmate.challenge.habit.dto;
+package com.kuit.healthmate.challenge.habit.dto.response;
 
 import com.kuit.healthmate.challenge.habit.domain.Habit;
 import com.kuit.healthmate.challenge.habit.domain.HabitTime;
@@ -14,13 +14,11 @@ import java.util.List;
 public class GetHabitResponse {
     public GetHabitResponse(Habit habit) {
         this.name = habit.getName();
-        this.memo = habit.getMemo();
         this.selectedDay = habit.getSelectedDay();
         this.habitTimes = getHabitTimes();
     }
 
     private String name;
-    private String memo;
     private String selectedDay;
     private List<HabitTime> habitTimes;
 }
