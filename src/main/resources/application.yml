@@ -86,8 +86,8 @@ cloud:
       static: ${REGION}
     stack:
       auto: false
-    aws3:
-      bucketName: ${BUCKET_NAME};
+    s3:
+      bucketName: healthmate-backend
 ---
 spring:
   config:
