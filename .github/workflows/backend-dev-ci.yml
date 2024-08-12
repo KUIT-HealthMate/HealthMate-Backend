@@ -35,7 +35,7 @@ jobs:
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
           JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
-          JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN }}
+          JWT_EXPIRED_IN: ${{ secrets.JWT_EXPIRED_IN }}
 
         run: ./gradlew build
 

@@ -53,7 +53,7 @@ spring:
 
 secret:
   jwt-secret-key: ${JWT_SECRET_KEY}
-  jwt-expired-in: ${JWT_EXPIRES_IN}
+  jwt-expired-in: ${JWT_EXPIRED_IN}
 
 
 springdoc:
@@ -133,7 +133,7 @@ spring:
 
 secret:
   jwt-secret-key: ${JWT_SECRET_KEY}
-  jwt-expired-in: ${JWT_EXPIRES_IN}
+  jwt-expired-in: ${JWT_EXPIRED_IN}
 
   sql:
     init:
