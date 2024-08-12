@@ -30,7 +30,7 @@ public class UserController {
 
     @PatchMapping("/edit/profile")
     public ApiResponse<Object> editProfile(@Jwt Long userId, @RequestBody EditProfileRequest editProfileRequest) {
-        userService.editProfile(userId, editProfileRequest.getProfile());
+        userService.editProfile(userId, editProfileRequest.getProfileImage());
 
         return new ApiResponse<>(null);
     }
