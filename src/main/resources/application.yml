@@ -76,6 +76,18 @@ openai:
   api:
     url: ${URL} # 해당 api url ex) https://api.openai.com/v1/chat/completions
     key: ${API_KEY} # 발급 받은 key
+
+cloud:
+  aws:
+    credentials:
+      access-key: ${ACCESS_KEY}
+      secret-key: ${SECRET_KEY}
+    region:
+      static: ${REGION}
+    stack:
+      auto: false
+    aws3:
+      bucketName: ${BUCKET_NAME};
 ---
 spring:
   config:
