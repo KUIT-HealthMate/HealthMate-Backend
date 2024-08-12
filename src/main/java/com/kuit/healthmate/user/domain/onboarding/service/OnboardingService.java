@@ -16,9 +16,9 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class OnboardingService {
-    private OnboardingInfoRepository onboardingInfoRepository;
+    private final OnboardingInfoRepository onboardingInfoRepository;
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
     @Transactional
     public OnboardingInfo saveOnboardingInfo(Long userId, int gender, int ageGroup, List<String> symptoms, int purpose) {
         User user = userRepository.findById(userId)
@@ -31,7 +31,7 @@ public class OnboardingService {
         }
 
         OnboardingInfo onboardingInfo = OnboardingInfo.builder()
-                .user(user)
+                .user(userId)
                 .gender(gender)
                 .ageGroup(ageGroup)
                 .symptoms(symptoms)

@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CoinService {
-    private static final int COIN_AMOUNT = 10; // 일단 10 으로 설정
+    private static final Long COIN_AMOUNT = 10L; // 일단 10 으로 설정
     private CoinTransactionRepository coinTransactionRepository;
 
     private UserRepository userRepository;

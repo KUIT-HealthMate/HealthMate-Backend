@@ -25,14 +25,14 @@ public class CoinTransaction {
     @Enumerated(EnumType.STRING)
     private TransactionType transactionType;
 
-    private int coinAmount; // 적립 또는 사용된 코인
+    private Long coinAmount; // 적립 또는 사용된 코인
 
     private String activity; // 활동 이름
 
     private LocalDateTime timestamp;
 
     @Builder
-    public CoinTransaction(Long userId, TransactionType transactionType, int coinAmount, String activity) {
+    public CoinTransaction(Long userId, TransactionType transactionType, Long coinAmount, String activity) {
         this.userId = userId;
         this.transactionType = transactionType;
         this.coinAmount = coinAmount;

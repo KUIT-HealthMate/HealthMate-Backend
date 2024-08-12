@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.List;
 
@@ -33,13 +34,11 @@ public class OnboardingInfo {
     @Column(nullable = false)
     private int purpose; // 1: 루틴, 2: 질환 예방, 3: 정보 공유, 4: 건강 상태 파악, 5: 약 복용 관리, 6: 생활습관 관리
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    private Long userId;
 
     @Builder
-    public OnboardingInfo(User user, int gender, int ageGroup, List<String> symptoms, int purpose) {
-        this.user = user;
+    public OnboardingInfo(Long user, int gender, int ageGroup, List<String> symptoms, int purpose) {
+        this.userId = user;
         this.gender = gender;
         this.ageGroup = ageGroup;
         this.symptoms = symptoms;
