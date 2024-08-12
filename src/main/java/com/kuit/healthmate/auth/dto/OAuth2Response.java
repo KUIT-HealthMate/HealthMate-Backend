@@ -8,4 +8,6 @@ public interface OAuth2Response {
     String getProviderId();
 
     String getNickname();
+
+    String getProfileImage();
 }
