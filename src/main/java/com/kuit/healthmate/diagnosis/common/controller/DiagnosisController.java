@@ -17,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.concurrent.CompletableFuture;
 
 import static com.kuit.healthmate.global.response.ExceptionResponseStatus.INVALID_DIAGNOSIS_VALUE;
 import static com.kuit.healthmate.global.response.ExceptionResponseStatus.INVALID_HABIT_VALUE;
@@ -34,9 +35,19 @@ public class DiagnosisController {
             throw new DiagnosisException(INVALID_DIAGNOSIS_VALUE, getErrorMessages(bindingResult));
         }
         diagnosisService.saveDiagnosisResult(userId,postDiagnosisRequest); //DB에 저장
-        LifeStyleResponse lifeStyleToday = gptService.getPromptByLifeStyle(postDiagnosisRequest);
-        MealPatternResponse mealPatternToday =  gptService.getPromptByMeal(postDiagnosisRequest);
-        SleepPatternResponse sleepPatternToday =  gptService.getPromptBySleep(postDiagnosisRequest); //GPT 호출
+        // GPT 호출 비동기 처리
+        CompletableFuture<LifeStyleResponse> lifeStyleFuture = gptService.getPromptByLifeStyle(postDiagnosisRequest);
+        CompletableFuture<MealPatternResponse> mealPatternFuture = gptService.getPromptByMeal(postDiagnosisRequest);
+        CompletableFuture<SleepPatternResponse> sleepPatternFuture = gptService.getPromptBySleep(postDiagnosisRequest);
+
+        // 모든 비동기 작업 완료 대기
+        CompletableFuture.allOf(lifeStyleFuture, mealPatternFuture, sleepPatternFuture).join();
+
+        // 비동기 결과 가져오기
+        LifeStyleResponse lifeStyleToday = lifeStyleFuture.join();
+        MealPatternResponse mealPatternToday = mealPatternFuture.join();
+        SleepPatternResponse sleepPatternToday = sleepPatternFuture.join();
+
         diagnosisService.saveGptResult(userId,lifeStyleToday,mealPatternToday,sleepPatternToday);
         DiagnosisResponseDTO diagnosisResponseDTO = new DiagnosisResponseDTO(LocalDate.now(),lifeStyleToday,mealPatternToday,sleepPatternToday);
         return new ApiResponse<>(diagnosisResponseDTO);

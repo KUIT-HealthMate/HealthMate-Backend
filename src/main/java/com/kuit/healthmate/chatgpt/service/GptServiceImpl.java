@@ -19,6 +19,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.concurrent.CompletableFuture;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -33,7 +35,7 @@ public class GptServiceImpl implements GptService{
     private String apiUrl;
 
     @Override
-    public LifeStyleResponse getPromptByLifeStyle(PostDiagnosisRequest requestDto) {
+    public CompletableFuture<LifeStyleResponse> getPromptByLifeStyle(PostDiagnosisRequest requestDto) {
         LifeStyleTodayParser lifeStyleTodayParser = new LifeStyleTodayParser();
         LifeStyleTodayFormatter lifeStyleTodayFormatter = new LifeStyleTodayFormatter();
 
@@ -48,14 +50,13 @@ public class GptServiceImpl implements GptService{
         log.info(response.getChoices().get(0).getMessage().getContent());
 
         if (response == null || response.getChoices() == null || response.getChoices().isEmpty()) {
-            return null;
+            return CompletableFuture.completedFuture(null);
         }
 
-        return lifeStyleTodayParser.parse(response.getChoices().get(0).getMessage().getContent());
+        return CompletableFuture.completedFuture(lifeStyleTodayParser.parse(response.getChoices().get(0).getMessage().getContent()));
     }
-
     @Override
-    public MealPatternResponse getPromptByMeal(PostDiagnosisRequest requestDto) {
+    public CompletableFuture<MealPatternResponse> getPromptByMeal(PostDiagnosisRequest requestDto) {
         MealPatternTodayFormatter mealPatternTodayFormatter = new MealPatternTodayFormatter();
         MealPatternTodayParser mealPatternTodayParser = new MealPatternTodayParser();
 
@@ -70,16 +71,15 @@ public class GptServiceImpl implements GptService{
         log.info(response.getChoices().get(0).getMessage().getContent());
 
         if (response == null || response.getChoices() == null || response.getChoices().isEmpty()) {
-            return null;
+            return CompletableFuture.completedFuture(null);
         }
 
-        return mealPatternTodayParser.parse(response.getChoices().get(0).getMessage().getContent());
+        return CompletableFuture.completedFuture(mealPatternTodayParser.parse(response.getChoices().get(0).getMessage().getContent()));
 
     }
 
-
     @Override
-    public SleepPatternResponse getPromptBySleep(PostDiagnosisRequest requestDto) {
+    public CompletableFuture<SleepPatternResponse> getPromptBySleep(PostDiagnosisRequest requestDto) {
         SleepPatternTodayFormatter sleepPatternTodayFormatter = new SleepPatternTodayFormatter();
         SleepPatternParser sleepPatternParser = new SleepPatternParser();
 
@@ -94,10 +94,10 @@ public class GptServiceImpl implements GptService{
         log.info(response.getChoices().get(0).getMessage().getContent());
 
         if (response == null || response.getChoices() == null || response.getChoices().isEmpty()) {
-            return null;
+            return CompletableFuture.completedFuture(null);
         }
 
-        return sleepPatternParser.parse(response.getChoices().get(0).getMessage().getContent());
+        return CompletableFuture.completedFuture(sleepPatternParser.parse(response.getChoices().get(0).getMessage().getContent()));
     }
 
     @Override
