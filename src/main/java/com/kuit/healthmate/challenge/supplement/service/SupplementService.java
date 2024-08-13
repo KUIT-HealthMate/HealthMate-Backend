@@ -62,7 +62,7 @@ public class SupplementService {
                 () -> new SupplementException(ExceptionResponseStatus.INVALID_SUPPLEMENT_ID)
         );
 
-        supplementCheckerRepository.deleteSupplementCheckerBySupplementId(supplementId);
+        supplementTimeRepository.deleteAllBySupplementId(supplementId);
 
         supplement.update(supplementUpdateRequest.getName(), supplementUpdateRequest.getAfterMeal(),
                 supplementUpdateRequest.getSelectedDay(), supplementUpdateRequest.isBreakfast(),

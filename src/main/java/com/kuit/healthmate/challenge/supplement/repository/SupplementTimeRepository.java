@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SupplementTimeRepository extends JpaRepository<SupplementTime, Long> {
 
+    void deleteAllBySupplementId(Long supplementId);
 }
