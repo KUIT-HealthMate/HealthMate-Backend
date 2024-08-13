@@ -98,10 +98,6 @@ jobs:
             echo 'Healthcheck script created. Setting up cron job...'
             crontab -l | { cat; echo "* * * * * /home/ubuntu/healthcheck.sh"; } | crontab -
             echo 'Cron job setup complete.'
-            
-            # Cron 작업 등록
-            echo 'Setting up cron job...'
-            ssh -i ${{ secrets.KEY }} ubuntu@${{ secrets.HOST }} "(crontab -l ; echo '* * * * * /home/ubuntu/healthcheck.sh') | crontab -"
 
       - name: Notify
         uses: actions/github-script@v5
