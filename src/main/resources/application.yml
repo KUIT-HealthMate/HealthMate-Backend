@@ -27,6 +27,8 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
+        show-sql: true
+        format-sql: true
 
   security:
     oauth2:
@@ -114,6 +116,8 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
+        show-sql: true
+        format-sql: true
 
   security:
     oauth2:
