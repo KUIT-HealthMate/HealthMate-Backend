@@ -42,6 +42,10 @@ jobs:
           MYSQL_URL: ${{ secrets.MYSQL_URL }}
           MYSQL_USER: ${{ secrets.MYSQL_USER }}
           MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+
+          ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          REGION: ${{ secrets.REGION }}
         run: ./gradlew build
 
         # dockerfile을 통해 이미지를 빌드하고, 이를 docker repo로 push
@@ -59,6 +63,9 @@ jobs:
             --build-arg MYSQL_URL=${{ secrets.MYSQL_URL }} \
             --build-arg MYSQL_USER=${{ secrets.MYSQL_USER }} \
             --build-arg MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} \
+            --build-arg ACCESS_KEY=${{ secrets.ACCESS_KEY }} \
+            --build-arg SECRET_KEY=${{ secrets.SECRET_KEY }} \
+            --build-arg REGION=${{ secrets.REGION }} \
           -f ./infra/docker/Dockerfile -t ${{ secrets.DOCKER_REPO }} .
           docker push ${{ secrets.DOCKER_REPO }}
 
