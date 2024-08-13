@@ -49,6 +49,15 @@ spring:
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics
+  endpoint:
+    health:
+      show-details: always
+
 secret:
   jwt-secret-key: ${JWT_SECRET_KEY}
   jwt-expired-in: ${JWT_EXPIRED_IN}
@@ -143,6 +152,15 @@ spring:
 #      mode: always
 #      platform: h2
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics
+  endpoint:
+    health:
+      show-details: always
+
 secret:
   jwt-secret-key: ${JWT_SECRET_KEY}
   jwt-expired-in: ${JWT_EXPIRED_IN}
@@ -167,3 +185,15 @@ openai:
   api:
     url: ${URL} # 해당 api url ex) https://api.openai.com/v1/chat/completions
     key: ${API_KEY} # 발급 받은 key
+
+cloud:
+  aws:
+    credentials:
+      access-key: ${ACCESS_KEY}
+      secret-key: ${SECRET_KEY}
+    region:
+      static: ${REGION}
+    stack:
+      auto: false
+    s3:
+      bucketName: healthmate-backend
