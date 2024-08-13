@@ -1,18 +1,14 @@
 package com.kuit.healthmate.supplement;
 
 import com.kuit.healthmate.challenge.supplement.domain.Supplement;
-import com.kuit.healthmate.challenge.supplement.dto.SupplementRegisterRequest;
-import com.kuit.healthmate.challenge.supplement.dto.SupplementResponse;
 import com.kuit.healthmate.challenge.supplement.service.SupplementService;
 import jakarta.transaction.Transactional;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
 public class SupplementServiceTest {
