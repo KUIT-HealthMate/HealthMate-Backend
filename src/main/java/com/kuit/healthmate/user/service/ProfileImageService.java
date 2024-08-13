@@ -60,7 +60,7 @@ public class ProfileImageService {
         try{
             amazonS3.deleteObject(new DeleteObjectRequest(bucketName, key));
         }catch (Exception e){
-            throw new RuntimeException();
+            log.info("삭제할 사진이 없습니다.");
         }
     }
 

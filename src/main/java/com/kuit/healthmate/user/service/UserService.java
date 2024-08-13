@@ -5,7 +5,6 @@ import com.kuit.healthmate.global.exception.UserException;
 import com.kuit.healthmate.global.response.ExceptionResponseStatus;
 import com.kuit.healthmate.user.Gender;
 import com.kuit.healthmate.user.domain.User;
-import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +29,7 @@ public class UserService {
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new UserException(ExceptionResponseStatus.INVALID_USER_ID)
         );
+        profileImageService.deleteImageFromS3(user.getProfile());
 
         String imageUrl = profileImageService.uploadImageToS3(profileImage);
         user.editProfile(imageUrl);
