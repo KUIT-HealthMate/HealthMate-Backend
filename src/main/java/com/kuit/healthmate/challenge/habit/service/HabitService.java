@@ -12,6 +12,7 @@ import com.kuit.healthmate.challenge.habit.dto.request.PatchEditHabitRequest;
 import com.kuit.healthmate.challenge.habit.dto.request.PostCreateHabitRequest;
 import com.kuit.healthmate.challenge.habit.dto.SelectedTime;
 import com.kuit.healthmate.challenge.supplement.domain.SupplementTime;
+import com.kuit.healthmate.challenge.supplement.dto.CustomTime;
 import com.kuit.healthmate.global.exception.HabitException;
 import com.kuit.healthmate.global.response.ExceptionResponseStatus;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +37,7 @@ public class HabitService {
     @Transactional
     public PostCreateHabitResponse createHabit(PostCreateHabitRequest postCreateHabitRequest, Long userId){
         //userID 주입
-        List<SelectedTime> times = postCreateHabitRequest.getTimes();
+        List<CustomTime> times = postCreateHabitRequest.getNotificationTime();
         Habit habit = Habit.builder()
                 .name(postCreateHabitRequest.getName())
                 .status(String.valueOf(Status.ACTIVE))
@@ -47,7 +48,7 @@ public class HabitService {
                 .build();
         log.info(habit.toString());
         habitRepository.save(habit);
-        List<HabitTime> habitTimes = postCreateHabitRequest.getTimes()
+        List<HabitTime> habitTimes = postCreateHabitRequest.getNotificationTime()
                 .stream()
                 .map(time -> new HabitTime(habit, time.toLocalTime()))
                 .toList();
@@ -55,7 +56,7 @@ public class HabitService {
 
         habit.setHabitTimes(habitTimes);
 
-        return new PostCreateHabitResponse(habit,postCreateHabitRequest.getTimes());
+        return new PostCreateHabitResponse(habit,postCreateHabitRequest.getNotificationTime());
     }
 
     //특정 날짜 기준 조회 ,,당일 or 특정 날짜

@@ -115,10 +115,9 @@ public class DiagnosisService {
 
     public DiagnosisResponseDTO findDayDiagnosisResult(Long userId, String date) {
         LocalDate formatDate = LocalDate.parse(date, FORMATTER);
-        GptResult gptResult = gptResultRepository.findDiagnosisResultByUserIdAndDate(userId,formatDate);
-        if(gptResult == null){
-            throw new DiagnosisException(ExceptionResponseStatus.INVALID_DIAGNOSIS_VALUE,"진단 결과가 존재하지 않습니다");
-        }
+        GptResult gptResult = gptResultRepository.findDiagnosisResultByUserIdAndDate(userId, formatDate)
+                .orElseThrow(() -> new DiagnosisException(ExceptionResponseStatus.INVALID_DIAGNOSIS_VALUE, "진단 결과가 존재하지 않습니다"));
+
         return new DiagnosisResponseDTO(formatDate,gptResult.getLifeStyleToday(),gptResult.getMealPatternToday(),gptResult.getSleepPatternToday());
     }
 }

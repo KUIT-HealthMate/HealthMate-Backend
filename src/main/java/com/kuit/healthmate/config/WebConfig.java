@@ -32,7 +32,8 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/habits/**")
                 .addPathPatterns("/users/**")
                 .addPathPatterns("/challenges/**")
-                .addPathPatterns("/diagnosis/**");
+                .addPathPatterns("/diagnosis/**")
+                .addPathPatterns("/onboarding/**");
     }
 
     @Override
