@@ -10,4 +10,6 @@ public interface SupplementCheckerRepository extends JpaRepository<SupplementChe
 
     Optional<SupplementChecker> findBySupplementIdAndCheckDateAndTimeSlot(Long supplementId, LocalDate localDate,
                                                                           TimeSlot timeSlot);
+
+    void deleteSupplementCheckerBySupplementId(Long supplementId);
 }
