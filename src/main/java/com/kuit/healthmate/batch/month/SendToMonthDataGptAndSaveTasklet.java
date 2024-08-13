@@ -1,5 +1,7 @@
 package com.kuit.healthmate.batch.month;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kuit.healthmate.chatgpt.dto.response.LifeStyleResponse;
 import com.kuit.healthmate.chatgpt.dto.response.MealPatternResponse;
 import com.kuit.healthmate.chatgpt.dto.response.SleepPatternResponse;
@@ -7,6 +9,7 @@ import com.kuit.healthmate.chatgpt.service.GptService;
 import com.kuit.healthmate.chatgpt.util.parser.LifeStyleTodayParser;
 import com.kuit.healthmate.chatgpt.util.parser.MealPatternTodayParser;
 import com.kuit.healthmate.chatgpt.util.parser.SleepPatternParser;
+import com.kuit.healthmate.diagnosis.common.service.DiagnosisService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.StepContribution;
@@ -22,51 +25,60 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SendToMonthDataGptAndSaveTasklet implements Tasklet {
     private final GptService gptService;
+    private final DiagnosisService diagnosisService;
 
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
         log.info("Month..Sending data to GPT...");
 
         LifeStyleTodayParser lifeStyleTodayParser = new LifeStyleTodayParser();
-        Map<String, String> lifeDataJson = (Map<String, String>) chunkContext.getStepContext()
+        Map<Long, String> lifeDataJson = (Map<Long, String>) chunkContext.getStepContext()
                 .getStepExecution().getJobExecution().getExecutionContext().get("lifeFormattedResponse");
 
         MealPatternTodayParser mealPatternTodayParser = new MealPatternTodayParser();
-        Map<String, String> mealDataJson = (Map<String, String>) chunkContext.getStepContext()
+        Map<Long, String> mealDataJson = (Map<Long, String>) chunkContext.getStepContext()
                 .getStepExecution().getJobExecution().getExecutionContext().get("mealFormattedResponse");
 
         SleepPatternParser sleepPatternParser = new SleepPatternParser();
-        Map<String, String> sleepDataJson = (Map<String, String>) chunkContext.getStepContext()
+        Map<Long, String> sleepDataJson = (Map<Long, String>) chunkContext.getStepContext()
                 .getStepExecution().getJobExecution().getExecutionContext().get("sleepFormattedResponse");
 
-        LifeStyleResponse life;
-        MealPatternResponse meal;
-        SleepPatternResponse sleep;
 
-        for (String s : lifeDataJson.values()) {
-            String response = gptService.getPrompt(s);
-            if (response != null) {
-                life = lifeStyleTodayParser.parse(response);
-                // 추가 로직: life 객체를 저장하거나 사용
-            }
+        LifeStyleResponse life =null;
+        MealPatternResponse meal=null;
+        SleepPatternResponse sleep=null;
+        ObjectMapper objectMapper = new ObjectMapper();
+        if(lifeDataJson == null || mealDataJson ==null ||sleepDataJson ==null){
+            throw new RuntimeException();
         }
-
-        for (String value : mealDataJson.values()) {
-            String response = gptService.getPrompt(value);
-            if (response != null) {
-                meal = mealPatternTodayParser.parse(response);
-                // 추가 로직: meal 객체를 저장하거나 사용
+        for (Long s : lifeDataJson.keySet()) {
+            String responseLife = gptService.getPrompt(lifeDataJson.get(s));
+            if (responseLife != null) {
+                try {
+                    life = objectMapper.readValue(responseLife, LifeStyleResponse.class);
+                } catch (JsonProcessingException e) {
+                    throw new RuntimeException(e);
+                }
             }
-        }
-
-        for (String value : sleepDataJson.values()) {
-            String response = gptService.getPrompt(value);
-            if (response != null) {
-                sleep = sleepPatternParser.parse(response);
-                // 추가 로직: sleep 객체를 저장하거나 사용
+            String responseMeal = gptService.getPrompt(mealDataJson.get(s));
+            if (responseMeal != null) {
+                try {
+                    meal = objectMapper.readValue(responseMeal, MealPatternResponse.class);
+                } catch (JsonProcessingException e) {
+                    throw new RuntimeException(e);
+                }
             }
+            String responseSleep = gptService.getPrompt(sleepDataJson.get(s));
+            if (responseSleep != null) {
+                try {
+                    sleep = objectMapper.readValue(responseSleep, SleepPatternResponse.class);
+                } catch (JsonProcessingException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            //GPTMonthResult에 저장
+            diagnosisService.saveMonthGptResult(s,life,meal,sleep);
         }
-
         return RepeatStatus.FINISHED;
     }
 

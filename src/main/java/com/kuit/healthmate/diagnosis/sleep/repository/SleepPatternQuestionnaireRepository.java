@@ -1,6 +1,5 @@
 package com.kuit.healthmate.diagnosis.sleep.repository;
 
-import com.kuit.healthmate.diagnosis.meal.domain.MealPatternQuestionnaire;
 import com.kuit.healthmate.diagnosis.sleep.domain.SleepPatternQuestionnaire;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -1,7 +1,6 @@
-package com.kuit.healthmate.chatgpt.util.formatter;
+package com.kuit.healthmate.chatgpt.util.formatter.week;
 
 
-import com.kuit.healthmate.diagnosis.life.domain.LifeStyleQuestionnaire;
 import com.kuit.healthmate.diagnosis.meal.domain.MealPatternQuestionnaire;
 
 import java.util.ArrayList;

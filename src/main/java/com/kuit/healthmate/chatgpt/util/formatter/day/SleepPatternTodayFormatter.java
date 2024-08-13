@@ -1,4 +1,4 @@
-package com.kuit.healthmate.chatgpt.util.formatter;
+package com.kuit.healthmate.chatgpt.util.formatter.day;
 
 import com.kuit.healthmate.diagnosis.dto.PostDiagnosisRequest;
 import com.kuit.healthmate.diagnosis.symtom.domain.SymptomInfo;
@@ -61,7 +61,7 @@ public class SleepPatternTodayFormatter {
 
         response.append("여기부터는 예시이므로 아래의 형식을 참고\n\n");
         response.append("[진단 내용]\n\n");
-        response.append("쿠잇 님의 하루 생활 습관을 분석한 결과,\n 수면 패턴은 안정적이에요.\n\n다만, 간헐적으로 수면 패턴이 \n" +
+        response.append("쿠잇 님의 하루 수면 습관을 분석한 결과,\n 수면 패턴은 안정적이에요.\n\n다만, 간헐적으로 수면 패턴이 \n" +
                 "불규칙한 경우가 있어,\n" +
                 "수면 시간 조절에 신경을 써야 해요.지속적인 수면 패턴의 불규칙은 불면증을 초래할 수 있어요. 일반인의 약 1/3이 반복되는 불면증을 \n" +
                 "경험하고, 9%가 매일의 일상생활에서 \n" +
@@ -79,6 +79,14 @@ public class SleepPatternTodayFormatter {
         response.append("[위험 증세 수치]\n").append("80\n\n");
         response.append("[위험 증세]\n").append("없음\n\n");
         response.append("[추천 챌린지]\n").append("명상\n").append("\n\n");
+        response.append("응답을 예시와 같은 Json 포맷으로 반환해줘\n");
+        response.append("  \"description\": \" 님의 하루 생활 습관을 분석한 결과, 수면 패턴은 안정적이고 수면의 질과 집중도가 높은 편입니다.  다만, 오늘 느껴진 이상 증세인 두통과 허리통증이 있습니다. 이러한 증상은 수면 중에도 계속해서 발생할 수 있으며, 신체적인 문제나 스트레스로 인해 발생할 수 있습니다.  두통과 허리통증이 지속된다면 정확한 원인을 파악하기 위해 내과나 신경과를 방문하여 검사를 받아보는 것이 좋을 것입니다. 또한, 통증을 완화하기 위해 적절한 휴식과 스트레칭을 통해 관리하는 것이 중요합니다.\",\n" +
+                "      \"regularity\": 80,\n" +
+                "      \"sleepQuality\": 70,\n" +
+                "      \"sleepFocus\": 60,\n" +
+                "      \"riskScore\": 60,\n" +
+                "      \"riskSymptoms\": \"두통, 허리통증\",\n" +
+                "      \"challenges\": \"스트레칭 및 근육 강화 운동을 통한 통증 관리\"");
 
         return response.toString();
     }

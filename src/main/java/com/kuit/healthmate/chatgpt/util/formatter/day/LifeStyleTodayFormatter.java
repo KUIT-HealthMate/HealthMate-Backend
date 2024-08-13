@@ -1,4 +1,4 @@
-package com.kuit.healthmate.chatgpt.util.formatter;
+package com.kuit.healthmate.chatgpt.util.formatter.day;
 
 import com.kuit.healthmate.diagnosis.dto.PostDiagnosisRequest;
 import com.kuit.healthmate.diagnosis.symtom.domain.SymptomInfo;
@@ -58,7 +58,7 @@ public class LifeStyleTodayFormatter {
             response.append("\n");
         }
 
-        response.append(" 위의 평가와 이상 증세를 가지고 자세한 의심 질환과 분석 내용을 예시와 같은 형식으로 위의 내용을 분석을 해줘. 아래의 내용은 예시야. 그리고 챌린지는 명사로 제시해줘. 만약 이상 증세가 없다면 위의 다른 값들을 가지고 종합 평가해. 형식을 맞춰줘.\n\n");
+        response.append(" 위의 평가와 이상 증세를 가지고 자세한 의심 질환과 분석 내용을 예시와 같은 형식으로 위의 내용을 분석을 해줘. 아래의 내용은 예시야. 그리고 챌린지는 명사로 제시해줘. 만약 이상 증세가 없다면 위의 다른 값들을 가지고 종합 평가해.\n\n");
 
         response.append("여기부터는 예시이므로 아래의 형식을 참고\n\n");
         response.append("[진단 내용]\n\n");
@@ -69,6 +69,14 @@ public class LifeStyleTodayFormatter {
         response.append("[위험 증세 수치]\n").append("80\n\n");
         response.append("[위험 증세]\n").append("하지정맥류");
         response.append("[추천 챌린지]\n").append("걷기, 달리기, 스트레칭\n").append("\n\n");
+        response.append("응답을 예시와 같은 Json 포맷으로 반환해줘\n");
+        response.append(" \"description\": \" 님의 하루 생활 습관을 분석한 결과, 스트레스와 근육피로가 의심됩니다. 스트레스와 근육피로가 있으면 두통과 허리통증이 자주 발생할 수 있습니다. 불규칙한 근무/공부 환경과 오랜 시간 동안 집중한 것으로 보아 스트레스가 쌓일 수 있습니다. 또한, 하루 동안 커피를 3잔 이상 마신 것과 운동을 하지 않은 것도 근육피로를 유발할 수 있습니다. 이러한 증상들을 개선하기 위해 규칙적인 생활 패턴을 유지하고, 스트레칭이나 운동을 통해 근육을 이완시키는 것이 도움이 될 수 있습니다. 또한, 커피 섭취량을 조절하고 충분한 휴식을 취하는 것도 중요합니다.\",\n" +
+                "      \"regularness\": 30,\n" +
+                "      \"immersion\": 70,\n" +
+                "      \"posture\": 70,\n" +
+                "      \"riskScore\": 60,\n" +
+                "      \"riskSymptoms\": \"스트레스, 근육피로\",\n" +
+                "      \"challenges\": \"규칙적인 생활 패턴 유지, 스트레칭 및 운동, 커피 섭취량 조절, 충분한 휴식\"");
         return response.toString();
     }
 }

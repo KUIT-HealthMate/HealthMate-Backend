@@ -6,7 +6,9 @@ import com.kuit.healthmate.chatgpt.dto.response.SleepPatternResponse;
 import com.kuit.healthmate.chatgpt.service.GptService;
 import com.kuit.healthmate.chatgpt.util.formatter.month.LifeStyleMonthFormatter;
 import com.kuit.healthmate.diagnosis.dto.*;
+import com.kuit.healthmate.diagnosis.gpt.domain.GptMonthResult;
 import com.kuit.healthmate.diagnosis.gpt.domain.GptResult;
+import com.kuit.healthmate.diagnosis.gpt.repository.GptMonthResultRepository;
 import com.kuit.healthmate.diagnosis.gpt.repository.GptResultRepository;
 import com.kuit.healthmate.diagnosis.life.domain.LifeStyleQuestionnaire;
 import com.kuit.healthmate.diagnosis.life.repository.LifeStyleQuestionnaireRepository;
@@ -40,6 +42,7 @@ public class DiagnosisService {
     private final SymptomQuestionnaireRepository symptomQuestionnaireRepository;
     private final GptResultRepository gptResultRepository;
     private final GptService gptService;
+    private final GptMonthResultRepository gptMonthResultRepository;
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Transactional
@@ -111,6 +114,15 @@ public class DiagnosisService {
                 .mealPatternToday(mealPatternToday)
                 .sleepPatternToday(sleepPatternToday).build();
         gptResultRepository.save(gptResult);
+    }
+    public void saveMonthGptResult(Long userId,LifeStyleResponse lifeStyleToday, MealPatternResponse mealPatternToday, SleepPatternResponse sleepPatternToday) {
+        GptMonthResult gptMonthResult = GptMonthResult.builder()
+                .userId(userId)
+                .month((long) LocalDate.now().getMonthValue())
+                .lifeStyleToday(lifeStyleToday)
+                .mealPatternToday(mealPatternToday)
+                .sleepPatternToday(sleepPatternToday).build();
+        gptMonthResultRepository.save(gptMonthResult);
     }
 
     public DiagnosisResponseDTO findDayDiagnosisResult(Long userId, String date) {
