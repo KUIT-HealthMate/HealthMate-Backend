@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Getter
@@ -28,9 +29,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
-
-    @Column(nullable = true,name = "email")
-    private String email;
 
     @Column(nullable = true)
     private String username;
@@ -77,6 +75,7 @@ public class User {
     private UserStatus status;
 
     @Column(name = "created_at", nullable = true, updatable = false)
+    @CreationTimestamp
     private LocalDateTime createdAt;
     @Column(nullable = true,name = "balance")
     private Long balance; // 사용자의 현재 코인 잔액
@@ -95,12 +94,13 @@ public class User {
     }
 
     @Builder
+
     public User(Long id, String username, String profile, Boolean isAlarm, String email, String nickname,LocalDateTime createdAt,Long balance) {
+
         this.id = id;
         this.username = username;
         this.profile = profile;
         this.isAlarm = isAlarm;
-        this.email = email;
         this.nickname = nickname;
         this.createdAt = createdAt;
         this.balance = balance;

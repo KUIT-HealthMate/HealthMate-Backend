@@ -42,7 +42,7 @@ spring:
             client-secret: ${CLIENT_SECRET}
             client-authentication-method: client_secret_post
             authorization-grant-type: authorization_code
-            scope: profile_nickname
+            scope: profile_nickname, profile_image
             client-name: Kakao
         provider:
           kakao:
@@ -76,6 +76,18 @@ openai:
   api:
     url: ${URL} # 해당 api url ex) https://api.openai.com/v1/chat/completions
     key: ${API_KEY} # 발급 받은 key
+
+cloud:
+  aws:
+    credentials:
+      access-key: ${ACCESS_KEY}
+      secret-key: ${SECRET_KEY}
+    region:
+      static: ${REGION}
+    stack:
+      auto: false
+    s3:
+      bucketName: healthmate-backend
 ---
 spring:
   config:
