@@ -90,6 +90,17 @@ jobs:
             # 새로운 이미지 풀 및 실행
             sudo docker pull ${{ secrets.DOCKER_REPO }}
             sudo docker run -d --name my_app -p 9000:9000 ${{ secrets.DOCKER_REPO }}
+            
+            # shell 파일 생성 및 옮기기
+            echo 'Uploading healthcheck.sh...'
+            echo $'#!/bin/bash\n\nURL="http://3.39.60.18:9000/actuator/health"\nSTATUS_CODE=$(curl -o /dev/null -s -w "%{http_code}\n" $URL)\nif [ "$STATUS_CODE" -ne 200 ]; then\n  curl -X POST -H \'Content-Type: application/json\' -d \'{"content":"🚨 Health check failed for the application! Status code: '"$STATUS_CODE"'"}\' ${{ secrets.DISCORD_WEBHOOK_URL }}\nfi' > healthcheck.sh
+            
+            scp -i ${{ secrets.KEY }} ./healthcheck.sh ubuntu@${{ secrets.HOST }}:/home/ubuntu/healthcheck.sh
+            ssh -i ${{ secrets.KEY }} ubuntu@${{ secrets.HOST }} "chmod +x /home/ubuntu/healthcheck.sh"
+            
+            # Cron 작업 등록
+            echo 'Setting up cron job...'
+            ssh -i ${{ secrets.KEY }} ubuntu@${{ secrets.HOST }} "(crontab -l ; echo '* * * * * /home/ubuntu/healthcheck.sh') | crontab -"
 
       - name: Notify
         uses: actions/github-script@v5
