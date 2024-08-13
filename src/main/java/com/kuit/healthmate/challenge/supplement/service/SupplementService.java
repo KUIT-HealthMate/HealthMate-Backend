@@ -101,7 +101,7 @@ public class SupplementService {
     }
 
     public List<Supplement> getSupplementForToday(Long userId) {
-        return supplementRepository.findAllByUserIdAndCheckedDateBetween(userId, LocalDate.now(), LocalDate.now());
+        return supplementRepository.findAllActiveByUserId(userId, LocalDate.now(), LocalDate.now().getDayOfWeek().getValue());
     }
 
     public List<Supplement> getSupplementBetween(Long userId, LocalDate startDate, LocalDate endDate) {
