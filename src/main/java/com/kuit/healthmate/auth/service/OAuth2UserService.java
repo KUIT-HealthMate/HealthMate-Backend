@@ -31,14 +31,16 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
 
         String username = oAuth2Response.getProvider()+" "+oAuth2Response.getProviderId();
         String nickname = oAuth2Response.getNickname();
+        String image = oAuth2Response.getProfileImage();
         User user = userRepository.findByUsername(username).orElseGet(
                 () -> userRepository.save(User.builder()
                         .username(username)
                         .nickname(nickname)
+                        .profile(image)
                         .build())
         );
 
-        System.out.println("login_user_id = " + user.getId());
+        log.info("login_user_id = " + user.getId());
 
         return new CustomOAuth2User(oAuth2User.getAuthorities(), oAuth2User.getAttributes(),
                 userRequest.getClientRegistration().getProviderDetails()

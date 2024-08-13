@@ -17,7 +17,7 @@ public class AuthController {
 
     @GetMapping("/{registrationId}")
     public String redirectPage(@PathVariable String registrationId) {
-        return "redirect:http://localhost:9000/oauth2/authorization/" + registrationId;
+        return "redirect:http://3.39.60.18:9000/oauth2/authorization/" + registrationId;
     }
 
     @ResponseBody
