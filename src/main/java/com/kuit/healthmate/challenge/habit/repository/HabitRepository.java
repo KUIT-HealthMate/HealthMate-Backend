@@ -18,10 +18,18 @@ public interface HabitRepository  extends JpaRepository<Habit, Long> {
     @Query("SELECT h FROM Habit h LEFT JOIN FETCH h.habitChecker WHERE h.id = :habitId")
     List<Habit> findByIdWithHabitCheckers(@Param("habitId") Long habitId);
 
-    @Query("SELECT h FROM Habit h join fetch h.habitChecker hc WHERE h.userId = :userId AND h.status = 'ACTIVE' AND SUBSTRING(h.selectedDay, :dayOfWeek, 1) = '1'")
-    List<Habit> findActiveHabitsByUserIdAndDayOfWeek(@Param("userId") Long userId, @Param("dayOfWeek") int dayOfWeek);
+    @Query("SELECT h FROM Habit h " +
+            "LEFT JOIN FETCH h.habitChecker hc " +
+            "WHERE h.userId = :userId " +
+            "AND h.status = 'ACTIVE' " +
+            "AND SUBSTRING(h.selectedDay, :dayOfWeek, 1) = '1' " +
+            "AND DATE(h.createdAt) <= :currentDate")
+    List<Habit> findActiveHabitsByUserIdAndDayOfWeek(@Param("userId") Long userId, @Param("dayOfWeek") int dayOfWeek, @Param("currentDate") LocalDate date);
 
-    @Query("SELECT DISTINCT h from Habit h join fetch h.habitChecker hc WHERE h.userId= :userId and hc.createdAt between :startDate and :endDate")
+    @Query("SELECT DISTINCT h " +
+            "from Habit h left join fetch h.habitChecker hc " +
+            "WHERE h.userId= :userId " +
+            "AND (hc.createdAt IS NULL OR hc.createdAt BETWEEN :startDate AND :endDate)")
     List<Habit> findAllByUserIdAndCreatedAtBetween(@Param("userId") Long userId,
                                                    @Param("startDate") LocalDate startDate,
                                                    @Param("endDate") LocalDate endDate);
