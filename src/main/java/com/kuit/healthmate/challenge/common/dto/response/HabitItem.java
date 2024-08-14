@@ -9,15 +9,17 @@ import java.time.LocalDate;
 @Getter
 public class HabitItem {
     private String challengeName; // 챌린지명
+    private Long challengeId; // 챌린지 아이디
     private boolean achievementStatus; // 달성여부
 
-    public HabitItem(String challengeName, boolean achievementStatus) {
+    public HabitItem(String challengeName,Long challengeId, boolean achievementStatus) {
         this.challengeName = challengeName;
+        this.challengeId = challengeId;
         this.achievementStatus = achievementStatus;
     }
 
     public static HabitItem fromHabit(Habit habit, LocalDate date){
-        return new HabitItem(habit.getName(), habit.getHabitChecker().stream()
+        return new HabitItem(habit.getName(), habit.getId(), habit.getHabitChecker().stream()
                 .filter(checker -> checker.getCreatedAt().equals(date))
                 .anyMatch(HabitChecker::getStatus));
     }
