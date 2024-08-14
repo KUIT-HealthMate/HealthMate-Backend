@@ -1,5 +1,6 @@
 package com.kuit.healthmate.challenge.common.service;
 
+import com.kuit.healthmate.challenge.common.domain.Status;
 import com.kuit.healthmate.challenge.common.dto.response.ChallengeByPeriodResponse;
 import com.kuit.healthmate.challenge.common.dto.response.ChallengeResponse;
 import com.kuit.healthmate.challenge.common.dto.response.HabitItem;
@@ -123,11 +124,37 @@ public class CommonChallengeServiceImpl implements CommonChallengeService{
         }
 
         for (Habit habit : habits) {
-            for (HabitChecker habitChecker : habit.getHabitChecker()) {
-                LocalDate checkDate = habitChecker.getCreatedAt();
-                habitsByDate
-                        .computeIfAbsent(checkDate, k -> new ArrayList<>())
-                        .add(HabitItem.fromHabit(habit,checkDate));
+            if (habit.getHabitChecker().isEmpty()) {
+                // Handle the case where there are no habit checkers
+                LocalDate startDateTmp;
+                LocalDate endDateTmp;
+
+                // If the habit is ACTIVE, use the created date
+                if (habit.getStatus() == Status.ACTIVE) {
+                    startDateTmp = habit.getCreatedAt().toLocalDate();
+                    endDateTmp = endDate; // Use current date
+                } else { // If the habit is INACTIVE
+                    startDateTmp = habit.getCreatedAt().toLocalDate();
+                    endDateTmp = habit.getUpdatedAt().toLocalDate(); // Use the updated date
+                }
+
+                // Populate the habitsByDate map with the appropriate date range
+                for (LocalDate date = startDateTmp; !date.isAfter(endDateTmp); date = date.plusDays(1)) {
+                    int dayOfWeek = date.getDayOfWeek().getValue();
+                    if(habit.getSelectedDay().charAt(dayOfWeek - 1) == '1'){
+                        habitsByDate
+                                .computeIfAbsent(date, k -> new ArrayList<>())
+                                .add(HabitItem.fromHabit(habit, date));
+                    }
+
+                }
+            } else{
+                for (HabitChecker habitChecker : habit.getHabitChecker()) {
+                    LocalDate checkDate = habitChecker.getCreatedAt();
+                    habitsByDate
+                            .computeIfAbsent(checkDate, k -> new ArrayList<>())
+                            .add(HabitItem.fromHabit(habit,checkDate));
+                }
             }
         }
 
@@ -174,11 +201,37 @@ public class CommonChallengeServiceImpl implements CommonChallengeService{
         }
 
         for (Habit habit : habits) {
-            for (HabitChecker habitChecker : habit.getHabitChecker()) {
-                LocalDate checkDate = habitChecker.getCreatedAt();
-                habitsByDate
-                        .computeIfAbsent(checkDate, k -> new ArrayList<>())
-                        .add(HabitItem.fromHabit(habit,checkDate));
+            if (habit.getHabitChecker().isEmpty()) {
+                // Handle the case where there are no habit checkers
+                LocalDate startDateTmp;
+                LocalDate endDateTmp;
+
+                // If the habit is ACTIVE, use the created date
+                if (habit.getStatus() == Status.ACTIVE) {
+                    startDateTmp = habit.getCreatedAt().toLocalDate();
+                    endDateTmp = endDate; // Use current date
+                } else { // If the habit is INACTIVE
+                    startDateTmp = habit.getCreatedAt().toLocalDate();
+                    endDateTmp = habit.getUpdatedAt().toLocalDate(); // Use the updated date
+                }
+
+                // Populate the habitsByDate map with the appropriate date range
+                for (LocalDate date = startDateTmp; !date.isAfter(endDateTmp); date = date.plusDays(1)) {
+                    int dayOfWeek = date.getDayOfWeek().getValue();
+                    if(habit.getSelectedDay().charAt(dayOfWeek - 1) == '1'){
+                        habitsByDate
+                                .computeIfAbsent(date, k -> new ArrayList<>())
+                                .add(HabitItem.fromHabit(habit, date));
+                    }
+
+                }
+            } else{
+                for (HabitChecker habitChecker : habit.getHabitChecker()) {
+                    LocalDate checkDate = habitChecker.getCreatedAt();
+                    habitsByDate
+                            .computeIfAbsent(checkDate, k -> new ArrayList<>())
+                            .add(HabitItem.fromHabit(habit,checkDate));
+                }
             }
         }
 
