@@ -62,6 +62,8 @@ public class SupplementService {
                 () -> new SupplementException(ExceptionResponseStatus.INVALID_SUPPLEMENT_ID)
         );
 
+        supplementTimeRepository.deleteAllBySupplementId(supplementId);
+
         supplement.update(supplementUpdateRequest.getName(), supplementUpdateRequest.getAfterMeal(),
                 supplementUpdateRequest.getSelectedDay(), supplementUpdateRequest.isBreakfast(),
                 supplementUpdateRequest.isLunch(), supplementUpdateRequest.isDinner(), supplementUpdateRequest.getTimes());
@@ -101,7 +103,7 @@ public class SupplementService {
     }
 
     public List<Supplement> getSupplementForToday(Long userId) {
-        return supplementRepository.findAllByUserIdAndCheckedDateBetween(userId, LocalDate.now(), LocalDate.now());
+        return supplementRepository.findAllActiveByUserId(userId, LocalDate.now(), LocalDate.now().getDayOfWeek().getValue());
     }
 
     public List<Supplement> getSupplementBetween(Long userId, LocalDate startDate, LocalDate endDate) {

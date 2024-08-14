@@ -20,6 +20,12 @@ public interface SupplementRepository extends JpaRepository<Supplement, Long> {
                                                           @Param("startDate") LocalDate startDate,
                                                           @Param("endDate") LocalDate endDate);
 
+    @Query("select distinct s from Supplement s join fetch s.supplementCheckers sc where s.user.id = :userId "
+            + "and sc.checkDate = :today and substring(s.supplementRoutine.selectedDay, :dayOfWeek, 1) = '1'")
+    List<Supplement> findAllActiveByUserId (@Param("userId") Long userId,
+                                            @Param("today") LocalDate today,
+                                            @Param("dayOfWeek") int dayOfWeek);
+
     @Query("select distinct s from Supplement s left join fetch s.supplementCheckers sc "
             + "where s.id = :supplementId")
     Optional<Supplement> findSupplementAndChecker(@Param("supplementId") Long supplementId);
