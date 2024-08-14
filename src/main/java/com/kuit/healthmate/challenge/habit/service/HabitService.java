@@ -11,7 +11,6 @@ import com.kuit.healthmate.challenge.habit.repository.HabitTimeRepository;
 import com.kuit.healthmate.challenge.habit.dto.request.PatchEditHabitRequest;
 import com.kuit.healthmate.challenge.habit.dto.request.PostCreateHabitRequest;
 import com.kuit.healthmate.challenge.habit.dto.SelectedTime;
-import com.kuit.healthmate.challenge.supplement.domain.SupplementTime;
 import com.kuit.healthmate.challenge.supplement.dto.CustomTime;
 import com.kuit.healthmate.global.exception.HabitException;
 import com.kuit.healthmate.global.response.ExceptionResponseStatus;

@@ -31,13 +31,15 @@ public class OnboardingInfo {
     private List<String> symptoms; // 현재 겪고 있는 증상 리스트
 
 
-    @Column(nullable = false)
-    private int purpose; // 1: 루틴, 2: 질환 예방, 3: 정보 공유, 4: 건강 상태 파악, 5: 약 복용 관리, 6: 생활습관 관리
+    @ElementCollection
+    @CollectionTable(name = "onboarding_purpose", joinColumns = @JoinColumn(name = "onboarding_info_id"))
+    @Column(name = "purpose")
+    private List<Integer> purpose; // 1: 루틴, 2: 질환 예방, 3: 정보 공유, 4: 건강 상태 파악, 5: 약 복용 관리, 6: 생활습관 관리
 
     private Long userId;
 
     @Builder
-    public OnboardingInfo(Long user, int gender, int ageGroup, List<String> symptoms, int purpose) {
+    public OnboardingInfo(Long user, int gender, int ageGroup, List<String> symptoms, List<Integer> purpose) {
         this.userId = user;
         this.gender = gender;
         this.ageGroup = ageGroup;

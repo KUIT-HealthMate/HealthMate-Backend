@@ -1,6 +1,7 @@
 package com.kuit.healthmate.chatgpt.util.formatter.week;
 
 import com.kuit.healthmate.diagnosis.sleep.domain.SleepPatternQuestionnaire;
+import com.kuit.healthmate.diagnosis.symtom.domain.SymptomQuestionnaire;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,29 +9,35 @@ import java.util.List;
 import java.util.Map;
 
 public class SleepPatternWeekFormatter {
-    public Map<String, String> formatResponse(List<SleepPatternQuestionnaire> sleep){
+    public Map<Long, String> formatResponse(List<SleepPatternQuestionnaire> sleep,List<SymptomQuestionnaire> symptom){
         Map<String, List<SleepPatternQuestionnaire>> userToDataMap = new HashMap<>();
-
+        Map<String, List<SymptomQuestionnaire>> userToSymptomMap = new HashMap<>();
         for (SleepPatternQuestionnaire questionnaire : sleep) {
             String userName = questionnaire.getUser_name();
             userToDataMap
                     .computeIfAbsent(userName, k -> new ArrayList<>())
                     .add(questionnaire);
         }
-
-        Map<String, String> formattedResponses = new HashMap<>();
+        for (SymptomQuestionnaire symptomQuestionnaire : symptom) {
+            String userName = symptomQuestionnaire.getUser_name();
+            userToSymptomMap
+                    .computeIfAbsent(userName, k -> new ArrayList<>())
+                    .add(symptomQuestionnaire);
+        }
+        Map<Long, String> formattedResponses = new HashMap<>();
         for (Map.Entry<String, List<SleepPatternQuestionnaire>> entry : userToDataMap.entrySet()) {
             String userName = entry.getKey();
             List<SleepPatternQuestionnaire> userData = entry.getValue();
-
-            String response = formatResponse(userData,userName);
-            formattedResponses.put(userName,response);
+            List<SymptomQuestionnaire> symptomData = userToSymptomMap.get(userName);
+            Long userId = userData.get(0).getUserId();
+            String response = formatResponse(userData,userName,symptomData);
+            formattedResponses.put(userId,response);
         }
         return formattedResponses;
     }
 
 
-    public String formatResponse(List<SleepPatternQuestionnaire> sleep, String userName) {
+    public String formatResponse(List<SleepPatternQuestionnaire> sleep, String userName,List<SymptomQuestionnaire> symptoms) {
         StringBuilder response = new StringBuilder();
 
         response.append("너는 의사이고 나는 건강 진단을 받는 환자 ").append(userName).append("이야. 아래의 질문에 대한 답변을 통해 나의 증상과 종합 평가를 내려줘\n\n");
@@ -71,11 +78,22 @@ public class SleepPatternWeekFormatter {
             response.append(sleepPatternQuestionnaire.getSleepRemarkScore()).append(",");
             response.append("}, \n");
         }
-
-
-        response.append(" 내가 일주일 동안 각각의 문항으로 부터 얻은 점수와 이상증세야\n" +
+        response.append("선택했고 느껴진 이상 증세 ");
+        for (SymptomQuestionnaire symptomInfo : symptoms) {
+            response.append("\n");
+            if(symptomInfo.getFirst() == null)
+                continue;
+            response.append(symptomInfo.getFirst().getSymptomName()).append(", ");
+            if(symptomInfo.getSecond() == null)
+                continue;
+            response.append(symptomInfo.getSecond().getSymptomName()).append(", ");
+            if(symptomInfo.getThird() == null)
+                continue;
+            response.append(symptomInfo.getThird().getSymptomName()).append("\n");
+        }
+        response.append("내가 일주일동안 각각의 문항으로 부터 얻은 점수와 이상증세야\n" +
                 "이를 바탕으로\n" +
-                "예시와 같은 형식으로 분석을 해줘. 형식을 맞춰줘.\n\n");
+                "예시와 같이 분석해주고 Json 형식으로 반환해줘. 그리고 챌린지는 명사로 제시해줘. 만약 이상 증세가 없다면 위의 다른 값들을 가지고 종합 평가해. 형식을 맞춰줘.\n\n");
 
         response.append("여기부터는 예시이므로 아래의 형식을 참고\n\n");
         response.append("[진단 내용]\n\n");
@@ -97,6 +115,14 @@ public class SleepPatternWeekFormatter {
         response.append("[위험 증세 수치]\n").append("80\n\n");
         response.append("[위험 증세]\n").append("없음\n\n");
         response.append("[추천 챌린지]\n").append("명상\n").append("\n\n");
+        response.append("응답을 예시와 같은 Json 포맷으로 반환해줘\n");
+        response.append("  \"description\": \" 님의 하루 생활 습관을 분석한 결과, 수면 패턴은 안정적이고 수면의 질과 집중도가 높은 편입니다.  다만, 오늘 느껴진 이상 증세인 두통과 허리통증이 있습니다. 이러한 증상은 수면 중에도 계속해서 발생할 수 있으며, 신체적인 문제나 스트레스로 인해 발생할 수 있습니다.  두통과 허리통증이 지속된다면 정확한 원인을 파악하기 위해 내과나 신경과를 방문하여 검사를 받아보는 것이 좋을 것입니다. 또한, 통증을 완화하기 위해 적절한 휴식과 스트레칭을 통해 관리하는 것이 중요합니다.\",\n" +
+                "      \"regularity\": 80,\n" +
+                "      \"sleepQuality\": 70,\n" +
+                "      \"sleepFocus\": 60,\n" +
+                "      \"riskScore\": 60,\n" +
+                "      \"riskSymptoms\": \"두통, 허리통증\",\n" +
+                "      \"challenges\": \"스트레칭 및 근육 강화 운동을 통한 통증 관리\"");
         return response.toString();
     }
 }

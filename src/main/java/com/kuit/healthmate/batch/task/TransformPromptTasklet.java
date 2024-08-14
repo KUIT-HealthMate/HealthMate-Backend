@@ -9,6 +9,7 @@ import com.kuit.healthmate.chatgpt.util.formatter.week.SleepPatternWeekFormatter
 import com.kuit.healthmate.diagnosis.life.domain.LifeStyleQuestionnaire;
 import com.kuit.healthmate.diagnosis.meal.domain.MealPatternQuestionnaire;
 import com.kuit.healthmate.diagnosis.sleep.domain.SleepPatternQuestionnaire;
+import com.kuit.healthmate.diagnosis.symtom.domain.SymptomQuestionnaire;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
@@ -30,25 +31,29 @@ public class TransformPromptTasklet implements Tasklet {
         String lifeDataJson = (String) chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext().get("life");
         String mealDataJson = (String) chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext().get("meal");
         String sleepDataJson = (String) chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext().get("sleep");
-
+        String symptomDataJson = (String) chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext().get("symptom");
+        List<SymptomQuestionnaire> symptomData = null;
+        if(symptomDataJson != null){
+            symptomData = objectMapper.readValue(symptomDataJson, new TypeReference<>() {});
+        }
         if (lifeDataJson != null) {
             List<LifeStyleQuestionnaire> lifeData = objectMapper.readValue(lifeDataJson, new TypeReference<>() {});
             LifeStyleWeekFomatter formatter = new LifeStyleWeekFomatter();
-            Map<String, String> formattedResponse = formatter.formatResponse(lifeData);
+            Map<Long, String> formattedResponse = formatter.formatResponse(lifeData,symptomData);
             chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext().put("lifeFormattedResponse", formattedResponse);
         }
 
         if (mealDataJson != null) {
             List<MealPatternQuestionnaire> mealData = objectMapper.readValue(mealDataJson, new TypeReference<>() {});
             MealPatternWeekFormatter formatter = new MealPatternWeekFormatter();
-            Map<String, String> formattedResponse = formatter.formatResponse(mealData);
+            Map<Long, String> formattedResponse = formatter.formatResponse(mealData,symptomData);
             chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext().put("mealFormattedResponse", formattedResponse);
         }
 
         if (sleepDataJson != null) {
             List<SleepPatternQuestionnaire> sleepData = objectMapper.readValue(sleepDataJson, new TypeReference<>() {});
             SleepPatternWeekFormatter formatter = new SleepPatternWeekFormatter();
-            Map<String, String> formattedResponse = formatter.formatResponse(sleepData);
+            Map<Long, String> formattedResponse = formatter.formatResponse(sleepData,symptomData);
             chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext().put("sleepFormattedResponse", formattedResponse);
         }
 

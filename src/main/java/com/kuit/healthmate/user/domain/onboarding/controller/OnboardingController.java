@@ -7,6 +7,7 @@ import com.kuit.healthmate.user.domain.onboarding.domain.OnboardingInfo;
 import com.kuit.healthmate.user.domain.onboarding.dto.OnboardingRequestDto;
 import com.kuit.healthmate.user.domain.onboarding.service.OnboardingService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static com.kuit.healthmate.global.response.ExceptionResponseStatus.INVALID_HABIT_VALUE;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/onboarding")
@@ -32,6 +34,7 @@ public class OnboardingController {
                 requestDto.getAgeGroup(),
                 requestDto.getSymptoms(),
                 requestDto.getPurpose());
+
         return new ApiResponse<>(onboardingInfo);
     }
 }

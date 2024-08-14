@@ -7,11 +7,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 @Repository
 public interface GptMonthResultRepository extends JpaRepository<GptMonthResult,Long> {
-    @Query("SELECT gr FROM GptMonthResult gr WHERE gr.userId = :userId AND gr.month = :month")
-    Optional<GptResult> findDiagnosisResultByUserIdAndDate(@Param("userId") Long userId, @Param("month") Long month);
+    @Query("SELECT gr FROM GptMonthResult gr WHERE gr.userId = :userId AND gr.month = :month AND gr.year = :year")
+    Optional<GptMonthResult> findDiagnosisResultByUserIdAndDate(@Param("userId") Long userId, @Param("month") Long month, @Param("year") Long year);
 }

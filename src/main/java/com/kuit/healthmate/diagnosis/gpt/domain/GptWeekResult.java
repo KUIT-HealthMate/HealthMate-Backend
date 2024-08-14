@@ -9,18 +9,20 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.temporal.WeekFields;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "GptMonthResult")
-public class GptMonthResult {
+@Table(name = "GptWeekResult")
+public class GptWeekResult {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long userId;
     private Long year;
-    private Long month;
+    private Long week;
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "description", column = @Column(columnDefinition = "TEXT",name = "description_lifeStyle")),
@@ -49,10 +51,10 @@ public class GptMonthResult {
     private SleepPatternResponse sleepPatternToday;
 
     @Builder
-    public GptMonthResult(Long userId,Long year, Long month, LifeStyleResponse lifeStyleToday, MealPatternResponse mealPatternToday, SleepPatternResponse sleepPatternToday){
+    public GptWeekResult(Long userId, Long year,Long week, LifeStyleResponse lifeStyleToday, MealPatternResponse mealPatternToday, SleepPatternResponse sleepPatternToday){
         this.userId = userId;
-        this.month = month;
         this.year = year;
+        this.week =week;
         this.lifeStyleToday =lifeStyleToday;
         this.mealPatternToday = mealPatternToday;
         this.sleepPatternToday = sleepPatternToday;
