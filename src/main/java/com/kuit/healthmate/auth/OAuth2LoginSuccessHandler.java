@@ -28,7 +28,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         log.info("success handler called " + token);
 
-        response.sendRedirect("http://localhost:9000/login/success?jwt=" + token);
+        response.sendRedirect("http://3.39.60.18:9000/login/success?jwt=" + token);
     }
 }
 
