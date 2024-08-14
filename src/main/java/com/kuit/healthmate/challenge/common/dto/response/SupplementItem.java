@@ -9,6 +9,8 @@ import java.time.LocalDate;
 @Getter
 public class SupplementItem {
     private String challengeName; // 챌린지명
+    private Long challengeId; // 챌린지 아이디
+    private int afterMeal;
 
     private Boolean breakfastSuccess; // 아침 달성 여부
     private Boolean lunchSuccess;    // 점심 달성 여부
@@ -18,9 +20,11 @@ public class SupplementItem {
     private Boolean lunchRequired;
     private Boolean dinnerRequired;
 
-    public SupplementItem(String challengeName, Boolean breakfastSuccess, Boolean lunchSuccess, Boolean dinnerSuccess,
-                          Boolean breakfastRequired, Boolean lunchRequired, Boolean dinnerRequired) {
+    public SupplementItem(String challengeName, Long challengeId, int afterMeal, Boolean breakfastSuccess, Boolean lunchSuccess,
+                          Boolean dinnerSuccess, Boolean breakfastRequired, Boolean lunchRequired, Boolean dinnerRequired) {
         this.challengeName = challengeName;
+        this.challengeId = challengeId;
+        this.afterMeal = afterMeal;
         this.breakfastSuccess = breakfastSuccess;
         this.lunchSuccess = lunchSuccess;
         this.dinnerSuccess = dinnerSuccess;
@@ -46,6 +50,8 @@ public class SupplementItem {
 
         return new SupplementItem(
                 supplement.getName(),
+                supplement.getId(),
+                supplement.getSupplementRoutine().getAfterMeal(),
                 breakfastRequired,
                 lunchRequired,
                 dinnerRequired,
