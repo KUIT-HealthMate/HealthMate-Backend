@@ -27,11 +27,24 @@ public class DataAnalysisAndSaveTasklet implements Tasklet {
         log.info("Analysis data...");
         ObjectMapper objectMapper = new ObjectMapper();// 초기화
         int dailyLifeStyleCount = 0;
+        int dailyLifeStyleRegularnessCount =0;
+        int dailyLifeStyleImmersionCount =0;
+        int dailyLifeStylePostureCount =0;
+
         int dailyMealCount = 0;
+        int dailyMealRegularityCount =0;
+        int dailyMealAlcoholFrequencyCount =0;
+        int dailyMealNutritionIntake =0;
+
         int dailySleepCount = 0;
+        int dailySleepRegularityCount =0;
+        int dailySleepQualityCount =0;
+        int dailySleepFocusCount =0;
+
         int weekLifeStyleCount = 0;
         int weekMealCount = 0;
         int weekSleepCount = 0;
+
         int monthLifeStyleCount = 0;
         int monthMealCount = 0;
         int monthSleepCount = 0;
@@ -46,9 +59,21 @@ public class DataAnalysisAndSaveTasklet implements Tasklet {
         if(gptTodayJson != null){
             List<GptResult> gptResults = objectMapper.readValue(gptTodayJson,new TypeReference<>() {});
             for (GptResult gptResult : gptResults) {
+                //생활
                 dailyLifeStyleCount += gptResult.getLifeStyleToday().getLifeStyleScore();
+                dailyLifeStyleRegularnessCount +=gptResult.getLifeStyleToday().getRegularness();
+                dailyLifeStyleImmersionCount += gptResult.getLifeStyleToday().getImmersion();
+                dailyLifeStylePostureCount += gptResult.getLifeStyleToday().getPosture();
+                //식사
                 dailyMealCount += gptResult.getMealPatternToday().getDailyMealPatternScore();
+                dailyMealRegularityCount += gptResult.getMealPatternToday().getRegularity();
+                dailyMealNutritionIntake += gptResult.getMealPatternToday().getNutritionIntake();
+                dailyMealAlcoholFrequencyCount += gptResult.getMealPatternToday().getAlcoholFrequency();
+                //수면
                 dailySleepCount += gptResult.getSleepPatternToday().getDailySleepPatternScore();
+                dailySleepRegularityCount += gptResult.getSleepPatternToday().getRegularity();
+                dailySleepQualityCount += gptResult.getSleepPatternToday().getSleepQuality();
+                dailySleepFocusCount += gptResult.getSleepPatternToday().getSleepFocus();
                 cnt++;
             }
         }
@@ -76,9 +101,14 @@ public class DataAnalysisAndSaveTasklet implements Tasklet {
 
         }
 
-        userHealthAverageService.updateAverage(dailyLifeStyleCount/cnt,dailyMealCount/cnt,dailySleepCount/cnt,
+        userHealthAverageService.updateAverage(
+                dailyLifeStyleCount/cnt,dailyMealCount/cnt,dailySleepCount/cnt,
                 weekLifeStyleCount/cnt2,weekMealCount/cnt2,weekSleepCount/cnt2,
-                monthLifeStyleCount/cnt3,monthMealCount/cnt3,monthSleepCount/cnt3);
+                monthLifeStyleCount/cnt3,monthMealCount/cnt3,monthSleepCount/cnt3,
+                dailyLifeStyleRegularnessCount/cnt,dailyLifeStyleImmersionCount/cnt,dailyLifeStylePostureCount/cnt,
+                dailyMealRegularityCount/cnt2,dailyMealNutritionIntake/cnt2,dailyMealAlcoholFrequencyCount/cnt2,
+                dailySleepRegularityCount/cnt3,dailySleepQualityCount/cnt3,dailySleepFocusCount/cnt3
+        );
 
 
 

@@ -13,9 +13,16 @@ public class UserHealthAverageServiceImpl implements UserHealthAverageService{
     @Transactional
     public void updateAverage(int dailyLifeStyleAverage, int dailyMealPatterAverage, int dailySleepPatterAverage,
                               int weekLifeStyleAverage, int weekMealPatterAverage, int weekSleepPatterAverage,
-                              int monthLifeStyleAverage, int monthMealPatterAverage, int monthSleepPatterAverage) {
+                              int monthLifeStyleAverage, int monthMealPatterAverage, int monthSleepPatterAverage,
+                              int dailyLifeStyleRegularnessAverage, int dailyLifeStyleImmersionAverage, int dailyLifeStylePostureAverage,
+                              int dailyMealRegularityAverage, int dailyMealNutritionIntakeAverage, int dailyMealAlcoholFrequencyAverage,
+                              int dailySleepRegularityAverage, int dailySleepQualityAverage, int dailySleepFocusAverage) {
         userHealthAverageRepository.updateUserHealthAverage(1L,dailyLifeStyleAverage,dailyMealPatterAverage,dailySleepPatterAverage,
-                weekLifeStyleAverage,weekMealPatterAverage,weekSleepPatterAverage,monthLifeStyleAverage,monthMealPatterAverage,monthSleepPatterAverage);
+                weekLifeStyleAverage,weekMealPatterAverage,weekSleepPatterAverage,monthLifeStyleAverage,monthMealPatterAverage,monthSleepPatterAverage,
+                dailyLifeStyleRegularnessAverage,dailyLifeStyleImmersionAverage,dailyLifeStylePostureAverage,
+                dailyMealRegularityAverage,dailyMealNutritionIntakeAverage,dailyMealAlcoholFrequencyAverage,
+                dailySleepRegularityAverage,dailySleepQualityAverage,dailySleepFocusAverage
+                );
     }
 
     @Override

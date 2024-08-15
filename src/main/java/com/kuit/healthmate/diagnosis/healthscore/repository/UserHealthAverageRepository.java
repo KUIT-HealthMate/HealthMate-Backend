@@ -17,11 +17,21 @@ public interface UserHealthAverageRepository extends JpaRepository<UserHealthAve
             "u.weeklyMealPatternAverage = :weeklyMealPatternAverage, " +
             "u.monthlyLifestyleAverage = :monthlyLifestyleAverage, " +
             "u.monthlySleepPatternAverage = :monthlySleepPatternAverage, " +
-            "u.monthlyMealPatternAverage = :monthlyMealPatternAverage " +
+            "u.monthlyMealPatternAverage = :monthlyMealPatternAverage, " +
+            "u.dailyLifeStyleRegularnessAverage = :dailyLifeStyleRegularnessAverage, " +
+            "u.dailyLifeStyleImmersionAverage = :dailyLifeStyleImmersionAverage, " +
+            "u.dailyLifeStylePostureAverage = :dailyLifeStylePostureAverage, " +
+            "u.dailyMealRegularityAverage = :dailyMealRegularityAverage, " +
+            "u.dailyMealNutritionIntakeAverage = :dailyMealNutritionIntakeAverage, " +
+            "u.dailyMealAlcoholFrequencyAverage = :dailyMealAlcoholFrequencyAverage, " +
+            "u.dailySleepRegularityAverage = :dailySleepRegularityAverage, " +
+            "u.dailySleepQualityAverage = :dailySleepQualityAverage, " +
+            "u.dailySleepFocusAverage = :dailySleepFocusAverage " +
             "WHERE u.id = :id")
-    void updateUserHealthAverage(Long id, int dailyLifestyleAverage, int dailySleepPatternAverage,
-                                 int dailyMealPatternAverage, int weeklyLifestyleAverage,
-                                 int weeklySleepPatternAverage, int weeklyMealPatternAverage,
-                                 int monthlyLifestyleAverage, int monthlySleepPatternAverage,
-                                 int monthlyMealPatternAverage);
+    void updateUserHealthAverage(Long id, int dailyLifestyleAverage, int dailyMealPatternAverage, int dailySleepPatternAverage,
+                                 int weeklyLifestyleAverage, int weeklyMealPatternAverage, int weeklySleepPatternAverage,
+                                 int monthlyLifestyleAverage, int monthlyMealPatternAverage, int monthlySleepPatternAverage,
+                                 int dailyLifeStyleRegularnessAverage, int dailyLifeStyleImmersionAverage, int dailyLifeStylePostureAverage,
+                                 int dailyMealRegularityAverage, int dailyMealNutritionIntakeAverage, int dailyMealAlcoholFrequencyAverage,
+                                 int dailySleepRegularityAverage, int dailySleepQualityAverage, int dailySleepFocusAverage);
 }
