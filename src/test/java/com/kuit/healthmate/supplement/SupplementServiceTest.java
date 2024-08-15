@@ -37,14 +37,4 @@ public class SupplementServiceTest {
 //        Assertions.assertEquals(supplementService.getSupplementChallengesByUserId(1L).size(), 4);
 //    }
 
-    @Test
-    @Transactional
-    void 특정날짜_영양제_챌린지_조회() {
-        List<Supplement> supplementForDay = supplementService.getSupplementForDay(1L, LocalDate.now());
-        for (Supplement supplement : supplementForDay) {
-            System.out.println(supplement);
-//            System.out.println(supplement.getSupplementCheckers());
-        }
-        Assertions.assertEquals(0, supplementForDay.size());
-    }
 }

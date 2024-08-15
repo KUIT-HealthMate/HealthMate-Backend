@@ -9,6 +9,7 @@ import com.kuit.healthmate.challenge.supplement.dto.SupplementRegisterRequest;
 import com.kuit.healthmate.challenge.supplement.dto.SupplementUpdateRequest;
 import com.kuit.healthmate.global.response.ApiResponse;
 import com.kuit.healthmate.challenge.supplement.service.SupplementService;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +38,7 @@ public class SupplementController {
 
     @PutMapping("/edit/{supplementId}")
     public ApiResponse<Object> updateSupplement(@PathVariable Long supplementId,
-                                 @RequestBody SupplementUpdateRequest supplementUpdateRequest) {
+                                                @RequestBody SupplementUpdateRequest supplementUpdateRequest) {
         supplementService.updateSupplement(supplementId, supplementUpdateRequest);
         return new ApiResponse<>(null);
     }
@@ -50,7 +51,7 @@ public class SupplementController {
 
     @PutMapping("/check-status/{supplementId}")
     public ApiResponse<Boolean> checkSupplementChecker(@PathVariable Long supplementId,
-                                       @RequestBody SupplementCheckerRequest supplementCheckerRequest) {
+                                                       @RequestBody SupplementCheckerRequest supplementCheckerRequest) {
         return new ApiResponse<>(
                 supplementService.checkSupplementChecker(supplementId, supplementCheckerRequest)
         );
@@ -71,5 +72,4 @@ public class SupplementController {
                 supplementService.getSupplementEditResponse(supplementId)
         );
     }
-
 }
