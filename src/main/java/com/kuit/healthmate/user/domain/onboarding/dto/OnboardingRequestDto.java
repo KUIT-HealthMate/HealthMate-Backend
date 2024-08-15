@@ -12,6 +12,5 @@ public class OnboardingRequestDto {
     @NotBlank(message = "ageGroup: {NotBlank}")
     private int ageGroup;
     private List<String> symptoms;
-    @NotBlank(message = "purpose: {NotBlank}")
-    private int purpose;
+    private List<Integer> purpose;
 }

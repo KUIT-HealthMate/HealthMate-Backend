@@ -20,7 +20,7 @@ public class OnboardingService {
 
     private final UserRepository userRepository;
     @Transactional
-    public OnboardingInfo saveOnboardingInfo(Long userId, int gender, int ageGroup, List<String> symptoms, int purpose) {
+    public OnboardingInfo saveOnboardingInfo(Long userId, int gender, int ageGroup, List<String> symptoms, List<Integer> purpose) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserException(ExceptionResponseStatus.INVALID_USER_ID));
         switch (gender) {
@@ -35,7 +35,8 @@ public class OnboardingService {
                 .gender(gender)
                 .ageGroup(ageGroup)
                 .symptoms(symptoms)
-                .purpose(purpose).build();
+                .purpose(purpose)
+                .build();
         return onboardingInfoRepository.save(onboardingInfo);
     }
 }

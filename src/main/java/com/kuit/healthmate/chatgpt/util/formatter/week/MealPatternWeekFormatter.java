@@ -1,8 +1,8 @@
-package com.kuit.healthmate.chatgpt.util.formatter;
+package com.kuit.healthmate.chatgpt.util.formatter.week;
 
 
-import com.kuit.healthmate.diagnosis.life.domain.LifeStyleQuestionnaire;
 import com.kuit.healthmate.diagnosis.meal.domain.MealPatternQuestionnaire;
+import com.kuit.healthmate.diagnosis.symtom.domain.SymptomQuestionnaire;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,29 +11,35 @@ import java.util.Map;
 
 public class MealPatternWeekFormatter {
 
-    public Map<String, String> formatResponse(List<MealPatternQuestionnaire> meal){
+    public Map<Long, String> formatResponse(List<MealPatternQuestionnaire> meal, List<SymptomQuestionnaire> symptom){
         Map<String, List<MealPatternQuestionnaire>> userToDataMap = new HashMap<>();
-
+        Map<String, List<SymptomQuestionnaire>> userToSymptomMap = new HashMap<>();
         for (MealPatternQuestionnaire questionnaire : meal) {
             String userName = questionnaire.getUser_name();
             userToDataMap
                     .computeIfAbsent(userName, k -> new ArrayList<>())
                     .add(questionnaire);
         }
-
-        Map<String, String> formattedResponses = new HashMap<>();
+        for (SymptomQuestionnaire symptomQuestionnaire : symptom) {
+            String userName = symptomQuestionnaire.getUser_name();
+            userToSymptomMap
+                    .computeIfAbsent(userName, k -> new ArrayList<>())
+                    .add(symptomQuestionnaire);
+        }
+        Map<Long, String> formattedResponses = new HashMap<>();
         for (Map.Entry<String, List<MealPatternQuestionnaire>> entry : userToDataMap.entrySet()) {
             String userName = entry.getKey();
+            List<SymptomQuestionnaire> symptomData = userToSymptomMap.get(userName);
             List<MealPatternQuestionnaire> userData = entry.getValue();
-
-            String response = formatResponse(userData,userName);
-            formattedResponses.put(userName,response);
+            Long userId = userData.get(0).getUserId();
+            String response = formatResponse(userData,userName,symptomData);
+            formattedResponses.put(userId,response);
         }
         return formattedResponses;
     }
 
 
-    public String formatResponse(List<MealPatternQuestionnaire> meal, String userName){
+    public String formatResponse(List<MealPatternQuestionnaire> meal, String userName,List<SymptomQuestionnaire> symptoms){
         StringBuilder response = new StringBuilder();
 
         response.append("너는 의사이고 나는 건강 진단을 받는 환자 ").append(userName).append("이야. 아래의 질문에 대한 답변을 통해 나의 증상과 종합 평가를 내려줘\n\n");
@@ -73,7 +79,7 @@ public class MealPatternWeekFormatter {
         response.append("3. 입맛 없음\n");
         response.append("4. 폭식\n");
         response.append("5. 없음\n\n");
-
+        response.append("일주일동안 위의 문항에서 각각 ");
         for (MealPatternQuestionnaire mealPatternQuestionnaire : meal) {
             response.append("{");
             response.append(mealPatternQuestionnaire.getMealTimeScore()).append(",");
@@ -86,10 +92,23 @@ public class MealPatternWeekFormatter {
             response.append("}, \n");
         }
 
-
-        response.append(" 내가 일주일 동안 각각의 문항으로 부터 얻은 점수와 이상증세야\n" +
+        response.append("선택했고 느껴진 이상 증세 ");
+        for (SymptomQuestionnaire symptomInfo : symptoms) {
+            response.append("\n");
+            if(symptomInfo.getFirst() == null)
+                continue;
+            response.append(symptomInfo.getFirst().getSymptomName()).append(", ");
+            if(symptomInfo.getSecond() == null)
+                continue;
+            response.append(symptomInfo.getSecond().getSymptomName()).append(", ");
+            if(symptomInfo.getThird() == null)
+                continue;
+            response.append(symptomInfo.getThird().getSymptomName()).append("\n");
+        }
+        response.append("내가 일주일동안 각각의 문항으로 부터 얻은 점수와 이상증세야\n" +
                 "이를 바탕으로\n" +
-                "예시와 같은 형식으로 분석을 해줘. 형식을 맞춰줘.\n\n");
+                "예시와 같이 분석해주고 Json 형식으로 반환해줘. 그리고 챌린지는 명사로 제시해줘. 만약 이상 증세가 없다면 위의 다른 값들을 가지고 종합 평가해. 형식을 맞춰줘.\n\n");
+
 
         response.append("[진단 내용]\n\n");
         response.append("쿠잇 님의 주간 식사 습관을 분석한 결과,\n" +
@@ -122,6 +141,14 @@ public class MealPatternWeekFormatter {
         response.append("[위험 증세 수치]\n").append("80\n\n");
         response.append("[위험 증세]\n").append("없음\n\n");
         response.append("[추천 챌린지]\n").append("15번 이상 씹기\n").append("\n\n");
+        response.append("응답을 예시와 같은 Json 포맷으로 반환해줘\n");
+        response.append(" \"description\": \" 님의 하루 식사 습관을 분석한 결과, 식사 패턴이 대체로 불규칙하며,  특히 오늘의 식사는 불규칙한 시간에 이루어진 것으로 나타났어요. 또한, 식사 중에 TV나 스마트폰을 함께 보는 습관이 있었고, 조미료를 많이 섭취한 것으로 나타났습니다. 이러한 식습관은 소화 과정에 부담을 주고, 소화불량을 유발할 수 있습니다. 또한, 불규칙한 식사 시간과 TV나 스마트폰을 함께 본다는 것은 식사 중에 충분한 집중을 하지 않는 것으로 이어질 수 있습니다. 두통과 허리통증이라는 이상 증세가 나타났는데, 이는 식사 습관의 변화나 영양 섭취 부족으로 인해 발생할 수 있습니다. 두통과 허리통증은 식습관의 개선과 함께 적절한 휴식과 운동을 통해 개선될 수 있습니다. 정기적인 식사 시간을 유지하고, TV나 스마트폰을 끄고 식사를 즐기며, 조미료 섭취를 줄이는 것이 중요합니다. 또한, 두통과 허리통증이 계속되거나 심해진다면 의사를 방문하여 상담 받는 것이 좋습니다.\",\n" +
+                "      \"regularity\": 30,\n" +
+                "      \"alcoholFrequency\": 50,\n" +
+                "      \"nutritionIntake\": 40,\n" +
+                "      \"riskScore\": 60,\n" +
+                "      \"riskSymptoms\": \"두통, 허리통증\",\n" +
+                "      \"challenges\": \"식사 시간에 집중하기\"");
 
         return response.toString();
     }

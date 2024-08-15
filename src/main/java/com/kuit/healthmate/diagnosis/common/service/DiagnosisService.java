@@ -6,8 +6,12 @@ import com.kuit.healthmate.chatgpt.dto.response.SleepPatternResponse;
 import com.kuit.healthmate.chatgpt.service.GptService;
 import com.kuit.healthmate.chatgpt.util.formatter.month.LifeStyleMonthFormatter;
 import com.kuit.healthmate.diagnosis.dto.*;
+import com.kuit.healthmate.diagnosis.gpt.domain.GptMonthResult;
 import com.kuit.healthmate.diagnosis.gpt.domain.GptResult;
+import com.kuit.healthmate.diagnosis.gpt.domain.GptWeekResult;
+import com.kuit.healthmate.diagnosis.gpt.repository.GptMonthResultRepository;
 import com.kuit.healthmate.diagnosis.gpt.repository.GptResultRepository;
+import com.kuit.healthmate.diagnosis.gpt.repository.GptWeekResultRepository;
 import com.kuit.healthmate.diagnosis.life.domain.LifeStyleQuestionnaire;
 import com.kuit.healthmate.diagnosis.life.repository.LifeStyleQuestionnaireRepository;
 import com.kuit.healthmate.diagnosis.meal.domain.MealPatternQuestionnaire;
@@ -27,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.WeekFields;
 import java.util.List;
 import java.util.Map;
 
@@ -40,8 +45,9 @@ public class DiagnosisService {
     private final SymptomQuestionnaireRepository symptomQuestionnaireRepository;
     private final GptResultRepository gptResultRepository;
     private final GptService gptService;
+    private final GptMonthResultRepository gptMonthResultRepository;
+    private final GptWeekResultRepository gptWeekResultRepository;
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
     @Transactional
     public Boolean saveDiagnosisResult(Long userId,PostDiagnosisRequest postDiagnosisRequest) {
         LifeStyleDto lifeStyleDto =  postDiagnosisRequest.getLifeStyleDto();
@@ -112,12 +118,45 @@ public class DiagnosisService {
                 .sleepPatternToday(sleepPatternToday).build();
         gptResultRepository.save(gptResult);
     }
-
+    public void saveMonthGptResult(Long userId,LifeStyleResponse lifeStyleToday, MealPatternResponse mealPatternToday, SleepPatternResponse sleepPatternToday) {
+        GptMonthResult gptMonthResult = GptMonthResult.builder()
+                .userId(userId)
+                .month((long) LocalDate.now().getMonthValue())
+                .year((long) LocalDate.now().getYear())
+                .lifeStyleToday(lifeStyleToday)
+                .mealPatternToday(mealPatternToday)
+                .sleepPatternToday(sleepPatternToday).build();
+        gptMonthResultRepository.save(gptMonthResult);
+    }
+    public void saveWeekGptResult(Long userId,LifeStyleResponse lifeStyleToday, MealPatternResponse mealPatternToday, SleepPatternResponse sleepPatternToday) {
+        GptWeekResult gptWeekResult = GptWeekResult.builder()
+                .userId(userId)
+                .year((long) LocalDate.now().getYear())
+                .week((long) LocalDate.now().get(WeekFields.ISO.weekOfYear()))
+                .lifeStyleToday(lifeStyleToday)
+                .mealPatternToday(mealPatternToday)
+                .sleepPatternToday(sleepPatternToday).build();
+        gptWeekResultRepository.save(gptWeekResult);
+    }
     public DiagnosisResponseDTO findDayDiagnosisResult(Long userId, String date) {
         LocalDate formatDate = LocalDate.parse(date, FORMATTER);
         GptResult gptResult = gptResultRepository.findDiagnosisResultByUserIdAndDate(userId, formatDate)
                 .orElseThrow(() -> new DiagnosisException(ExceptionResponseStatus.INVALID_DIAGNOSIS_VALUE, "진단 결과가 존재하지 않습니다"));
 
         return new DiagnosisResponseDTO(formatDate,gptResult.getLifeStyleToday(),gptResult.getMealPatternToday(),gptResult.getSleepPatternToday());
+    }
+    public DiagnosisResponseDTO findWeekDiagnosisResult(Long userId, String date) {
+        LocalDate formatDate = LocalDate.parse(date, FORMATTER);
+        GptWeekResult gptWeekResult = gptWeekResultRepository.findDiagnosisResultByUserIdAndDate(userId, (long)formatDate.get(WeekFields.ISO.weekOfYear()),(long)formatDate.getYear())
+                .orElseThrow(() -> new DiagnosisException(ExceptionResponseStatus.INVALID_DIAGNOSIS_VALUE, "진단 결과가 존재하지 않습니다"));
+
+        return new DiagnosisResponseDTO(formatDate,gptWeekResult.getLifeStyleToday(),gptWeekResult.getMealPatternToday(),gptWeekResult.getSleepPatternToday());
+    }
+    public DiagnosisResponseDTO findMonthDiagnosisResult(Long userId, String date) {
+        LocalDate formatDate = LocalDate.parse(date, FORMATTER);
+        GptMonthResult gptMonthResult = gptMonthResultRepository.findDiagnosisResultByUserIdAndDate(userId, (long)formatDate.getMonthValue(),(long)formatDate.getYear())
+                .orElseThrow(() -> new DiagnosisException(ExceptionResponseStatus.INVALID_DIAGNOSIS_VALUE, "진단 결과가 존재하지 않습니다"));
+
+        return new DiagnosisResponseDTO(formatDate,gptMonthResult.getLifeStyleToday(),gptMonthResult.getMealPatternToday(),gptMonthResult.getSleepPatternToday());
     }
 }

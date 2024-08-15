@@ -15,7 +15,7 @@ public class BatchTestController {
     private final JobLauncher jobLauncher;
     private final Job jobMonth;
 
-    public BatchTestController(JobLauncher jobLauncher, @Qualifier("jobMonth") Job jobMonth) {
+    public BatchTestController(JobLauncher jobLauncher, @Qualifier("jobWeek") Job jobMonth) {
         this.jobLauncher = jobLauncher;
         this.jobMonth = jobMonth;
     }

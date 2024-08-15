@@ -1,13 +1,15 @@
 package com.kuit.healthmate.chatgpt.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kuit.healthmate.chatgpt.dto.request.ChatRequest;
 import com.kuit.healthmate.chatgpt.dto.response.ChatResponse;
 import com.kuit.healthmate.chatgpt.dto.response.LifeStyleResponse;
 import com.kuit.healthmate.chatgpt.dto.response.MealPatternResponse;
 import com.kuit.healthmate.chatgpt.dto.response.SleepPatternResponse;
-import com.kuit.healthmate.chatgpt.util.formatter.LifeStyleTodayFormatter;
-import com.kuit.healthmate.chatgpt.util.formatter.MealPatternTodayFormatter;
-import com.kuit.healthmate.chatgpt.util.formatter.SleepPatternTodayFormatter;
+import com.kuit.healthmate.chatgpt.util.formatter.day.LifeStyleTodayFormatter;
+import com.kuit.healthmate.chatgpt.util.formatter.day.MealPatternTodayFormatter;
+import com.kuit.healthmate.chatgpt.util.formatter.day.SleepPatternTodayFormatter;
 import com.kuit.healthmate.chatgpt.util.parser.LifeStyleTodayParser;
 import com.kuit.healthmate.chatgpt.util.parser.MealPatternTodayParser;
 import com.kuit.healthmate.chatgpt.util.parser.SleepPatternParser;
@@ -52,8 +54,14 @@ public class GptServiceImpl implements GptService{
         if (response == null || response.getChoices() == null || response.getChoices().isEmpty()) {
             return CompletableFuture.completedFuture(null);
         }
-
-        return CompletableFuture.completedFuture(lifeStyleTodayParser.parse(response.getChoices().get(0).getMessage().getContent()));
+        ObjectMapper objectMapper = new ObjectMapper();
+        LifeStyleResponse lifeStyleResponse;
+        try {
+            lifeStyleResponse = objectMapper.readValue(response.getChoices().get(0).getMessage().getContent(), LifeStyleResponse.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return CompletableFuture.completedFuture(lifeStyleResponse);
     }
     @Override
     public CompletableFuture<MealPatternResponse> getPromptByMeal(PostDiagnosisRequest requestDto) {
@@ -73,8 +81,14 @@ public class GptServiceImpl implements GptService{
         if (response == null || response.getChoices() == null || response.getChoices().isEmpty()) {
             return CompletableFuture.completedFuture(null);
         }
-
-        return CompletableFuture.completedFuture(mealPatternTodayParser.parse(response.getChoices().get(0).getMessage().getContent()));
+        ObjectMapper objectMapper = new ObjectMapper();
+        MealPatternResponse mealPatternResponse;
+        try {
+            mealPatternResponse = objectMapper.readValue(response.getChoices().get(0).getMessage().getContent(), MealPatternResponse.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return CompletableFuture.completedFuture(mealPatternResponse);
 
     }
 
@@ -96,12 +110,19 @@ public class GptServiceImpl implements GptService{
         if (response == null || response.getChoices() == null || response.getChoices().isEmpty()) {
             return CompletableFuture.completedFuture(null);
         }
-
-        return CompletableFuture.completedFuture(sleepPatternParser.parse(response.getChoices().get(0).getMessage().getContent()));
+        ObjectMapper objectMapper = new ObjectMapper();
+        SleepPatternResponse sleepPatternResponse;
+        try {
+            sleepPatternResponse = objectMapper.readValue(response.getChoices().get(0).getMessage().getContent(), SleepPatternResponse.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return CompletableFuture.completedFuture(sleepPatternResponse);
     }
 
     @Override
     public String getPrompt(String message) {
+        log.info(message);
         ChatRequest request = new ChatRequest(model, message);
 
         ChatResponse response = restTemplate.postForObject(apiUrl, request, ChatResponse.class);

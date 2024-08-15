@@ -57,5 +57,13 @@ public class DiagnosisController {
     public ApiResponse<DiagnosisResponseDTO>  getDayDiagnosisResult(@Jwt Long userId, @PathVariable String date){
         return new ApiResponse<>(diagnosisService.findDayDiagnosisResult(userId,date));
     }
+    @GetMapping("/week/{date}")
+    public ApiResponse<DiagnosisResponseDTO>  getWeekDiagnosisResult(@Jwt Long userId, @PathVariable String date){
+        return new ApiResponse<>(diagnosisService.findWeekDiagnosisResult(userId,date));
+    }
+    @GetMapping("/month/{date}")
+    public ApiResponse<DiagnosisResponseDTO>  getMonthDiagnosisResult(@Jwt Long userId, @PathVariable String date){
+        return new ApiResponse<>(diagnosisService.findMonthDiagnosisResult(userId,date));
+    }
     //주간, 월간 get 배치처리 마무리하고 구현
 }
