@@ -1,4 +1,4 @@
-package com.kuit.healthmate.batch.task;
+package com.kuit.healthmate.batch.week;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
