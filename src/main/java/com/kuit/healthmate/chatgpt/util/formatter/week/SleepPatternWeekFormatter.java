@@ -116,7 +116,7 @@ public class SleepPatternWeekFormatter {
         response.append("[위험 증세]\n").append("없음\n\n");
         response.append("[추천 챌린지]\n").append("명상\n").append("\n\n");
         response.append("[종합 점수]\n").append("50").append("\n\n");
-        response.append("응답을 예시와 같은 Json 포맷으로 반환해줘\n");
+        response.append("응답을 예시와 같은 Json 포맷으로 반환해줘, 백틱은 제외하고 순수하게 json 값만 보내\n");
         response.append("  \"description\": \" 님의 하루 생활 습관을 분석한 결과, 수면 패턴은 안정적이고 수면의 질과 집중도가 높은 편입니다.  다만, 오늘 느껴진 이상 증세인 두통과 허리통증이 있습니다. 이러한 증상은 수면 중에도 계속해서 발생할 수 있으며, 신체적인 문제나 스트레스로 인해 발생할 수 있습니다.  두통과 허리통증이 지속된다면 정확한 원인을 파악하기 위해 내과나 신경과를 방문하여 검사를 받아보는 것이 좋을 것입니다. 또한, 통증을 완화하기 위해 적절한 휴식과 스트레칭을 통해 관리하는 것이 중요합니다.\",\n" +
                 "      \"regularity\": 80,\n" +
                 "      \"sleepQuality\": 70,\n" +
