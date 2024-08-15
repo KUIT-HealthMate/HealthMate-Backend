@@ -18,9 +18,6 @@ public class UserHealthAverage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
-
     // 일간 평균 필드들
     @Column(name = "daily_lifestyle_average")
     private Double dailyLifestyleAverage;
