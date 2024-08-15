@@ -2,10 +2,12 @@ package com.kuit.healthmate.challenge.supplement.dto;
 
 import com.kuit.healthmate.challenge.supplement.domain.Supplement;
 import com.kuit.healthmate.challenge.supplement.domain.SupplementRoutine;
+import com.kuit.healthmate.challenge.supplement.domain.SupplementTime;
 import com.kuit.healthmate.challenge.supplement.dto.constant.WeekOfDays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -19,17 +21,18 @@ public class SupplementEditResponse {
     private Map<String, Boolean> dailyIntakePeriod;
     private Map<String, Boolean> weeklyIntakeFrequency;
 
-    private List<CustomTime> notificationTime;  //TODO: 얘 해라
+    private List<CustomTime> notificationTime;
 
     public SupplementEditResponse(Supplement supplement) {
         SupplementRoutine supplementRoutine = supplement.getSupplementRoutine();
         this.name = supplement.getName();
-        this.intakeTime = this.getIntakeTime(supplementRoutine);
-        this.dailyIntakePeriod = this.getDailyIntakePeriod();
-        this.weeklyIntakeFrequency = this.getWeeklyIntakeFrequency();
+        this.intakeTime = this.convertIntakeTime(supplementRoutine);
+        this.dailyIntakePeriod = this.convertDailyIntakePeriod(supplementRoutine);
+        this.weeklyIntakeFrequency = this.convertWeeklyIntakeFrequency(supplementRoutine);
+        this.notificationTime = this.convertNotificationTime(supplement.getSupplementTimes());
     }
 
-    private Map<String, Integer> getIntakeTime(SupplementRoutine supplementRoutine) {
+    private Map<String, Integer> convertIntakeTime(SupplementRoutine supplementRoutine) {
         Map<String, Integer> intakeTime = new HashMap<>();
 
         int afterMeal = supplementRoutine.getAfterMeal();
@@ -46,7 +49,7 @@ public class SupplementEditResponse {
         return intakeTime;
     }
 
-    private Map<String, Boolean> getDailyIntakePeriod(SupplementRoutine supplementRoutine) {
+    private Map<String, Boolean> convertDailyIntakePeriod(SupplementRoutine supplementRoutine) {
         Map<String, Boolean> dailyIntakePeriod = new HashMap<>();
 
         dailyIntakePeriod.put("breakfast", supplementRoutine.getBreakfast());
@@ -56,7 +59,7 @@ public class SupplementEditResponse {
         return dailyIntakePeriod;
     }
 
-    private Map<String, Boolean> getWeeklyIntakeFrequency(SupplementRoutine supplementRoutine) {
+    private Map<String, Boolean> convertWeeklyIntakeFrequency(SupplementRoutine supplementRoutine) {
         Map<String, Boolean> dailyIntakePeriod = new HashMap<>();
         String selectedDay = supplementRoutine.getSelectedDay();
 
@@ -71,5 +74,12 @@ public class SupplementEditResponse {
             dailyIntakePeriod.put(days.getKey(), value);
         }
         return dailyIntakePeriod;
+    }
+
+    private List<CustomTime> convertNotificationTime(List<SupplementTime> supplementTimes) {
+        return supplementTimes.stream()
+                .map(SupplementTime::getTime)
+                .map(CustomTime::ofLocalTime)
+                .collect(Collectors.toList());
     }
 }
