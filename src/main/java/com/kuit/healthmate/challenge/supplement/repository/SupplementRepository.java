@@ -29,4 +29,8 @@ public interface SupplementRepository extends JpaRepository<Supplement, Long> {
     @Query("select distinct s from Supplement s left join fetch s.supplementCheckers sc "
             + "where s.id = :supplementId")
     Optional<Supplement> findSupplementAndChecker(@Param("supplementId") Long supplementId);
+
+    @Query("select distinct s from Supplement s left join fetch s.supplementTimes st where s.user.id = :userId and "
+            + "s.status = 'ACTIVE'")
+    List<Supplement> findAllWithTimesByActiveAndUserId(@Param("userId") Long userId);
 }
