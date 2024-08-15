@@ -45,7 +45,7 @@ public class CommonChallengeServiceImpl implements CommonChallengeService{
         int totalSuccess = 0;
 
         // 영양제 챌린지 정보를 가져옴
-        List<Supplement> supplements = supplementService.getSupplementForDay(userId, localDate);
+        List<Supplement> supplements = supplementService.getSupplementForToday(userId, localDate);
 
         // habit 챌린지 정보 가져옴
         List<Habit> habits = habitService.getActiveHabitsByUserIdAndToday(userId, localDate);
@@ -80,7 +80,7 @@ public class CommonChallengeServiceImpl implements CommonChallengeService{
         LocalDate todayDate = LocalDate.parse(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 
         // 영양제 챌린지 정보를 가져옴
-        List<Supplement> supplements = supplementService.getSupplementForToday(userId);
+        List<Supplement> supplements = supplementService.getSupplementForToday(userId, todayDate);
 
         // 각 필드로 생성
         List<SupplementItem> supplementItems = supplements.stream().map((Supplement supplement) ->
