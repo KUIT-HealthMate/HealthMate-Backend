@@ -5,6 +5,7 @@ import com.kuit.healthmate.challenge.supplement.domain.Supplement;
 import com.kuit.healthmate.challenge.supplement.domain.SupplementChecker;
 import com.kuit.healthmate.challenge.supplement.domain.SupplementRoutine;
 import com.kuit.healthmate.challenge.supplement.domain.SupplementTime;
+import com.kuit.healthmate.challenge.supplement.dto.SupplementEditResponse;
 import com.kuit.healthmate.user.domain.User;
 import com.kuit.healthmate.challenge.supplement.dto.SupplementCheckerRequest;
 import com.kuit.healthmate.challenge.supplement.dto.SupplementRegisterRequest;
@@ -94,6 +95,15 @@ public class SupplementService {
                 );
 
         return supplementChecker.toggleStatus();
+    }
+
+    public SupplementEditResponse getSupplementEditResponse(Long supplementId) {
+        Supplement supplement = supplementRepository.findSupplementAndChecker(supplementId)
+                .orElseThrow(
+                        () -> new SupplementException(ExceptionResponseStatus.INVALID_SUPPLEMENT_ID)
+                );
+
+        return new SupplementEditResponse(supplement);
     }
 
     public List<Supplement> getSupplementForDay(Long userId, LocalDate localDate) {

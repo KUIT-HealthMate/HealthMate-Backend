@@ -2,6 +2,7 @@ package com.kuit.healthmate.challenge.supplement.controller;
 
 import com.kuit.healthmate.auth.jwt.Jwt;
 import com.kuit.healthmate.challenge.supplement.dto.SupplementCheckerRequest;
+import com.kuit.healthmate.challenge.supplement.dto.SupplementEditResponse;
 import com.kuit.healthmate.challenge.supplement.dto.SupplementRegisterRequest;
 import com.kuit.healthmate.challenge.supplement.dto.SupplementUpdateRequest;
 import com.kuit.healthmate.global.response.ApiResponse;
@@ -58,8 +59,10 @@ public class SupplementController {
     }
 
     @GetMapping("/edit/{supplementId}") //TODO: 나중에 userId도 확인해서 영양제챌린지를 소유하고 있는 경우에만 접근 가능하게
-    public ApiResponse<Object> editSupplementBase(@Jwt Long userId, @PathVariable Long supplementId) {
-
-        return new ApiResponse<>(null);
+    public ApiResponse<SupplementEditResponse> editSupplementBase(@Jwt Long userId, @PathVariable Long supplementId) {
+        return new ApiResponse<>(
+                supplementService.getSupplementEditResponse(supplementId)
+        );
     }
+
 }

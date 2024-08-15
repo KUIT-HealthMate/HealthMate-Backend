@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 public class SupplementEditResponse {
 
     private String name;
+    private Long supplementId;
 
     private Map<String, Integer> intakeTime;   // 섭취 시간 (식전 1 식후 2, 분 number로)
     private Map<String, Boolean> dailyIntakePeriod;
@@ -26,6 +27,7 @@ public class SupplementEditResponse {
     public SupplementEditResponse(Supplement supplement) {
         SupplementRoutine supplementRoutine = supplement.getSupplementRoutine();
         this.name = supplement.getName();
+        this.supplementId = supplement.getId();
         this.intakeTime = this.convertIntakeTime(supplementRoutine);
         this.dailyIntakePeriod = this.convertDailyIntakePeriod(supplementRoutine);
         this.weeklyIntakeFrequency = this.convertWeeklyIntakeFrequency(supplementRoutine);
