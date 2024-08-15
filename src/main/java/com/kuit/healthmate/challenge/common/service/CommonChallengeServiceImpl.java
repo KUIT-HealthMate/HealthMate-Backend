@@ -264,7 +264,7 @@ public class CommonChallengeServiceImpl implements CommonChallengeService{
 
         for (HabitItem habitItem : habitItems) {
             totalRequired++;
-            if (habitItem.getSuccess()) totalSuccess++;
+            if (habitItem.getAchievementStatus()) totalSuccess++;
         }
 
         return totalRequired > 0 ? (double) round(totalSuccess / totalRequired * 100) : 0;
