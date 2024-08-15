@@ -6,7 +6,6 @@ import com.kuit.healthmate.challenge.supplement.domain.SupplementChecker;
 import com.kuit.healthmate.challenge.supplement.domain.SupplementRoutine;
 import com.kuit.healthmate.challenge.supplement.domain.SupplementTime;
 import com.kuit.healthmate.challenge.supplement.dto.CustomTime;
-import com.kuit.healthmate.challenge.supplement.dto.SupplementEditListResponse;
 import com.kuit.healthmate.challenge.supplement.dto.SupplementEditResponse;
 import com.kuit.healthmate.challenge.supplement.dto.constant.WeekOfDays;
 import com.kuit.healthmate.user.domain.User;
@@ -23,6 +22,7 @@ import com.kuit.healthmate.challenge.supplement.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -144,12 +144,23 @@ public class SupplementService {
         return supplementRepository.findAllByUserIdAndStatus(userId, Status.ACTIVE);
     }
 
-    public List<Supplement> getSupplementForDay(Long userId, LocalDate localDate) {
-        return supplementRepository.findAllByUserIdAndCheckedDateBetween(userId, localDate, localDate);
-    }
+    public List<Supplement> getSupplementForToday(Long userId, LocalDate date) {
+        List<Supplement> supplements =  supplementRepository.findAllActiveByUserIdForToday(userId, LocalDate.now(), LocalDate.now().getDayOfWeek().getValue());
 
-    public List<Supplement> getSupplementForToday(Long userId) {
-        return supplementRepository.findAllActiveByUserId(userId, LocalDate.now(), LocalDate.now().getDayOfWeek().getValue());
+        List<Supplement> processedSupplements = new ArrayList<>();
+
+        for (Supplement supplement : supplements) {
+            if (supplement.getSupplementCheckers().isEmpty()) {
+                if(supplement.getStatus() == Status.INACTIVE && supplement.getUpdatedAt().toLocalDate().isAfter(date)) {
+                    processedSupplements.add(supplement);
+                } else if (supplement.getStatus() == Status.ACTIVE) {
+                    processedSupplements.add(supplement);
+                }
+            } else {
+                processedSupplements.add(supplement);
+            }
+        }
+        return processedSupplements;
     }
 
     public List<Supplement> getSupplementBetween(Long userId, LocalDate startDate, LocalDate endDate) {
