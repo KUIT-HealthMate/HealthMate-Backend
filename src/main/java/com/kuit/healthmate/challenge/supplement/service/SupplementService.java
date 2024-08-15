@@ -6,6 +6,7 @@ import com.kuit.healthmate.challenge.supplement.domain.SupplementChecker;
 import com.kuit.healthmate.challenge.supplement.domain.SupplementRoutine;
 import com.kuit.healthmate.challenge.supplement.domain.SupplementTime;
 import com.kuit.healthmate.challenge.supplement.dto.CustomTime;
+import com.kuit.healthmate.challenge.supplement.dto.SupplementEditListResponse;
 import com.kuit.healthmate.challenge.supplement.dto.SupplementEditResponse;
 import com.kuit.healthmate.challenge.supplement.dto.constant.WeekOfDays;
 import com.kuit.healthmate.user.domain.User;
@@ -135,6 +136,10 @@ public class SupplementService {
                 weeklyIntakeFrequency,
                 notificationTime
         );
+    }
+
+    public List<Supplement> getSupplementEditList(Long userId) {
+        return supplementRepository.findAllByUserIdAndStatus(userId, Status.ACTIVE);
     }
 
     public List<Supplement> getSupplementForDay(Long userId, LocalDate localDate) {
