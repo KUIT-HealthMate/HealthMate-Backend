@@ -17,7 +17,7 @@ public class BatchScheduler {
     private final JobLauncher jobLauncher;
     private final Job jobWeek;
     private final Job jobMonth;
-    private final Job jobAverage
+    private final Job jobAverage;
 
     @Autowired
     public BatchScheduler(JobLauncher jobLauncher, @Qualifier("jobWeek")Job jobWeek, @Qualifier("jobMonth") Job jobMonth,
