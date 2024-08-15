@@ -105,14 +105,16 @@ public class MealPatternTodayFormatter {
         response.append("[위험 증세 수치]\n").append("80\n\n");
         response.append("[위험 증세]\n").append("없음\n\n");
         response.append("[추천 챌린지]\n").append("15번 이상 씹기\n").append("\n\n");
-        response.append("응답을 예시와 같은 Json 포맷으로 반환해줘\n");
+        response.append("[종합 점수]\n").append("50").append("\n\n");
+        response.append("응답을 예시와 같은 Json 포맷으로 반환해줘, 백틱은 제외하고 순수하게 json 값만 보내\n");
         response.append(" \"description\": \" 님의 하루 식사 습관을 분석한 결과, 식사 패턴이 대체로 불규칙하며,  특히 오늘의 식사는 불규칙한 시간에 이루어진 것으로 나타났어요. 또한, 식사 중에 TV나 스마트폰을 함께 보는 습관이 있었고, 조미료를 많이 섭취한 것으로 나타났습니다. 이러한 식습관은 소화 과정에 부담을 주고, 소화불량을 유발할 수 있습니다. 또한, 불규칙한 식사 시간과 TV나 스마트폰을 함께 본다는 것은 식사 중에 충분한 집중을 하지 않는 것으로 이어질 수 있습니다. 두통과 허리통증이라는 이상 증세가 나타났는데, 이는 식사 습관의 변화나 영양 섭취 부족으로 인해 발생할 수 있습니다. 두통과 허리통증은 식습관의 개선과 함께 적절한 휴식과 운동을 통해 개선될 수 있습니다. 정기적인 식사 시간을 유지하고, TV나 스마트폰을 끄고 식사를 즐기며, 조미료 섭취를 줄이는 것이 중요합니다. 또한, 두통과 허리통증이 계속되거나 심해진다면 의사를 방문하여 상담 받는 것이 좋습니다.\",\n" +
                 "      \"regularity\": 30,\n" +
                 "      \"alcoholFrequency\": 50,\n" +
                 "      \"nutritionIntake\": 40,\n" +
                 "      \"riskScore\": 60,\n" +
                 "      \"riskSymptoms\": \"두통, 허리통증\",\n" +
-                "      \"challenges\": \"식사 시간에 집중하기\"");
+                "      \"challenges\": \"식사 시간에 집중하기\",\n" +
+                "      \"dailyMealPatternScore\": 60\"");
 
         return response.toString();
     }

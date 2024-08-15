@@ -1,19 +1,19 @@
 package com.kuit.healthmate.batch;
 
 
+import com.kuit.healthmate.batch.analytics.DataAnalysisAndSaveTasklet;
+import com.kuit.healthmate.batch.analytics.FetchScoreTasklet;
 import com.kuit.healthmate.batch.month.FetchMonthDataTasklet;
 import com.kuit.healthmate.batch.month.SendToMonthDataGptAndSaveTasklet;
 import com.kuit.healthmate.batch.month.TransformMonthDataPromptTasklet;
-import com.kuit.healthmate.batch.task.FetchHealthDataTasklet;
-import com.kuit.healthmate.batch.task.SendToGptAndSaveTasklet;
-import com.kuit.healthmate.batch.task.TransformPromptTasklet;
-import com.kuit.healthmate.diagnosis.life.domain.LifeStyleQuestionnaire;
+import com.kuit.healthmate.batch.week.FetchHealthDataTasklet;
+import com.kuit.healthmate.batch.week.SendToGptAndSaveTasklet;
+import com.kuit.healthmate.batch.week.TransformPromptTasklet;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.DuplicateJobException;
-import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
@@ -36,6 +36,10 @@ public class BatchConfig {
     private final FetchMonthDataTasklet fetchMonthDataTasklet;
     private final TransformMonthDataPromptTasklet transformMonthDataPromptTasklet;
     private final SendToMonthDataGptAndSaveTasklet sendToMonthDataGptAndSaveTasklet;
+
+    // 평균
+    private final FetchScoreTasklet fetchScoreTasklet;
+    private final DataAnalysisAndSaveTasklet dataAnalysisAndSaveTasklet;
 
 
     @Bean
@@ -95,6 +99,29 @@ public class BatchConfig {
     public Step sendToMonthDataGptStep() {
         return new StepBuilder("sendToMonthDataGptStep", jobRepository)
                 .tasklet(sendToMonthDataGptAndSaveTasklet, transactionManager)
+                .build();
+    }
+
+    @Bean
+    public Job jobAverage() {
+        return new JobBuilder("jobAverage", jobRepository)
+                .start(fetchScoreStep())
+                .next(dataAnalysisAndSaveStep())
+                .next(sendToMonthDataGptStep())
+                .build();
+    }
+
+    @Bean
+    public Step fetchScoreStep() {
+        return new StepBuilder("fetchScoreStep", jobRepository)
+                .tasklet(fetchScoreTasklet, transactionManager)
+                .build();
+    }
+
+    @Bean
+    public Step dataAnalysisAndSaveStep() {
+        return new StepBuilder("dataAnalysisAndSaveStep", jobRepository)
+                .tasklet(dataAnalysisAndSaveTasklet, transactionManager)
                 .build();
     }
 }

@@ -17,12 +17,15 @@ public class BatchScheduler {
     private final JobLauncher jobLauncher;
     private final Job jobWeek;
     private final Job jobMonth;
+    private final Job jobAverage;
 
     @Autowired
-    public BatchScheduler(JobLauncher jobLauncher, @Qualifier("jobWeek")Job jobWeek, @Qualifier("jobMonth") Job jobMonth) {
+    public BatchScheduler(JobLauncher jobLauncher, @Qualifier("jobWeek")Job jobWeek, @Qualifier("jobMonth") Job jobMonth,
+                          @Qualifier("jobAverage") Job jobAverage) {
         this.jobLauncher = jobLauncher;
         this.jobWeek = jobWeek;
         this.jobMonth = jobMonth;
+        this.jobAverage = jobAverage;
     }
 
     @Scheduled(cron = "0 0 23 * * SUN")
@@ -37,4 +40,9 @@ public class BatchScheduler {
     public void runBatchJobMonth() throws Exception {
         jobLauncher.run(jobMonth, new JobParameters());
     }
+
+//    @Scheduled(cron = "0 30 23 * * ?")
+//    public void runBatchJobAverage() throws Exception {
+//        jobLauncher.run(jobAverage, new JobParameters());
+//    }
 }
