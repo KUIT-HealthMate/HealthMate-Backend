@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,13 +65,37 @@ public class HabitService {
         int dayOfWeek = date.getDayOfWeek().getValue();
         // 요일을 월요일부터 시작하는 1부터 7까지의 값으로 맞추기 위해 필요
         // 월요일이 1, 화요일이 2, ..., 일요일이 7
-        return habitRepository.findActiveHabitsByUserIdAndDayOfWeek(userId, dayOfWeek);
+        List<Habit> habits = habitRepository.findActiveHabitsByUserIdAndDayOfWeek(userId, dayOfWeek, date);
+
+        List<Habit> processedHabits = new ArrayList<>();
+
+        for (Habit habit : habits) {
+            if (habit.getHabitChecker().isEmpty()) {
+                // HabitChecker가 없는 경우 INACTIVE 상태로 업데이트된 날짜를 확인하여 추가 처리하는 부분
+                if (habit.getStatus() == Status.INACTIVE && habit.getUpdatedAt().toLocalDate().isAfter(date)) {
+                    processedHabits.add(habit);
+                }
+                else if(habit.getStatus() == Status.ACTIVE){
+                    processedHabits.add(habit);
+                }
+            } else {
+                processedHabits.add(habit);
+            }
+        }
+        return processedHabits;
     }
     public List<Habit> getHabitForWeek(Long userId, LocalDate startDate,LocalDate endDate){
-        return habitRepository.findAllByUserIdAndCreatedAtBetween(userId,startDate,endDate);
+        List<Habit> habits = habitRepository.findAllByUserIdAndCreatedAtBetween(userId,startDate,endDate);
+        log.info(habits.get(0).getName());
+
+        return habits;
     }
     public List<Habit> getHabitForMonth(Long userId, LocalDate endDate){
-        return habitRepository.findAllByUserIdAndCreatedAtBetween(userId, endDate.withDayOfMonth(1),endDate);
+        List<Habit> habits = habitRepository.findAllByUserIdAndCreatedAtBetween(userId, endDate.withDayOfMonth(1),endDate);
+
+        log.info(habits.get(0).getName());
+
+        return habits;
     }
 
     @Transactional
