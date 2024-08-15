@@ -5,7 +5,9 @@ import com.kuit.healthmate.challenge.supplement.domain.Supplement;
 import com.kuit.healthmate.challenge.supplement.domain.SupplementChecker;
 import com.kuit.healthmate.challenge.supplement.domain.SupplementRoutine;
 import com.kuit.healthmate.challenge.supplement.domain.SupplementTime;
+import com.kuit.healthmate.challenge.supplement.dto.CustomTime;
 import com.kuit.healthmate.challenge.supplement.dto.SupplementEditResponse;
+import com.kuit.healthmate.challenge.supplement.dto.constant.WeekOfDays;
 import com.kuit.healthmate.user.domain.User;
 import com.kuit.healthmate.challenge.supplement.dto.SupplementCheckerRequest;
 import com.kuit.healthmate.challenge.supplement.dto.SupplementRegisterRequest;
@@ -19,6 +21,8 @@ import com.kuit.healthmate.challenge.supplement.repository.SupplementTimeReposit
 import com.kuit.healthmate.challenge.supplement.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.HashMap;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -98,12 +102,39 @@ public class SupplementService {
     }
 
     public SupplementEditResponse getSupplementEditResponse(Long supplementId) {
-        Supplement supplement = supplementRepository.findSupplementAndChecker(supplementId)
-                .orElseThrow(
-                        () -> new SupplementException(ExceptionResponseStatus.INVALID_SUPPLEMENT_ID)
-                );
+//        Supplement supplement = supplementRepository.findSupplementAndChecker(supplementId) // TODO: notiTime까지 가져오는 애로 다시 짜야해
+//                .orElseThrow(
+//                        () -> new SupplementException(ExceptionResponseStatus.INVALID_SUPPLEMENT_ID)
+//                );
+//
+//        return new SupplementEditResponse(supplement);
+        HashMap<String, Integer> intakeTime = new HashMap<>();
+        intakeTime.put("beforeOrAfterMeal", 2);
+        intakeTime.put("minutes", 30);
 
-        return new SupplementEditResponse(supplement);
+        HashMap<String, Boolean> dailyIntakePeriod = new HashMap<>();
+        dailyIntakePeriod.put("breakfast", true);
+        dailyIntakePeriod.put("lunch", true);
+        dailyIntakePeriod.put("dinner", true);
+
+        HashMap<String, Boolean> weeklyIntakeFrequency = new HashMap<>();
+        for(WeekOfDays days : WeekOfDays.values()) {
+            weeklyIntakeFrequency.put(days.getKey(), Boolean.TRUE);
+        }
+
+        List<CustomTime> notificationTime = List.of(CustomTime.ofLocalTime(LocalTime.of(17, 0)),
+                CustomTime.ofLocalTime(LocalTime.of(12, 0)),
+                CustomTime.ofLocalTime(LocalTime.of(8, 0))
+        );
+
+        return new SupplementEditResponse(
+                "목데이터",
+                1L,
+                intakeTime,
+                dailyIntakePeriod,
+                weeklyIntakeFrequency,
+                notificationTime
+        );
     }
 
     public List<Supplement> getSupplementForDay(Long userId, LocalDate localDate) {

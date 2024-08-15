@@ -8,11 +8,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor // TODO: MockData로 임시방편
 public class SupplementEditResponse {
 
     private String name;
@@ -62,7 +64,7 @@ public class SupplementEditResponse {
     }
 
     private Map<String, Boolean> convertWeeklyIntakeFrequency(SupplementRoutine supplementRoutine) {
-        Map<String, Boolean> dailyIntakePeriod = new HashMap<>();
+        Map<String, Boolean> weeklyIntakeFrequency = new HashMap<>();
         String selectedDay = supplementRoutine.getSelectedDay();
 
         int idx = 0;
@@ -73,9 +75,9 @@ public class SupplementEditResponse {
             } else {
                 value = Boolean.TRUE;
             }
-            dailyIntakePeriod.put(days.getKey(), value);
+            weeklyIntakeFrequency.put(days.getKey(), value);
         }
-        return dailyIntakePeriod;
+        return weeklyIntakeFrequency;
     }
 
     private List<CustomTime> convertNotificationTime(List<SupplementTime> supplementTimes) {
