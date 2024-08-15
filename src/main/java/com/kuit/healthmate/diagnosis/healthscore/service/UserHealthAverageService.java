@@ -2,8 +2,12 @@ package com.kuit.healthmate.diagnosis.healthscore.service;
 
 import com.kuit.healthmate.diagnosis.healthscore.domain.UserHealthAverage;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+
 public interface UserHealthAverageService {
-    void updateAverage(int dailyLifeStyleAverage, int dailyMealPatterAverage, int dailySleepPatterAverage,
+    void insertAverage(int dailyLifeStyleAverage, int dailyMealPatterAverage, int dailySleepPatterAverage,
                        int weekLifeStyleAverage, int weekMealPatterAverage, int weekSleepPatterAverage,
                        int monthLifeStyleAverage, int monthMealPatterAverage, int monthSleepPatterAverage,
                        int dailyLifeStyleRegularnessAverage, int dailyLifeStyleImmersionAverage, int dailyLifeStylePostureAverage,
@@ -11,5 +15,5 @@ public interface UserHealthAverageService {
                        int dailySleepRegularityAverage, int dailySleepQualityAverage, int dailySleepFocusAverage
     );
 
-    UserHealthAverage getAverage();
+    List<UserHealthAverage> getAverageByDate(LocalDate startDate, LocalDate endDate);
 }

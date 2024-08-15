@@ -101,7 +101,7 @@ public class DataAnalysisAndSaveTasklet implements Tasklet {
 
         }
 
-        userHealthAverageService.updateAverage(
+        userHealthAverageService.insertAverage(
                 dailyLifeStyleCount/cnt,dailyMealCount/cnt,dailySleepCount/cnt,
                 weekLifeStyleCount/cnt2,weekMealCount/cnt2,weekSleepCount/cnt2,
                 monthLifeStyleCount/cnt3,monthMealCount/cnt3,monthSleepCount/cnt3,
