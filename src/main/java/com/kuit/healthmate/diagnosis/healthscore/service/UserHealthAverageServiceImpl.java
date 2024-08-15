@@ -14,7 +14,7 @@ public class UserHealthAverageServiceImpl implements UserHealthAverageService{
     public void updateAverage(int dailyLifeStyleAverage, int dailyMealPatterAverage, int dailySleepPatterAverage,
                               int weekLifeStyleAverage, int weekMealPatterAverage, int weekSleepPatterAverage,
                               int monthLifeStyleAverage, int monthMealPatterAverage, int monthSleepPatterAverage) {
-        userHealthAverageRepository.updateUserHealthAverage(1,dailyLifeStyleAverage,dailyMealPatterAverage,dailySleepPatterAverage
+        userHealthAverageRepository.updateUserHealthAverage(1L,dailyLifeStyleAverage,dailyMealPatterAverage,dailySleepPatterAverage,
                 weekLifeStyleAverage,weekMealPatterAverage,weekSleepPatterAverage,monthLifeStyleAverage,monthMealPatterAverage,monthSleepPatterAverage);
     }
 
