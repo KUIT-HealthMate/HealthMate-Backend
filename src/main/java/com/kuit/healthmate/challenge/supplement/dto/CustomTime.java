@@ -16,4 +16,8 @@ public class CustomTime {
     public LocalTime toLocalTime() {
         return LocalTime.of(this.hour, this.minute);
     }
+
+    public static CustomTime ofLocalTime(LocalTime localTime) {
+        return new CustomTime(localTime.getHour(), localTime.getMinute());
+    }
 }

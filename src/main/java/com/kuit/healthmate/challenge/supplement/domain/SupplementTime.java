@@ -34,4 +34,12 @@ public class SupplementTime {
         this.supplement = supplement;
         this.time = time;
     }
+
+    public int getHour() {
+        return this.time.getHour();
+    }
+
+    public int getMinute() {
+        return this.time.getMinute();
+    }
 }

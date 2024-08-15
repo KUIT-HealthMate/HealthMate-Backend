@@ -1,16 +1,15 @@
 package com.kuit.healthmate.challenge.supplement.controller;
 
 import com.kuit.healthmate.auth.jwt.Jwt;
+import com.kuit.healthmate.challenge.supplement.domain.Supplement;
 import com.kuit.healthmate.challenge.supplement.dto.SupplementCheckerRequest;
+import com.kuit.healthmate.challenge.supplement.dto.SupplementEditListResponse;
+import com.kuit.healthmate.challenge.supplement.dto.SupplementEditResponse;
 import com.kuit.healthmate.challenge.supplement.dto.SupplementRegisterRequest;
-import com.kuit.healthmate.challenge.supplement.dto.SupplementResponse;
 import com.kuit.healthmate.challenge.supplement.dto.SupplementUpdateRequest;
-import com.kuit.healthmate.global.exception.SupplementException;
-import com.kuit.healthmate.global.exception.UserException;
 import com.kuit.healthmate.global.response.ApiResponse;
 import com.kuit.healthmate.challenge.supplement.service.SupplementService;
-import com.kuit.healthmate.global.response.ExceptionResponseStatus;
-import com.kuit.healthmate.user.domain.User;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -56,4 +55,21 @@ public class SupplementController {
                 supplementService.checkSupplementChecker(supplementId, supplementCheckerRequest)
         );
     }
+
+    @GetMapping("/edit")
+    public ApiResponse<List<SupplementEditListResponse>> editSupplementList(@Jwt Long userId) {
+        List<Supplement> supplementEditList = supplementService.getSupplementEditList(userId);
+        List<SupplementEditListResponse> supplementEditListResponses = supplementEditList.stream()
+                .map(SupplementEditListResponse::new)
+                .toList();
+        return new ApiResponse<>(supplementEditListResponses);
+    }
+
+    @GetMapping("/edit/{supplementId}") //TODO: 나중에 userId도 확인해서 영양제챌린지를 소유하고 있는 경우에만 접근 가능하게
+    public ApiResponse<SupplementEditResponse> editSupplementBase(@Jwt Long userId, @PathVariable Long supplementId) {
+        return new ApiResponse<>(
+                supplementService.getSupplementEditResponse(supplementId)
+        );
+    }
+
 }

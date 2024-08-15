@@ -1,4 +1,8 @@
 spring:
+  profiles:
+    active: "default"
+---
+spring:
   config:
     activate:
       on-profile: default
@@ -164,6 +168,97 @@ management:
 secret:
   jwt-secret-key: ${JWT_SECRET_KEY}
   jwt-expired-in: ${JWT_EXPIRED_IN}
+
+springdoc:
+  packages-to-scan: com.kuit.healthmate
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+  swagger-ui:
+    path: /API-doc
+    url: /v3/api-docs
+    disable-swagger-default-url: true
+    display-request-duration: true
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+server:
+  port: 9000
+
+openai:
+  model: ${MODEL} # 모델명 기입하기
+  api:
+    url: ${URL} # 해당 api url ex) https://api.openai.com/v1/chat/completions
+    key: ${API_KEY} # 발급 받은 key
+
+cloud:
+  aws:
+    credentials:
+      access-key: ${ACCESS_KEY}
+      secret-key: ${SECRET_KEY}
+    region:
+      static: ${REGION}
+    stack:
+      auto: false
+    s3:
+      bucketName: healthmate-backend
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  application:
+    name: health-mate
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:test;mode=mysql
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+      path: /h2-console
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      enabled: false
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update        # DB 초기화 전략 (none, create, create-drop, update, validate)
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true      # 쿼리 로그 포맷 (정렬)
+        show_sql: true        # 쿼리 로그 출력
+        generate-ddl: true
+
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            redirect-uri: http://localhost:9000/login/oauth2/code/kakao
+            client-id: ${CLIENT_ID}
+            client-secret: ${CLIENT_SECRET}
+            client-authentication-method: client_secret_post
+            authorization-grant-type: authorization_code
+            scope: profile_nickname, profile_image
+            client-name: Kakao
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+
+secret:
+  jwt-secret-key: ${JWT_SECRET_KEY}
+  jwt-expired-in: ${JWT_EXPIRED_IN}
+
 
 springdoc:
   packages-to-scan: com.kuit.healthmate
