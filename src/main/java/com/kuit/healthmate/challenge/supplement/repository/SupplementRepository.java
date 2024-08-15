@@ -2,7 +2,6 @@ package com.kuit.healthmate.challenge.supplement.repository;
 
 import com.kuit.healthmate.challenge.common.domain.Status;
 import com.kuit.healthmate.challenge.supplement.domain.Supplement;
-import com.kuit.healthmate.challenge.supplement.domain.TimeSlot;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -14,17 +13,18 @@ public interface SupplementRepository extends JpaRepository<Supplement, Long> {
 
     List<Supplement> findAllByUserIdAndStatus(Long userId, Status status);
 
-    @Query("select distinct s from Supplement s join fetch s.supplementCheckers sc "
-            + "where s.user.id = :userId and sc.checkDate between :startDate and :endDate")
+    @Query("select distinct s from Supplement s left join fetch s.supplementCheckers sc "
+            + "where s.user.id = :userId and sc.checkDate is null or sc.checkDate between :startDate and :endDate")
     List<Supplement> findAllByUserIdAndCheckedDateBetween(@Param("userId") Long userId,
                                                           @Param("startDate") LocalDate startDate,
                                                           @Param("endDate") LocalDate endDate);
 
-    @Query("select distinct s from Supplement s join fetch s.supplementCheckers sc where s.user.id = :userId "
-            + "and sc.checkDate = :today and substring(s.supplementRoutine.selectedDay, :dayOfWeek, 1) = '1'")
-    List<Supplement> findAllActiveByUserId (@Param("userId") Long userId,
-                                            @Param("today") LocalDate today,
-                                            @Param("dayOfWeek") int dayOfWeek);
+    @Query("select distinct s from Supplement s left join fetch s.supplementCheckers sc where s.user.id = :userId "
+            + "and s.status = 'ACTIVE' and substring(s.supplementRoutine.selectedDay, :dayOfWeek, 1) = '1' and "
+            + "date(s.createdAt) <= :today")
+    List<Supplement> findAllActiveByUserIdForToday(@Param("userId") Long userId,
+                                                   @Param("today") LocalDate today,
+                                                   @Param("dayOfWeek") int dayOfWeek);
 
     @Query("select distinct s from Supplement s left join fetch s.supplementCheckers sc "
             + "where s.id = :supplementId")
