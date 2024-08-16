@@ -13,12 +13,14 @@ public class MyPageResponse {
     private String nickname;
     private String profileImage;
     private Integer coin;
+    private Boolean isAlarm;
     private List<String> health;
 
     public MyPageResponse(User user, OnboardingInfo onboardingInfo) {
         this.nickname = user.getNickname();
         this.profileImage = user.getProfile();
         this.coin = Math.toIntExact(user.getBalance());
+        this.isAlarm = user.getIsAlarm();
         this.health = onboardingInfo.getSymptoms();
     }
 }
