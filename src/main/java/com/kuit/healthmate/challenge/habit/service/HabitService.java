@@ -4,6 +4,7 @@ import com.kuit.healthmate.challenge.common.domain.Status;
 import com.kuit.healthmate.challenge.habit.domain.Habit;
 import com.kuit.healthmate.challenge.habit.domain.HabitChecker;
 import com.kuit.healthmate.challenge.habit.domain.HabitTime;
+import com.kuit.healthmate.challenge.habit.dto.response.HabitEditResponse;
 import com.kuit.healthmate.challenge.habit.dto.response.PostCreateHabitResponse;
 import com.kuit.healthmate.challenge.habit.repository.HabitCheckerRepository;
 import com.kuit.healthmate.challenge.habit.repository.HabitRepository;
@@ -12,6 +13,7 @@ import com.kuit.healthmate.challenge.habit.dto.request.PatchEditHabitRequest;
 import com.kuit.healthmate.challenge.habit.dto.request.PostCreateHabitRequest;
 import com.kuit.healthmate.challenge.habit.dto.SelectedTime;
 import com.kuit.healthmate.challenge.supplement.dto.CustomTime;
+import com.kuit.healthmate.challenge.supplement.dto.SupplementEditResponse;
 import com.kuit.healthmate.global.exception.HabitException;
 import com.kuit.healthmate.global.response.ExceptionResponseStatus;
 import lombok.RequiredArgsConstructor;
@@ -135,5 +137,9 @@ public class HabitService {
                         .habit(habit).build());
 
         habitCheckerRepository.save(habitChecker);
+    }
+
+    public HabitEditResponse getHabitResponse(Long userId,Long habitId) {
+        //habitId로 검색
     }
 }

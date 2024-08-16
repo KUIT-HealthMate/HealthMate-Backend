@@ -7,7 +7,9 @@ import com.kuit.healthmate.challenge.habit.dto.request.GetHabitRequest;
 import com.kuit.healthmate.challenge.habit.dto.request.PatchEditHabitRequest;
 import com.kuit.healthmate.challenge.habit.dto.request.PostCreateHabitRequest;
 import com.kuit.healthmate.challenge.habit.dto.request.PutCheckHabitRequest;
+import com.kuit.healthmate.challenge.habit.dto.response.HabitEditResponse;
 import com.kuit.healthmate.challenge.habit.dto.response.PostCreateHabitResponse;
+import com.kuit.healthmate.challenge.supplement.dto.SupplementEditResponse;
 import com.kuit.healthmate.global.exception.HabitException;
 import com.kuit.healthmate.global.response.ApiResponse;
 import com.kuit.healthmate.challenge.habit.service.HabitService;
@@ -100,5 +102,11 @@ public class habitController {
     public ApiResponse<Boolean> checkHabitChecker(@PathVariable Long habitId,@RequestBody PutCheckHabitRequest putCheckHabitRequest, BindingResult bindingResult) {
         habitService.checkHabit(putCheckHabitRequest.getDate(), habitId);
         return new ApiResponse<>(null);
+    }
+    @GetMapping("/edit")
+    public ApiResponse<HabitEditResponse> editHabitBase(@Jwt Long userId) {
+        return new ApiResponse<>(
+                habitService.getHabitResponse(userId)
+        );
     }
 }
