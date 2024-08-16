@@ -4,13 +4,10 @@ import com.kuit.healthmate.auth.jwt.Jwt;
 import com.kuit.healthmate.challenge.supplement.domain.Supplement;
 import com.kuit.healthmate.challenge.supplement.dto.SupplementCheckerRequest;
 import com.kuit.healthmate.challenge.supplement.dto.SupplementEditListResponse;
-import com.kuit.healthmate.challenge.supplement.dto.SupplementEditResponse;
 import com.kuit.healthmate.challenge.supplement.dto.SupplementRegisterRequest;
 import com.kuit.healthmate.challenge.supplement.dto.SupplementUpdateRequest;
 import com.kuit.healthmate.global.response.ApiResponse;
 import com.kuit.healthmate.challenge.supplement.service.SupplementService;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -64,12 +61,5 @@ public class SupplementController {
                 .map(SupplementEditListResponse::new)
                 .toList();
         return new ApiResponse<>(supplementEditListResponses);
-    }
-
-    @GetMapping("/edit/{supplementId}") //TODO: 나중에 userId도 확인해서 영양제챌린지를 소유하고 있는 경우에만 접근 가능하게
-    public ApiResponse<SupplementEditResponse> editSupplementBase(@Jwt Long userId, @PathVariable Long supplementId) {
-        return new ApiResponse<>(
-                supplementService.getSupplementEditResponse(supplementId)
-        );
     }
 }
