@@ -1,4 +1,4 @@
-package com.kuit.healthmate.challenge.supplement.repository;
+package com.kuit.healthmate.user.repository;
 
 import com.kuit.healthmate.user.domain.User;
 import java.util.Optional;

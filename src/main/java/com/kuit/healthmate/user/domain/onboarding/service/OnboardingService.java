@@ -1,6 +1,6 @@
 package com.kuit.healthmate.user.domain.onboarding.service;
 
-import com.kuit.healthmate.challenge.supplement.repository.UserRepository;
+import com.kuit.healthmate.user.repository.UserRepository;
 import com.kuit.healthmate.global.exception.UserException;
 import com.kuit.healthmate.global.response.ExceptionResponseStatus;
 import com.kuit.healthmate.user.Gender;

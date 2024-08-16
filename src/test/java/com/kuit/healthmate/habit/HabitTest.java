@@ -1,27 +1,16 @@
 package com.kuit.healthmate.habit;
 
 
-import com.kuit.healthmate.challenge.habit.domain.Habit;
-import com.kuit.healthmate.challenge.habit.domain.HabitChecker;
-import com.kuit.healthmate.challenge.habit.domain.HabitStatus;
 import com.kuit.healthmate.challenge.habit.repository.HabitCheckerRepository;
 import com.kuit.healthmate.challenge.habit.repository.HabitRepository;
 import com.kuit.healthmate.challenge.habit.service.HabitService;
-import com.kuit.healthmate.challenge.supplement.repository.UserRepository;
-import com.kuit.healthmate.user.domain.User;
+import com.kuit.healthmate.user.repository.UserRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @SpringBootTest
 public class HabitTest {

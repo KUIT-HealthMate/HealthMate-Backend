@@ -15,7 +15,7 @@ import com.kuit.healthmate.global.response.ExceptionResponseStatus;
 import com.kuit.healthmate.challenge.supplement.repository.SupplementCheckerRepository;
 import com.kuit.healthmate.challenge.supplement.repository.SupplementRepository;
 import com.kuit.healthmate.challenge.supplement.repository.SupplementTimeRepository;
-import com.kuit.healthmate.challenge.supplement.repository.UserRepository;
+import com.kuit.healthmate.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
