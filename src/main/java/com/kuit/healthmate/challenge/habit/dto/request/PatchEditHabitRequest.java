@@ -20,7 +20,7 @@ public class PatchEditHabitRequest {
 
     private Map<String, Boolean> weeklyExecutionFrequency ;
 
-    private List<SelectedTime> times;
+    private List<SelectedTime> notificationTime;
     public String getSelectedDay() {  // TODO: ENUM.values는 선언 순대로 가져옴 매번
         StringBuilder selectedDay = new StringBuilder();
         for(WeekOfDays days : WeekOfDays.values()) {

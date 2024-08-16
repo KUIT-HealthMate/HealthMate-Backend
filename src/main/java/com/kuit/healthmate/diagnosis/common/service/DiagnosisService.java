@@ -22,6 +22,7 @@ import com.kuit.healthmate.diagnosis.gpt.repository.GptMonthResultRepository;
 import com.kuit.healthmate.diagnosis.gpt.repository.GptResultRepository;
 import com.kuit.healthmate.diagnosis.gpt.repository.GptWeekResultRepository;
 import com.kuit.healthmate.diagnosis.healthscore.domain.UserHealthAverage;
+import com.kuit.healthmate.diagnosis.healthscore.repository.UserHealthAverageRepository;
 import com.kuit.healthmate.diagnosis.healthscore.service.UserHealthAverageService;
 import com.kuit.healthmate.diagnosis.life.domain.LifeStyleQuestionnaire;
 import com.kuit.healthmate.diagnosis.life.repository.LifeStyleQuestionnaireRepository;
@@ -64,6 +65,8 @@ public class DiagnosisService {
     private final GptWeekResultRepository gptWeekResultRepository;
     private final UserHealthAverageService userHealthAverageService;
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private final UserHealthAverageRepository userHealthAverageRepository;
+
     @Transactional
     public Boolean saveDiagnosisResult(Long userId,PostDiagnosisRequest postDiagnosisRequest) {
         LifeStyleDto lifeStyleDto =  postDiagnosisRequest.getLifeStyleDto();
@@ -149,6 +152,7 @@ public class DiagnosisService {
                 .userId(userId)
                 .year((long) LocalDate.now().getYear())
                 .week((long) LocalDate.now().get(WeekFields.ISO.weekOfYear()))
+                .month((long) LocalDate.now().getMonthValue())
                 .lifeStyleToday(lifeStyleToday)
                 .mealPatternToday(mealPatternToday)
                 .sleepPatternToday(sleepPatternToday).build();
@@ -232,9 +236,40 @@ public class DiagnosisService {
         LocalDate formatDate = LocalDate.parse(date, FORMATTER);
         GptMonthResult gptMonthResult = gptMonthResultRepository.findDiagnosisResultByUserIdAndDate(userId, (long)formatDate.getMonthValue(),(long)formatDate.getYear())
                 .orElseThrow(() -> new DiagnosisException(ExceptionResponseStatus.INVALID_DIAGNOSIS_VALUE, "진단 결과가 존재하지 않습니다"));
-
-
-        return new DiagnosisMonthResponseDTO(formatDate,);
+        //월로 조회
+        //내 점수 가져오기
+        List<Integer> lifeScores = new ArrayList<>();
+        List<Integer> mealScores = new ArrayList<>();
+        List<Integer> sleepScores = new ArrayList<>();
+        List<GptWeekResult> userWeekResults = gptWeekResultRepository.findAllByUserIdAndYearAndMonth(userId,(long)formatDate.getMonthValue() - 1,(long) formatDate.getYear());
+        for (GptWeekResult item :userWeekResults){
+            lifeScores.add(item.getLifeStyleToday().getLifeStyleScore());
+            mealScores.add(item.getMealPatternToday().getDailyMealPatternScore());
+            sleepScores.add(item.getSleepPatternToday().getDailySleepPatternScore());
+        }
+        LocalDate previousMonthFirstDay = formatDate.minusMonths(1).withDayOfMonth(1);
+        List<Double> lifeAverages = new ArrayList<>();
+        List<Double> mealAverages = new ArrayList<>();
+        List<Double> sleepAverages = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            previousMonthFirstDay = previousMonthFirstDay.plusDays(7);
+            List<UserHealthAverage> userHealthAverages = userHealthAverageService.getAverageByDate(previousMonthFirstDay,previousMonthFirstDay);
+            for (UserHealthAverage item :userHealthAverages){
+                lifeAverages.add(item.getWeeklyLifestyleAverage());
+                mealAverages.add(item.getWeeklyMealPatternAverage());
+                sleepAverages.add(item.getWeeklySleepPatternAverage());
+            }
+        }
+        LifeStyleWeekResponse lifeStyleWeekResponse = new LifeStyleWeekResponse(
+                lifeAverages,lifeScores,gptMonthResult.getLifeStyleToday().getDescription(), gptMonthResult.getLifeStyleToday().getRiskScore(),gptMonthResult.getLifeStyleToday().getRiskSymptoms(),gptMonthResult.getLifeStyleToday().getChallenges()
+        );
+        MealPatternWeekResponse mealPatternWeekResponse = new MealPatternWeekResponse(
+                mealAverages,mealScores,gptMonthResult.getMealPatternToday().getDescription(), gptMonthResult.getMealPatternToday().getRiskScore(),gptMonthResult.getMealPatternToday().getRiskSymptoms(),gptMonthResult.getMealPatternToday().getChallenges()
+        );
+        SleepPatternWeekResponse sleepPatternWeekResponse = new SleepPatternWeekResponse(
+                sleepAverages,sleepScores,gptMonthResult.getSleepPatternToday().getDescription(), gptMonthResult.getSleepPatternToday().getRiskScore(),gptMonthResult.getSleepPatternToday().getRiskSymptoms(),gptMonthResult.getSleepPatternToday().getChallenges()
+        );
+        return new DiagnosisMonthResponseDTO(formatDate,lifeStyleWeekResponse,mealPatternWeekResponse,sleepPatternWeekResponse);
     }
 
 }
