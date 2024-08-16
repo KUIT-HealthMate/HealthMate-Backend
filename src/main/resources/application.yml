@@ -52,6 +52,12 @@ spring:
             token-uri: https://kauth.kakao.com/oauth/token
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
+logging:
+  level:
+    root: INFO
+  file:
+    name: /var/log/springboot/application.log
+
 
 management:
   endpoints:
@@ -201,6 +207,13 @@ cloud:
       auto: false
     s3:
       bucketName: healthmate-backend
+
+logging:
+  level:
+    root: INFO
+  file:
+    name: /var/log/springboot/application.log
+
 ---
 spring:
   config:
@@ -292,3 +305,9 @@ cloud:
       auto: false
     s3:
       bucketName: healthmate-backend
+
+logging:
+  level:
+    root: INFO
+  file:
+    name: /var/log/springboot/application.log
