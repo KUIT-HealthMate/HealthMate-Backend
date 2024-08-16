@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -48,11 +49,67 @@ public class UserHealthAverage {
     @Column(name = "monthly_meal_pattern_average")
     private Double monthlyMealPatternAverage;
 
+    //일간 평균들..
+    @Column(name = "daily_life_regularness_average")
+    private Double dailyLifeStyleRegularnessAverage;
+
+    @Column(name = "daily_life_immersion_average")
+    private Double dailyLifeStyleImmersionAverage;
+
+    @Column(name = "daily_life_posture_average")
+    private Double dailyLifeStylePostureAverage;
+
+    @Column(name = "daily_meal_regularity_average")
+    private Double dailyMealRegularityAverage;
+
+    @Column(name = "daily_meal_nutrition_average")
+    private Double dailyMealNutritionIntakeAverage;
+
+    @Column(name = "daily_meal_alcohol_average")
+    private Double dailyMealAlcoholFrequencyAverage;
+
+    @Column(name = "daily_sleep_regularity_average")
+    private Double dailySleepRegularityAverage;
+
+    @Column(name = "daily_sleep_quality_average")
+    private Double dailySleepQualityAverage;
+
+    @Column(name = "daily_sleep_focus_average")
+    private Double dailySleepFocusAverage;
+
+
+
     @CreatedDate
     @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
 
     @LastModifiedDate
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private LocalDate updatedAt;
+
+    public UserHealthAverage(Double dailyLifestyleAverage, Double dailyMealPatternAverage, Double dailySleepPatternAverage,
+                             Double weeklyLifestyleAverage, Double weeklyMealPatternAverage, Double weeklySleepPatternAverage,
+                             Double monthlyLifestyleAverage, Double monthlyMealPatternAverage, Double monthlySleepPatternAverage,
+                             Double dailyLifeStyleRegularnessAverage, Double dailyLifeStyleImmersionAverage, Double dailyLifeStylePostureAverage,
+                             Double dailyMealRegularityAverage, Double dailyMealNutritionIntakeAverage, Double dailyMealAlcoholFrequencyAverage,
+                             Double dailySleepRegularityAverage, Double dailySleepQualityAverage, Double dailySleepFocusAverage) {
+        this.dailyLifestyleAverage = dailyLifestyleAverage;
+        this.dailyMealPatternAverage = dailyMealPatternAverage;
+        this.dailySleepPatternAverage = dailySleepPatternAverage;
+        this.weeklyLifestyleAverage = weeklyLifestyleAverage;
+        this.weeklyMealPatternAverage = weeklyMealPatternAverage;
+        this.weeklySleepPatternAverage = weeklySleepPatternAverage;
+        this.monthlyLifestyleAverage = monthlyLifestyleAverage;
+        this.monthlyMealPatternAverage = monthlyMealPatternAverage;
+        this.monthlySleepPatternAverage = monthlySleepPatternAverage;
+        this.dailyLifeStyleRegularnessAverage = dailyLifeStyleRegularnessAverage;
+        this.dailyLifeStyleImmersionAverage = dailyLifeStyleImmersionAverage;
+        this.dailyLifeStylePostureAverage = dailyLifeStylePostureAverage;
+        this.dailyMealRegularityAverage = dailyMealRegularityAverage;
+        this.dailyMealNutritionIntakeAverage = dailyMealNutritionIntakeAverage;
+        this.dailyMealAlcoholFrequencyAverage = dailyMealAlcoholFrequencyAverage;
+        this.dailySleepRegularityAverage = dailySleepRegularityAverage;
+        this.dailySleepQualityAverage = dailySleepQualityAverage;
+        this.dailySleepFocusAverage = dailySleepFocusAverage;
+    }
 }

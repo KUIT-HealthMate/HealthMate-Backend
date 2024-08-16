@@ -14,4 +14,7 @@ import java.util.Optional;
 public interface GptResultRepository extends JpaRepository<GptResult,Long> {
     @Query("SELECT gr FROM GptResult gr WHERE gr.userId = :userId AND gr.date = :date")
     Optional<GptResult> findDiagnosisResultByUserIdAndDate(@Param("userId") Long userId, @Param("date") LocalDate date);
+
+    @Query("SELECT gr FROM GptResult gr WHERE gr.userId = :userId AND gr.date BETWEEN :startDate AND :endDate")
+    List<GptResult> findDiagnosisResultByUserIdAndBetweenDate(@Param("userId") Long userId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 }

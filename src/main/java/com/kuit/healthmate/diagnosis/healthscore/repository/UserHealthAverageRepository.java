@@ -3,25 +3,13 @@ package com.kuit.healthmate.diagnosis.healthscore.repository;
 import com.kuit.healthmate.diagnosis.healthscore.domain.UserHealthAverage;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.repository.query.Param;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 public interface UserHealthAverageRepository extends JpaRepository<UserHealthAverage, Long> {
-    @Transactional
-    @Query("UPDATE UserHealthAverage u SET " +
-            "u.dailyLifestyleAverage = :dailyLifestyleAverage, " +
-            "u.dailySleepPatternAverage = :dailySleepPatternAverage, " +
-            "u.dailyMealPatternAverage = :dailyMealPatternAverage, " +
-            "u.weeklyLifestyleAverage = :weeklyLifestyleAverage, " +
-            "u.weeklySleepPatternAverage = :weeklySleepPatternAverage, " +
-            "u.weeklyMealPatternAverage = :weeklyMealPatternAverage, " +
-            "u.monthlyLifestyleAverage = :monthlyLifestyleAverage, " +
-            "u.monthlySleepPatternAverage = :monthlySleepPatternAverage, " +
-            "u.monthlyMealPatternAverage = :monthlyMealPatternAverage " +
-            "WHERE u.id = :id")
-    void updateUserHealthAverage(Long id, int dailyLifestyleAverage, int dailySleepPatternAverage,
-                                 int dailyMealPatternAverage, int weeklyLifestyleAverage,
-                                 int weeklySleepPatternAverage, int weeklyMealPatternAverage,
-                                 int monthlyLifestyleAverage, int monthlySleepPatternAverage,
-                                 int monthlyMealPatternAverage);
+    @Query("SELECT u FROM UserHealthAverage u WHERE u.createdAt BETWEEN :startDate AND :endDate")
+    List<UserHealthAverage> getAverageByDate(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 }

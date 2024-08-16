@@ -22,6 +22,7 @@ public class GptWeekResult {
     private Long id;
     private Long userId;
     private Long year;
+    private Long month;
     private Long week;
     @Embedded
     @AttributeOverrides({
@@ -51,10 +52,11 @@ public class GptWeekResult {
     private SleepPatternResponse sleepPatternToday;
 
     @Builder
-    public GptWeekResult(Long userId, Long year,Long week, LifeStyleResponse lifeStyleToday, MealPatternResponse mealPatternToday, SleepPatternResponse sleepPatternToday){
+    public GptWeekResult(Long userId, Long year,Long week, Long month,LifeStyleResponse lifeStyleToday, MealPatternResponse mealPatternToday, SleepPatternResponse sleepPatternToday){
         this.userId = userId;
         this.year = year;
         this.week =week;
+        this.month = month;
         this.lifeStyleToday =lifeStyleToday;
         this.mealPatternToday = mealPatternToday;
         this.sleepPatternToday = sleepPatternToday;

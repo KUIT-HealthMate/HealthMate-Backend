@@ -9,6 +9,9 @@ import com.kuit.healthmate.chatgpt.service.GptService;
 import com.kuit.healthmate.diagnosis.common.service.DiagnosisService;
 import com.kuit.healthmate.diagnosis.dto.DiagnosisResponseDTO;
 import com.kuit.healthmate.diagnosis.dto.PostDiagnosisRequest;
+import com.kuit.healthmate.diagnosis.dto.response.day.DiagnosisDayResponseDTO;
+import com.kuit.healthmate.diagnosis.dto.response.month.DiagnosisMonthResponseDTO;
+import com.kuit.healthmate.diagnosis.dto.response.week.DiagnosisWeekResponseDTO;
 import com.kuit.healthmate.global.exception.DiagnosisException;
 import com.kuit.healthmate.global.exception.HabitException;
 import com.kuit.healthmate.global.response.ApiResponse;
@@ -54,16 +57,15 @@ public class DiagnosisController {
     }
 
     @GetMapping("/day/{date}")
-    public ApiResponse<DiagnosisResponseDTO>  getDayDiagnosisResult(@Jwt Long userId, @PathVariable String date){
+    public ApiResponse<DiagnosisDayResponseDTO>  getDayDiagnosisResult(@Jwt Long userId, @PathVariable String date){
         return new ApiResponse<>(diagnosisService.findDayDiagnosisResult(userId,date));
     }
     @GetMapping("/week/{date}")
-    public ApiResponse<DiagnosisResponseDTO>  getWeekDiagnosisResult(@Jwt Long userId, @PathVariable String date){
+    public ApiResponse<DiagnosisWeekResponseDTO>  getWeekDiagnosisResult(@Jwt Long userId, @PathVariable String date){
         return new ApiResponse<>(diagnosisService.findWeekDiagnosisResult(userId,date));
     }
     @GetMapping("/month/{date}")
-    public ApiResponse<DiagnosisResponseDTO>  getMonthDiagnosisResult(@Jwt Long userId, @PathVariable String date){
+    public ApiResponse<DiagnosisMonthResponseDTO>  getMonthDiagnosisResult(@Jwt Long userId, @PathVariable String date){
         return new ApiResponse<>(diagnosisService.findMonthDiagnosisResult(userId,date));
     }
-    //주간, 월간 get 배치처리 마무리하고 구현
 }

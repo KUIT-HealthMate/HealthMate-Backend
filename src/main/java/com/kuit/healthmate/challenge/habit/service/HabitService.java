@@ -103,7 +103,7 @@ public class HabitService {
         Habit habit = habitRepository.findById(habitId)
                 .orElseThrow(() -> new HabitException(ExceptionResponseStatus.NOT_EXIST_HABIT));
         habitRepository.updateHabit(habitId, patchEditHabitRequest.getName(),  LocalDateTime.now(), patchEditHabitRequest.getSelectedDay());
-        List<SelectedTime> times = patchEditHabitRequest.getTimes();
+        List<SelectedTime> times = patchEditHabitRequest.getNotificationTime();
         // 기존 HabitTime 삭제하고
         // 새로운 HabitTime 추가
         habitTimeRepository.deleteAll(habit.getHabitTime());
