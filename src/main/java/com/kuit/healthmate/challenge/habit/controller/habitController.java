@@ -9,18 +9,15 @@ import com.kuit.healthmate.challenge.habit.dto.request.PostCreateHabitRequest;
 import com.kuit.healthmate.challenge.habit.dto.request.PutCheckHabitRequest;
 import com.kuit.healthmate.challenge.habit.dto.response.HabitEditResponse;
 import com.kuit.healthmate.challenge.habit.dto.response.PostCreateHabitResponse;
-import com.kuit.healthmate.challenge.supplement.dto.SupplementEditResponse;
+
 import com.kuit.healthmate.global.exception.HabitException;
 import com.kuit.healthmate.global.response.ApiResponse;
 import com.kuit.healthmate.challenge.habit.service.HabitService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
+
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -104,9 +101,11 @@ public class habitController {
         return new ApiResponse<>(null);
     }
     @GetMapping("/edit")
-    public ApiResponse<HabitEditResponse> editHabitBase(@Jwt Long userId) {
-        return new ApiResponse<>(
-                habitService.getHabitResponse(userId)
-        );
+    public ApiResponse<List<HabitEditResponse>> editHabitBase(@Jwt Long userId) {
+        List<Habit> habitList = habitService.getSupplementEditList(userId);
+        List<HabitEditResponse> habitEditResponses = habitList.stream()
+                .map(HabitEditResponse::new)
+                .toList();
+        return new ApiResponse<>(habitEditResponses);
     }
 }

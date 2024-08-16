@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface HabitRepository  extends JpaRepository<Habit, Long> {
@@ -40,4 +39,8 @@ public interface HabitRepository  extends JpaRepository<Habit, Long> {
     @Modifying
     @Query("UPDATE Habit h SET h.name = :name, h.updatedAt = :updatedAt, h.selectedDay = :selectedDay WHERE h.id = :habitId")
     void updateHabit(@Param("habitId") Long habitId, @Param("name") String name,  @Param("updatedAt")LocalDateTime updatedAt, @Param("selectedDay") String selectedDay);
+
+    @Query("select distinct h from Habit h left join fetch h.habitTime ht where h.userId = :userId and "
+            + "h.status = 'ACTIVE'")
+    List<Habit> findAllWithTimesByActiveAndUserId(Long userId);
 }
