@@ -1,6 +1,6 @@
 package com.kuit.healthmate.auth.service;
 
-import com.kuit.healthmate.challenge.supplement.repository.UserRepository;
+import com.kuit.healthmate.user.repository.UserRepository;
 import com.kuit.healthmate.auth.CustomOAuth2User;
 import com.kuit.healthmate.auth.dto.KakaoResponse;
 import com.kuit.healthmate.auth.dto.OAuth2Response;

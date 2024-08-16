@@ -7,6 +7,7 @@ import com.kuit.healthmate.user.dto.AlarmRequest;
 import com.kuit.healthmate.user.dto.EditNicknameRequest;
 import com.kuit.healthmate.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,6 +49,13 @@ public class UserController {
                                                  @RequestBody AdditionalInfoRequest additionalInfoRequest) {
         userService.setAdditionalInfo(userId, additionalInfoRequest.getAge(), additionalInfoRequest.getGender());
 
+        return new ApiResponse<>(null);
+    }
+
+    @GetMapping("/myPage")
+    public ApiResponse<Object> getUserInfo(@Jwt Long userId) {
+        userService.getUserInfo(userId);
+        userService.getOnboardingInfo(userId);
         return new ApiResponse<>(null);
     }
 }
