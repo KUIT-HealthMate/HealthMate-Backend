@@ -2,9 +2,12 @@ package com.kuit.healthmate.user.controller;
 
 import com.kuit.healthmate.auth.jwt.Jwt;
 import com.kuit.healthmate.global.response.ApiResponse;
+import com.kuit.healthmate.user.domain.User;
+import com.kuit.healthmate.user.domain.onboarding.domain.OnboardingInfo;
 import com.kuit.healthmate.user.dto.AdditionalInfoRequest;
 import com.kuit.healthmate.user.dto.AlarmRequest;
 import com.kuit.healthmate.user.dto.EditNicknameRequest;
+import com.kuit.healthmate.user.dto.MyPageResponse;
 import com.kuit.healthmate.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,9 +56,11 @@ public class UserController {
     }
 
     @GetMapping("/myPage")
-    public ApiResponse<Object> getUserInfo(@Jwt Long userId) {
-        userService.getUserInfo(userId);
-        userService.getOnboardingInfo(userId);
-        return new ApiResponse<>(null);
+    public ApiResponse<MyPageResponse> getUserInfo(@Jwt Long userId) {
+        User user = userService.getUserInfo(userId);
+        OnboardingInfo onboardingInfo = userService.getOnboardingInfo(userId);
+        return new ApiResponse<>(
+                new MyPageResponse(user, onboardingInfo)
+        );
     }
 }
