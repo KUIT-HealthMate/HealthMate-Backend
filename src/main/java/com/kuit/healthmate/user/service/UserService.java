@@ -1,5 +1,6 @@
 package com.kuit.healthmate.user.service;
 
+import com.kuit.healthmate.global.exception.BadRequestException;
 import com.kuit.healthmate.user.domain.onboarding.domain.OnboardingInfo;
 import com.kuit.healthmate.user.domain.onboarding.repository.OnboardingInfoRepository;
 import com.kuit.healthmate.user.repository.UserRepository;
@@ -54,14 +55,14 @@ public class UserService {
     }
 
     public User getUserInfo(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(
+        return userRepository.findById(userId).orElseThrow(
                 () -> new UserException(ExceptionResponseStatus.INVALID_USER_ID)
         );
-        return null;
     }
 
     public OnboardingInfo getOnboardingInfo(Long userId) {
-        Optional<OnboardingInfo> onBoardingInfo = onboardingInfoRepository.findByUserId(userId);
-        return null;
+        return onboardingInfoRepository.findByUserId(userId).orElseThrow(
+                () -> new BadRequestException(ExceptionResponseStatus.INVALID_DIAGNOSIS_VALUE)
+        );
     }
 }
