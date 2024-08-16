@@ -123,7 +123,7 @@ public class HabitService {
         Habit habit = habitRepository.findById(habitId)
                 .orElseThrow(() -> new HabitException(ExceptionResponseStatus.NOT_EXIST_HABIT));
 
-        HabitChecker habitChecker = habitCheckerRepository.findByHabitAndCreatedAt(habit, LocalDate.now())
+        HabitChecker habitChecker = habitCheckerRepository.findByHabitAndCreatedAt(habit, date)
                 .map( it ->{
                     it.toggleStatus();
                     return  it;
