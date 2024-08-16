@@ -1,5 +1,6 @@
 package com.kuit.healthmate.challenge.supplement.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kuit.healthmate.challenge.supplement.domain.Supplement;
 import com.kuit.healthmate.challenge.supplement.domain.SupplementRoutine;
 import com.kuit.healthmate.challenge.supplement.domain.SupplementTime;
@@ -16,6 +17,7 @@ import lombok.NoArgsConstructor;
 public class SupplementEditListResponse {
 
     private String name;
+    @JsonProperty("id")
     private Long supplementId;
 
     private Map<String, Integer> intakeTime;   // 섭취 시간 (식전 1 식후 2, 분 number로)
