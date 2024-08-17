@@ -12,6 +12,7 @@ import com.kuit.healthmate.challenge.habit.dto.request.PatchEditHabitRequest;
 import com.kuit.healthmate.challenge.habit.dto.request.PostCreateHabitRequest;
 import com.kuit.healthmate.challenge.habit.dto.SelectedTime;
 import com.kuit.healthmate.challenge.supplement.dto.CustomTime;
+
 import com.kuit.healthmate.global.exception.HabitException;
 import com.kuit.healthmate.global.response.ExceptionResponseStatus;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -123,7 +123,7 @@ public class HabitService {
         Habit habit = habitRepository.findById(habitId)
                 .orElseThrow(() -> new HabitException(ExceptionResponseStatus.NOT_EXIST_HABIT));
 
-        HabitChecker habitChecker = habitCheckerRepository.findByHabitAndCreatedAt(habit, LocalDate.now())
+        HabitChecker habitChecker = habitCheckerRepository.findByHabitAndCreatedAt(habit, date)
                 .map( it ->{
                     it.toggleStatus();
                     return  it;
@@ -135,5 +135,9 @@ public class HabitService {
                         .habit(habit).build());
 
         habitCheckerRepository.save(habitChecker);
+    }
+
+    public List<Habit> getSupplementEditList(Long userId) {
+        return habitRepository.findAllWithTimesByActiveAndUserId(userId);
     }
 }
