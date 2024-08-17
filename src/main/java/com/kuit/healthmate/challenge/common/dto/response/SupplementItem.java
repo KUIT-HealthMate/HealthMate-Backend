@@ -52,12 +52,12 @@ public class SupplementItem {
                 supplement.getName(),
                 supplement.getId(),
                 supplement.getSupplementRoutine().getAfterMeal(),
-                breakfastRequired,
-                lunchRequired,
-                dinnerRequired,
                 breakfastSuccess,
                 lunchSuccess,
-                dinnerSuccess
+                dinnerSuccess,
+                breakfastRequired,
+                lunchRequired,
+                dinnerRequired
         );
     }
 
