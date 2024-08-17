@@ -1,5 +1,6 @@
 package com.kuit.healthmate.challenge.habit.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kuit.healthmate.challenge.habit.domain.Habit;
 import com.kuit.healthmate.challenge.habit.domain.HabitTime;
 import com.kuit.healthmate.challenge.supplement.dto.CustomTime;
@@ -15,10 +16,11 @@ import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor // TODO: MockData로 임시방편
+@AllArgsConstructor 
 public class HabitEditResponse {
 
     private String name;
+    @JsonProperty("id")
     private Long habitId;
 
     private Map<String, Boolean> weeklyIntakeFrequency;
