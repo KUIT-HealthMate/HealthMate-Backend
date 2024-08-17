@@ -20,7 +20,7 @@ public class SupplementItem {
     private Boolean lunchRequired;
     private Boolean dinnerRequired;
 
-    public SupplementItem(String challengeName, Long challengeId, int afterMeal, Boolean breakfastSuccess, Boolean lunchSuccess,
+    private SupplementItem(String challengeName, Long challengeId, int afterMeal, Boolean breakfastSuccess, Boolean lunchSuccess,
                           Boolean dinnerSuccess, Boolean breakfastRequired, Boolean lunchRequired, Boolean dinnerRequired) {
         this.challengeName = challengeName;
         this.challengeId = challengeId;
