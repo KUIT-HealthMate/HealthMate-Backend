@@ -59,6 +59,7 @@ public class CommonChallengeServiceImpl implements CommonChallengeService{
 
 
         achievementRate = calculateAchievementRate(supplementItems, habitItems);
+        log.info(String.valueOf(calculateAchievementRate(supplementItems, habitItems)));
 
         ChallengeResponse challengeResponse = new ChallengeResponse(habitItems,supplementItems,achievementRate,
                 localDate.toString());
@@ -267,7 +268,7 @@ public class CommonChallengeServiceImpl implements CommonChallengeService{
             if (habitItem.getAchievementStatus()) totalSuccess++;
         }
 
-        return totalRequired > 0 ? (double) round(totalSuccess / totalRequired * 100) : 0;
+        return totalRequired > 0 ? (double) round((double) totalSuccess / totalRequired * 100) : 0;
     }
 
 
