@@ -2,6 +2,7 @@ package com.kuit.healthmate.auth;
 
 import com.kuit.healthmate.auth.jwt.JwtProvider;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -29,6 +30,9 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         log.info("success handler called " + token);
 
         response.setHeader("Jwt", token);
+        response.addCookie(
+                new Cookie("Jwt", token)
+        );
 
         response.sendRedirect("http://localhost:3000");
     }
