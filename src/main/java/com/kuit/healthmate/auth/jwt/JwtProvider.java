@@ -1,5 +1,6 @@
 package com.kuit.healthmate.auth.jwt;
 
+import static com.kuit.healthmate.global.response.ExceptionResponseStatus.EXPIRED_TOKEN;
 import static com.kuit.healthmate.global.response.ExceptionResponseStatus.INVALID_TOKEN;
 import static com.kuit.healthmate.global.response.ExceptionResponseStatus.MALFORMED_TOKEN;
 import static com.kuit.healthmate.global.response.ExceptionResponseStatus.UNSUPPORTED_TOKEN_TYPE;
@@ -60,9 +61,9 @@ public class JwtProvider {
             throw new CustomJwtException(MALFORMED_TOKEN);
         } catch (IllegalArgumentException e) {
             throw new CustomJwtException(INVALID_TOKEN);
-        } catch (JwtException e) {
+        } catch (Exception e) {
             log.error("[JwtTokenProvider.validateAccessToken]", e);
-            throw e;
+            throw new CustomJwtException(EXPIRED_TOKEN);
         }
     }
 
