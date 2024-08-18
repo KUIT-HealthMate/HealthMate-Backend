@@ -95,7 +95,7 @@ jobs:
             sudo docker rmi ${{ secrets.DOCKER_REPO }}
             # 새로운 이미지 풀 및 실행
             sudo docker pull ${{ secrets.DOCKER_REPO }}
-            sudo docker run -d --name my_app -p 9000:9000 ${{ secrets.DOCKER_REPO }}
+            sudo docker run -d --name my_app -v /var/log/springboot:/var/log/springboot -p 9000:9000 ${{ secrets.DOCKER_REPO }}
             
             # shell 파일 생성 및 옮기기, 임시로 삭제
             # echo 'Uploading healthcheck.sh...'
