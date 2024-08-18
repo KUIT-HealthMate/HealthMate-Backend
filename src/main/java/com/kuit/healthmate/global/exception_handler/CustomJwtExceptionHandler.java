@@ -1,7 +1,6 @@
 package com.kuit.healthmate.global.exception_handler;
 
 import com.kuit.healthmate.global.exception.CustomJwtException;
-import com.kuit.healthmate.global.exception.SupplementException;
 import com.kuit.healthmate.global.response.ErrorResponse;
 import com.kuit.healthmate.global.response.ExceptionResponseStatus;
 import lombok.extern.slf4j.Slf4j;
