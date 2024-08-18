@@ -14,15 +14,8 @@ import java.util.Map;
 @Getter
 public class PostCreateHabitResponse {
     private Long habitId;
-    private String name;
-    private Map<String, Boolean> weeklyIntakeFrequency;
 
-    private List<CustomTime> notificationTime;
-
-    public PostCreateHabitResponse(Habit habit, List<CustomTime> notificationTime){
+    public PostCreateHabitResponse(Habit habit){
         this.habitId= habit.getId();
-        this.name = habit.getName();
-        this.weeklyIntakeFrequency = habit.getWeeklyIntakeFrequency();
-        this.notificationTime = notificationTime;
     }
 }
