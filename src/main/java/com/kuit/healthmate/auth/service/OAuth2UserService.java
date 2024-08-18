@@ -6,6 +6,7 @@ import com.kuit.healthmate.auth.dto.KakaoResponse;
 import com.kuit.healthmate.auth.dto.OAuth2Response;
 import com.kuit.healthmate.user.domain.User;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -32,18 +33,22 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
         String username = oAuth2Response.getProvider()+" "+oAuth2Response.getProviderId();
         String nickname = oAuth2Response.getNickname();
         String image = oAuth2Response.getProfileImage();
+        AtomicBoolean isNew = new AtomicBoolean(false);
         User user = userRepository.findByUsername(username).orElseGet(
-                () -> userRepository.save(User.builder()
-                        .username(username)
-                        .nickname(nickname)
-                        .profile(image)
-                        .build())
+                () -> {
+                    isNew.set(true);
+                    return userRepository.save(User.builder()
+                            .username(username)
+                            .nickname(nickname)
+                            .profile(image)
+                            .build());
+                }
         );
 
         log.info("login_user_id = " + user.getId());
 
         return new CustomOAuth2User(oAuth2User.getAuthorities(), oAuth2User.getAttributes(),
                 userRequest.getClientRegistration().getProviderDetails()
-                        .getUserInfoEndpoint().getUserNameAttributeName(), user.getId());
+                        .getUserInfoEndpoint().getUserNameAttributeName(), user.getId(), isNew.get());
     }
 }
