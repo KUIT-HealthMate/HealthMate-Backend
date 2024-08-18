@@ -90,8 +90,8 @@ jobs:
           script: |
             sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
             # 기존 컨테이너와 이미지를 정리
-            sudo docker stop $(sudo docker ps -q)
-            sudo docker rm $(sudo docker ps -a -q)
+            sudo docker stop my_app
+            sudo docker rm my_app
             sudo docker rmi ${{ secrets.DOCKER_REPO }}
             # 새로운 이미지 풀 및 실행
             sudo docker pull ${{ secrets.DOCKER_REPO }}
