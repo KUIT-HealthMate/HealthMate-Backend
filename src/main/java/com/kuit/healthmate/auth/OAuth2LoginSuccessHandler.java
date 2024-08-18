@@ -34,7 +34,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
                 new Cookie("Jwt", token)
         );
 
-        response.sendRedirect("http://localhost:3000");
+        response.sendRedirect("http://localhost:3000/logining");
     }
 }
 
