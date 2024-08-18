@@ -35,7 +35,7 @@ public class HabitService {
     private final HabitCheckerRepository habitCheckerRepository;
 
     @Transactional
-    public PostCreateHabitResponse createHabit(PostCreateHabitRequest postCreateHabitRequest, Long userId){
+    public Long createHabit(PostCreateHabitRequest postCreateHabitRequest, Long userId){
         //userID 주입
         List<CustomTime> times = postCreateHabitRequest.getNotificationTime();
         Habit habit = Habit.builder()
@@ -56,7 +56,7 @@ public class HabitService {
 
         habit.setHabitTimes(habitTimes);
 
-        return new PostCreateHabitResponse(habit,postCreateHabitRequest.getNotificationTime());
+        return habit.getId();
     }
 
     //특정 날짜 기준 조회 ,,당일 or 특정 날짜

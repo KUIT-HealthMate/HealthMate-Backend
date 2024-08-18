@@ -67,7 +67,7 @@ public class habitController {
             summary = "습관 생성 API"
     )
     @PostMapping("")
-    public ApiResponse<PostCreateHabitResponse> createHabitChallenge(@Validated @RequestBody PostCreateHabitRequest postCreateHabitRequest, BindingResult bindingResult,@Jwt Long userId){
+    public ApiResponse<Long> createHabitChallenge(@Validated @RequestBody PostCreateHabitRequest postCreateHabitRequest, BindingResult bindingResult,@Jwt Long userId){
         if (bindingResult.hasErrors()) {
             throw new HabitException(INVALID_HABIT_VALUE, getErrorMessages(bindingResult));
         }
