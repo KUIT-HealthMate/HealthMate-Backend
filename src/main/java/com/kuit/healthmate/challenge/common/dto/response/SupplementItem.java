@@ -20,7 +20,7 @@ public class SupplementItem {
     private Boolean lunchRequired;
     private Boolean dinnerRequired;
 
-    public SupplementItem(String challengeName, Long challengeId, int afterMeal, Boolean breakfastSuccess, Boolean lunchSuccess,
+    private SupplementItem(String challengeName, Long challengeId, int afterMeal, Boolean breakfastSuccess, Boolean lunchSuccess,
                           Boolean dinnerSuccess, Boolean breakfastRequired, Boolean lunchRequired, Boolean dinnerRequired) {
         this.challengeName = challengeName;
         this.challengeId = challengeId;
@@ -52,12 +52,12 @@ public class SupplementItem {
                 supplement.getName(),
                 supplement.getId(),
                 supplement.getSupplementRoutine().getAfterMeal(),
-                breakfastRequired,
-                lunchRequired,
-                dinnerRequired,
                 breakfastSuccess,
                 lunchSuccess,
-                dinnerSuccess
+                dinnerSuccess,
+                breakfastRequired,
+                lunchRequired,
+                dinnerRequired
         );
     }
 
