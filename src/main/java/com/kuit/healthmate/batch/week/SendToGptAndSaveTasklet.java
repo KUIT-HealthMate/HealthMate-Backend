@@ -61,6 +61,7 @@ public class SendToGptAndSaveTasklet implements Tasklet {
                 }
             }
             String responseMeal = gptService.getPrompt(mealDataJson.get(s));
+            log.info(responseMeal);
             if (responseMeal != null) {
                 try {
                     meal = objectMapper.readValue(responseMeal, MealPatternResponse.class);

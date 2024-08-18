@@ -162,7 +162,7 @@ public class DiagnosisService {
         LocalDate formatDate = LocalDate.parse(date, FORMATTER);
         GptResult gptResult = gptResultRepository.findDiagnosisResultByUserIdAndDate(userId, formatDate)
                 .orElseThrow(() -> new DiagnosisException(ExceptionResponseStatus.INVALID_DIAGNOSIS_VALUE, "진단 결과가 존재하지 않습니다"));
-        List<UserHealthAverage> userHealthAverages = userHealthAverageService.getAverageByDate(formatDate.minusDays(1),formatDate);
+        List<UserHealthAverage> userHealthAverages = userHealthAverageService.getAverageByDate(formatDate.minusDays(2),formatDate.minusDays(1));
         UserHealthAverage userHealthAverage = userHealthAverages.get(0);
         if(userHealthAverage == null){
              userHealthAverage = new UserHealthAverage(
