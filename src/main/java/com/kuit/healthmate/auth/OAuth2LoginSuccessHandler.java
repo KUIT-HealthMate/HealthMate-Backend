@@ -25,6 +25,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
 
         Long userId = oAuth2User.getUserId();
+        boolean isNew = oAuth2User.getIsNew();
         String token = jwtProvider.createToken(oAuth2User.getName(), userId);
 
         log.info("success handler called " + token);
@@ -34,7 +35,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
                 new Cookie("Jwt", token)
         );
 
-        response.sendRedirect("http://localhost:3000/logining?Jwt=" + token);
+        response.sendRedirect("http://localhost:3000/logining?Jwt=" + token + "&isNew=" + isNew);
     }
 }
 

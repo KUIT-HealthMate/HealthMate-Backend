@@ -14,14 +14,20 @@ public class CustomOAuth2User extends DefaultOAuth2User {
      * @param nameAttributeKey the key used to access the user's &quot;name&quot; from {@link #getAttributes()}
      */
     public CustomOAuth2User(Collection<? extends GrantedAuthority> authorities,
-                            Map<String, Object> attributes, String nameAttributeKey, Long userId) {
+                            Map<String, Object> attributes, String nameAttributeKey, Long userId, boolean isNew) {
         super(authorities, attributes, nameAttributeKey);
         this.userId = userId;
+        this.isNew = isNew;
     }
 
     private final Long userId;
+    private final boolean isNew;
 
     public Long getUserId() {
         return userId;
+    }
+
+    public boolean getIsNew() {
+        return this.isNew;
     }
 }
