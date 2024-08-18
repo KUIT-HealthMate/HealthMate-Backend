@@ -70,7 +70,7 @@ public class ProfileImageService {
             String decodingKey = URLDecoder.decode(url.getPath(), "UTF-8");
             return decodingKey.substring(1); // 맨 앞의 '/' 제거
         }catch (MalformedURLException | UnsupportedEncodingException e){
-            throw new RuntimeException();
+            return null;
         }
     }
     // TODO: validation 파일 확장자 및 비어이쓴지 등등
