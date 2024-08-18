@@ -203,13 +203,13 @@ public class DiagnosisService {
         List<UserHealthAverage> userHealthAverages = userHealthAverageService.getAverageByDate(previousWeekMonday,previousWeekSunday);
 
         //사용자 평균 점수 가져오기
-        List<Double> lifeAverages = new ArrayList<>();
-        List<Double> mealAverages = new ArrayList<>();
-        List<Double> sleepAverages = new ArrayList<>();
+        List<Double> lifeAverages =  new ArrayList<>(Collections.nCopies(7, 0.0));
+        List<Double> mealAverages =  new ArrayList<>(Collections.nCopies(7, 0.0));
+        List<Double> sleepAverages =  new ArrayList<>(Collections.nCopies(7, 0.0));
         for (UserHealthAverage item :userHealthAverages){
-            lifeAverages.add(item.getDailyLifestyleAverage());
-            mealAverages.add(item.getDailyMealPatternAverage());
-            sleepAverages.add(item.getDailySleepPatternAverage());
+            lifeAverages.set(item.getCreatedAt().getDayOfWeek().getValue()-1,item.getDailyLifestyleAverage());
+            mealAverages.set(item.getCreatedAt().getDayOfWeek().getValue()-1,item.getDailyMealPatternAverage());
+            sleepAverages.set(item.getCreatedAt().getDayOfWeek().getValue()-1,item.getDailySleepPatternAverage());
         }
 
         //내 점수 가져오기
@@ -236,7 +236,8 @@ public class DiagnosisService {
     }
     public DiagnosisMonthResponseDTO findMonthDiagnosisResult(Long userId, String date) {
         LocalDate formatDate = LocalDate.parse(date, FORMATTER);
-        GptMonthResult gptMonthResult = gptMonthResultRepository.findDiagnosisResultByUserIdAndDate(userId, (long)formatDate.getMonthValue(),(long)formatDate.getYear())
+
+        GptMonthResult gptMonthResult = gptMonthResultRepository.findDiagnosisResultByUserIdAndDate(userId, (long)formatDate.getMonthValue()-1,(long)formatDate.getYear())
                 .orElseThrow(() -> new DiagnosisException(ExceptionResponseStatus.INVALID_DIAGNOSIS_VALUE, "진단 결과가 존재하지 않습니다"));
         //월로 조회
         //내 점수 가져오기
@@ -245,21 +246,21 @@ public class DiagnosisService {
         List<Integer> sleepScores = new ArrayList<>();
         List<GptWeekResult> userWeekResults = gptWeekResultRepository.findAllByUserIdAndYearAndMonth(userId,(long)formatDate.getMonthValue() - 1,(long) formatDate.getYear());
         for (GptWeekResult item :userWeekResults){
-            lifeScores.add(item.getLifeStyleToday().getLifeStyleScore());
+           lifeScores.add(item.getLifeStyleToday().getLifeStyleScore());
             mealScores.add(item.getMealPatternToday().getDailyMealPatternScore());
             sleepScores.add(item.getSleepPatternToday().getDailySleepPatternScore());
         }
         LocalDate previousMonthFirstDay = formatDate.minusMonths(1).withDayOfMonth(1);
-        List<Double> lifeAverages = new ArrayList<>();
-        List<Double> mealAverages = new ArrayList<>();
-        List<Double> sleepAverages = new ArrayList<>();
+        List<Double> lifeAverages =  new ArrayList<>(Collections.nCopies(4, 0.0));
+        List<Double> mealAverages =  new ArrayList<>(Collections.nCopies(4, 0.0));
+        List<Double> sleepAverages =  new ArrayList<>(Collections.nCopies(4, 0.0));
         for (int i = 0; i < 4; i++) {
             previousMonthFirstDay = previousMonthFirstDay.plusDays(7);
             List<UserHealthAverage> userHealthAverages = userHealthAverageService.getAverageByDate(previousMonthFirstDay,previousMonthFirstDay);
             for (UserHealthAverage item :userHealthAverages){
-                lifeAverages.add(item.getWeeklyLifestyleAverage());
-                mealAverages.add(item.getWeeklyMealPatternAverage());
-                sleepAverages.add(item.getWeeklySleepPatternAverage());
+                lifeAverages.set(i,item.getWeeklyLifestyleAverage());
+                mealAverages.set(i,item.getWeeklyMealPatternAverage());
+                sleepAverages.set(i,item.getWeeklySleepPatternAverage());
             }
         }
         LifeStyleWeekResponse lifeStyleWeekResponse = new LifeStyleWeekResponse(
