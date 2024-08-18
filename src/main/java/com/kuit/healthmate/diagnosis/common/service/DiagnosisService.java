@@ -206,9 +206,9 @@ public class DiagnosisService {
         List<Double> mealAverages = new ArrayList<>();
         List<Double> sleepAverages = new ArrayList<>();
         for (UserHealthAverage item :userHealthAverages){
-            lifeAverages.add(item.getWeeklyLifestyleAverage());
-            mealAverages.add(item.getWeeklyMealPatternAverage());
-            sleepAverages.add(item.getWeeklySleepPatternAverage());
+            lifeAverages.add(item.getDailyLifestyleAverage());
+            mealAverages.add(item.getDailyMealPatternAverage());
+            sleepAverages.add(item.getDailySleepPatternAverage());
         }
 
         //내 점수 가져오기
