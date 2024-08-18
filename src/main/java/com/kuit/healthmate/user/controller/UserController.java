@@ -33,7 +33,7 @@ public class UserController {
         return new ApiResponse<>(null);
     }
 
-    @PatchMapping("/edit/profile")
+    @PostMapping("/edit/profile")
     public ApiResponse<Object> editProfile(@Jwt Long userId, @RequestPart MultipartFile profileImage) {
         userService.editProfile(userId, profileImage);
 
