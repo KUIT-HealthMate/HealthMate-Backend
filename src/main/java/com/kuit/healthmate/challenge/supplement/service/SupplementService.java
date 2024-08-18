@@ -104,7 +104,7 @@ public class SupplementService {
     }
 
     public List<Supplement> getSupplementForToday(Long userId, LocalDate date) {
-        List<Supplement> supplements =  supplementRepository.findAllActiveByUserIdForToday(userId, LocalDate.now(), LocalDate.now().getDayOfWeek().getValue());
+        List<Supplement> supplements =  supplementRepository.findAllActiveByUserIdForToday(userId, date, LocalDate.now().getDayOfWeek().getValue());
 
         List<Supplement> processedSupplements = new ArrayList<>();
 
