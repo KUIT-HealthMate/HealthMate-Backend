@@ -10,6 +10,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+
 @Component
 @EnableScheduling
 public class BatchScheduler {
@@ -32,13 +34,18 @@ public class BatchScheduler {
     public void runBatchJob() throws Exception {
         JobParameters jobParameters = new JobParametersBuilder()
                 .addLong("run.id", System.currentTimeMillis()) // 여기서 JobParameters에 파라미터 추가
+                .addLong("time", new Date().getTime())
                 .toJobParameters();
 
         jobLauncher.run(jobWeek, jobParameters); // Job 실행
     }
     @Scheduled(cron = "0 0 23 L * ?")
     public void runBatchJobMonth() throws Exception {
-        jobLauncher.run(jobMonth, new JobParameters());
+        JobParameters jobParameters = new JobParametersBuilder()
+                .addLong("run.id", System.currentTimeMillis()) // 여기서 JobParameters에 파라미터 추가
+                .addLong("time", new Date().getTime())
+                .toJobParameters();
+        jobLauncher.run(jobMonth, jobParameters);
     }
 
 //    @Scheduled(cron = "0 30 23 * * ?")
