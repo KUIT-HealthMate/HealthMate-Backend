@@ -55,7 +55,7 @@ public class CommonChallengeServiceImpl implements CommonChallengeService{
                 SupplementItem.fromSupplement(supplement,localDate)).toList();
 
         List<HabitItem> habitItems = habits.stream().map((Habit habit) ->
-            HabitItem.fromHabit(habit,localDate)).toList();
+                HabitItem.fromHabit(habit,localDate)).toList();
 
 
         achievementRate = calculateAchievementRate(supplementItems, habitItems);
@@ -116,11 +116,38 @@ public class CommonChallengeServiceImpl implements CommonChallengeService{
         Map<LocalDate, List<HabitItem>> habitsByDate = new HashMap<>();
 
         for (Supplement supplement : supplements) {
-            for (SupplementChecker checker : supplement.getSupplementCheckers()) {
-                LocalDate checkDate = checker.getCheckDate();
-                supplementsByDate
-                        .computeIfAbsent(checkDate, k -> new ArrayList<>())
-                        .add(SupplementItem.fromSupplement(supplement,checkDate));
+            if(supplement.getSupplementCheckers().isEmpty()){
+                LocalDate startDateTmp;
+                LocalDate endDateTmp;
+
+                if (supplement.getStatus() == Status.ACTIVE) {
+                    startDateTmp = supplement.getCreatedAt().toLocalDate();
+                    endDateTmp = endDate; // Use current date
+                } else {
+                    startDateTmp = supplement.getCreatedAt().toLocalDate();
+                    endDateTmp = supplement.getUpdatedAt().toLocalDate(); // Use the updated date
+                }
+
+                for (LocalDate date = startDateTmp; !date.isAfter(endDateTmp); date = date.plusDays(1)) {
+                    int dayOfWeek = date.getDayOfWeek().getValue();
+                    if(supplement.getSupplementRoutine().getSelectedDay().charAt(dayOfWeek - 1) == '1'){
+                        supplementsByDate
+                                .computeIfAbsent(date, k -> new ArrayList<>())
+                                .add(SupplementItem.fromSupplement(supplement, date));
+                    }
+
+                }
+            } else{
+                for(SupplementChecker supplementChecker : supplement.getSupplementCheckers()){
+                    LocalDate checkDate = supplementChecker.getCheckDate();
+                    List<SupplementItem> itemsForDate = supplementsByDate.get(checkDate);
+
+                    if (itemsForDate == null) {
+                        itemsForDate = new ArrayList<>();
+                        itemsForDate.add(SupplementItem.fromSupplement(supplement, checkDate));
+                        supplementsByDate.put(checkDate, itemsForDate);
+                    }
+                }
             }
         }
 
@@ -193,11 +220,38 @@ public class CommonChallengeServiceImpl implements CommonChallengeService{
         Map<LocalDate, List<HabitItem>> habitsByDate = new HashMap<>();
 
         for (Supplement supplement : supplements) {
-            for (SupplementChecker checker : supplement.getSupplementCheckers()) {
-                LocalDate checkDate = checker.getCheckDate();
-                supplementsByDate
-                        .computeIfAbsent(checkDate, k -> new ArrayList<>())
-                        .add(SupplementItem.fromSupplement(supplement,checkDate));
+            if(supplement.getSupplementCheckers().isEmpty()){
+                LocalDate startDateTmp;
+                LocalDate endDateTmp;
+
+                if (supplement.getStatus() == Status.ACTIVE) {
+                    startDateTmp = supplement.getCreatedAt().toLocalDate();
+                    endDateTmp = endDate; // Use current date
+                } else {
+                    startDateTmp = supplement.getCreatedAt().toLocalDate();
+                    endDateTmp = supplement.getUpdatedAt().toLocalDate(); // Use the updated date
+                }
+
+                for (LocalDate date = startDateTmp; !date.isAfter(endDateTmp); date = date.plusDays(1)) {
+                    int dayOfWeek = date.getDayOfWeek().getValue();
+                    if(supplement.getSupplementRoutine().getSelectedDay().charAt(dayOfWeek - 1) == '1'){
+                        supplementsByDate
+                                .computeIfAbsent(date, k -> new ArrayList<>())
+                                .add(SupplementItem.fromSupplement(supplement, date));
+                    }
+
+                }
+            } else{
+                for(SupplementChecker supplementChecker : supplement.getSupplementCheckers()){
+                    LocalDate checkDate = supplementChecker.getCheckDate();
+                    List<SupplementItem> itemsForDate = supplementsByDate.get(checkDate);
+
+                    if (itemsForDate == null) {
+                        itemsForDate = new ArrayList<>();
+                        itemsForDate.add(SupplementItem.fromSupplement(supplement, checkDate));
+                        supplementsByDate.put(checkDate, itemsForDate);
+                    }
+                }
             }
         }
 
