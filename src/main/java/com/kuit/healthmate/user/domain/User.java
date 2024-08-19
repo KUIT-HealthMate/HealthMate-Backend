@@ -122,4 +122,10 @@ public class User {
         this.age = age;
         this.gender = gender;
     }
+
+    @PrePersist
+    protected void init() {
+        this.balance = 0L;
+        this.isAlarm = true;
+    }
 }
