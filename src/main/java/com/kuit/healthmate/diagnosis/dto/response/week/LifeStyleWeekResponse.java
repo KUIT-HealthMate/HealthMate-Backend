@@ -12,14 +12,18 @@ public class LifeStyleWeekResponse {
     private List<Double> lifeStyleAverages;
     private List<Integer> lifeStyleScores;
     private String description;
+    private int lifeScore;
+    private Double lifeAvgScore;
     private int riskScore;
     private String riskSymptoms;
     private String challenges;
 
-    public LifeStyleWeekResponse(List<Double>  lifeStyleAverages, List<Integer> lifeStyleScores, String description, int riskScore, String riskSymptoms, String challenges){
+    public LifeStyleWeekResponse(List<Double>  lifeStyleAverages, List<Integer> lifeStyleScores, String description, int lifeScore, Double lifeAvgScore, int riskScore, String riskSymptoms, String challenges){
         this.lifeStyleAverages = lifeStyleAverages;
         this.lifeStyleScores = lifeStyleScores;
         this.description = description;
+        this.lifeScore =lifeScore;
+        this.lifeAvgScore = lifeAvgScore;
         this.riskScore = riskScore;
         this.riskSymptoms = riskSymptoms;
         this.challenges = challenges;

@@ -11,14 +11,18 @@ public class MealPatternWeekResponse {
     private List<Double> mealPatternAverages;
     private List<Integer> mealPatternScores;
     private String description;
+    private int mealScore;
+    private Double mealAvgScore;
     private int riskScore;
     private String riskSymptoms;
     private String challenges;
 
-    public MealPatternWeekResponse(List<Double>  mealPatternAverages, List<Integer> mealPatternScores, String description, int riskScore, String riskSymptoms, String challenges){
+    public MealPatternWeekResponse(List<Double>  mealPatternAverages, List<Integer> mealPatternScores, String description, int mealScore, Double mealAvgScore, int riskScore, String riskSymptoms, String challenges){
         this.mealPatternAverages = mealPatternAverages;
         this.mealPatternScores = mealPatternScores;
         this.description = description;
+        this.mealScore =mealScore;
+        this.mealAvgScore = mealAvgScore;
         this.riskScore = riskScore;
         this.riskSymptoms = riskSymptoms;
         this.challenges = challenges;
