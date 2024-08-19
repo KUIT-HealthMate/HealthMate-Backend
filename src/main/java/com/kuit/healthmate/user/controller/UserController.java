@@ -26,7 +26,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @PatchMapping("/edit/nickname")
+    @PostMapping("/edit/nickname")
     public ApiResponse<Object> editNickname(@Jwt Long userId, @RequestBody EditNicknameRequest editNicknameRequest) {
         userService.editNickname(userId, editNicknameRequest.getNickname());
 
