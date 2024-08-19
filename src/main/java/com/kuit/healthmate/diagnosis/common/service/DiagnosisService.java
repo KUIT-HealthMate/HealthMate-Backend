@@ -206,10 +206,16 @@ public class DiagnosisService {
         List<Double> lifeAverages =  new ArrayList<>(Collections.nCopies(7, 0.0));
         List<Double> mealAverages =  new ArrayList<>(Collections.nCopies(7, 0.0));
         List<Double> sleepAverages =  new ArrayList<>(Collections.nCopies(7, 0.0));
+        Double avgLife =0.0;
+        Double avgMeal = 0.0;
+        Double avgSleep = 0.0;
         for (UserHealthAverage item :userHealthAverages){
             lifeAverages.set(item.getCreatedAt().getDayOfWeek().getValue()-1,item.getDailyLifestyleAverage());
             mealAverages.set(item.getCreatedAt().getDayOfWeek().getValue()-1,item.getDailyMealPatternAverage());
             sleepAverages.set(item.getCreatedAt().getDayOfWeek().getValue()-1,item.getDailySleepPatternAverage());
+            avgLife = item.getWeeklyLifestyleAverage();
+            avgMeal = item.getWeeklyMealPatternAverage();
+            avgSleep = item.getWeeklySleepPatternAverage();
         }
 
         //내 점수 가져오기
@@ -224,13 +230,13 @@ public class DiagnosisService {
         }
 
         LifeStyleWeekResponse lifeStyleWeekResponse = new LifeStyleWeekResponse(
-                lifeAverages,lifeScores,gptWeekResult.getLifeStyleToday().getDescription(), gptWeekResult.getLifeStyleToday().getRiskScore(),gptWeekResult.getLifeStyleToday().getRiskSymptoms(),gptWeekResult.getLifeStyleToday().getChallenges()
+                lifeAverages,lifeScores,gptWeekResult.getLifeStyleToday().getDescription(),gptWeekResult.getLifeStyleToday().getLifeStyleScore(),avgLife, gptWeekResult.getLifeStyleToday().getRiskScore(),gptWeekResult.getLifeStyleToday().getRiskSymptoms(),gptWeekResult.getLifeStyleToday().getChallenges()
         );
         MealPatternWeekResponse mealPatternWeekResponse = new MealPatternWeekResponse(
-               mealAverages,mealScores,gptWeekResult.getMealPatternToday().getDescription(), gptWeekResult.getMealPatternToday().getRiskScore(),gptWeekResult.getMealPatternToday().getRiskSymptoms(),gptWeekResult.getMealPatternToday().getChallenges()
+               mealAverages,mealScores,gptWeekResult.getMealPatternToday().getDescription(),gptWeekResult.getMealPatternToday().getDailyMealPatternScore(),avgMeal, gptWeekResult.getMealPatternToday().getRiskScore(),gptWeekResult.getMealPatternToday().getRiskSymptoms(),gptWeekResult.getMealPatternToday().getChallenges()
         );
         SleepPatternWeekResponse sleepPatternWeekResponse = new SleepPatternWeekResponse(
-                sleepAverages,sleepScores,gptWeekResult.getSleepPatternToday().getDescription(), gptWeekResult.getSleepPatternToday().getRiskScore(),gptWeekResult.getSleepPatternToday().getRiskSymptoms(),gptWeekResult.getSleepPatternToday().getChallenges()
+                sleepAverages,sleepScores,gptWeekResult.getSleepPatternToday().getDescription(),gptWeekResult.getSleepPatternToday().getDailySleepPatternScore(),avgSleep, gptWeekResult.getSleepPatternToday().getRiskScore(),gptWeekResult.getSleepPatternToday().getRiskSymptoms(),gptWeekResult.getSleepPatternToday().getChallenges()
         );
         return new DiagnosisWeekResponseDTO(formatDate,lifeStyleWeekResponse,mealPatternWeekResponse,sleepPatternWeekResponse);
     }
@@ -254,6 +260,9 @@ public class DiagnosisService {
         List<Double> lifeAverages =  new ArrayList<>(Collections.nCopies(4, 0.0));
         List<Double> mealAverages =  new ArrayList<>(Collections.nCopies(4, 0.0));
         List<Double> sleepAverages =  new ArrayList<>(Collections.nCopies(4, 0.0));
+        Double avgLife =0.0;
+        Double avgMeal = 0.0;
+        Double avgSleep = 0.0;
         for (int i = 0; i < 4; i++) {
             previousMonthFirstDay = previousMonthFirstDay.plusDays(7);
             List<UserHealthAverage> userHealthAverages = userHealthAverageService.getAverageByDate(previousMonthFirstDay,previousMonthFirstDay);
@@ -261,16 +270,19 @@ public class DiagnosisService {
                 lifeAverages.set(i,item.getWeeklyLifestyleAverage());
                 mealAverages.set(i,item.getWeeklyMealPatternAverage());
                 sleepAverages.set(i,item.getWeeklySleepPatternAverage());
+                avgLife = item.getMonthlyLifestyleAverage();
+                avgMeal = item.getMonthlyMealPatternAverage();
+                avgSleep = item.getMonthlySleepPatternAverage();
             }
         }
         LifeStyleWeekResponse lifeStyleWeekResponse = new LifeStyleWeekResponse(
-                lifeAverages,lifeScores,gptMonthResult.getLifeStyleToday().getDescription(), gptMonthResult.getLifeStyleToday().getRiskScore(),gptMonthResult.getLifeStyleToday().getRiskSymptoms(),gptMonthResult.getLifeStyleToday().getChallenges()
+                lifeAverages,lifeScores,gptMonthResult.getLifeStyleToday().getDescription(),gptMonthResult.getLifeStyleToday().getLifeStyleScore(),avgLife ,gptMonthResult.getLifeStyleToday().getRiskScore(),gptMonthResult.getLifeStyleToday().getRiskSymptoms(),gptMonthResult.getLifeStyleToday().getChallenges()
         );
         MealPatternWeekResponse mealPatternWeekResponse = new MealPatternWeekResponse(
-                mealAverages,mealScores,gptMonthResult.getMealPatternToday().getDescription(), gptMonthResult.getMealPatternToday().getRiskScore(),gptMonthResult.getMealPatternToday().getRiskSymptoms(),gptMonthResult.getMealPatternToday().getChallenges()
+                mealAverages,mealScores,gptMonthResult.getMealPatternToday().getDescription(),gptMonthResult.getMealPatternToday().getDailyMealPatternScore(),avgMeal, gptMonthResult.getMealPatternToday().getRiskScore(),gptMonthResult.getMealPatternToday().getRiskSymptoms(),gptMonthResult.getMealPatternToday().getChallenges()
         );
         SleepPatternWeekResponse sleepPatternWeekResponse = new SleepPatternWeekResponse(
-                sleepAverages,sleepScores,gptMonthResult.getSleepPatternToday().getDescription(), gptMonthResult.getSleepPatternToday().getRiskScore(),gptMonthResult.getSleepPatternToday().getRiskSymptoms(),gptMonthResult.getSleepPatternToday().getChallenges()
+                sleepAverages,sleepScores,gptMonthResult.getSleepPatternToday().getDescription(),gptMonthResult.getSleepPatternToday().getDailySleepPatternScore(), avgSleep, gptMonthResult.getSleepPatternToday().getRiskScore(),gptMonthResult.getSleepPatternToday().getRiskSymptoms(),gptMonthResult.getSleepPatternToday().getChallenges()
         );
         return new DiagnosisMonthResponseDTO(formatDate,lifeStyleWeekResponse,mealPatternWeekResponse,sleepPatternWeekResponse);
     }
