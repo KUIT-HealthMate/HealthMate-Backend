@@ -35,7 +35,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
                 new Cookie("Jwt", token)
         );
 
-        response.sendRedirect("http://localhost:3000/logining?Jwt=" + token + "&isNew=" + isNew);
+        response.sendRedirect("http://bepoyong-s3-bucket.s3-website.ap-northeast-2.amazonaws.com/logining?Jwt=" + token + "&isNew=" + isNew);
     }
 }
 
