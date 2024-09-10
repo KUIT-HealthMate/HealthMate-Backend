@@ -1,4 +1,4 @@
-package com.kuit.healthmate.challenge.supplement.dto;
+package com.kuit.healthmate.challenge.supplement.dto.request;
 
 import com.kuit.healthmate.challenge.supplement.domain.TimeSlot;
 import lombok.Getter;

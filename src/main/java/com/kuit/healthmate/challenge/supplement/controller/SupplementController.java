@@ -2,10 +2,10 @@ package com.kuit.healthmate.challenge.supplement.controller;
 
 import com.kuit.healthmate.auth.jwt.Jwt;
 import com.kuit.healthmate.challenge.supplement.domain.Supplement;
-import com.kuit.healthmate.challenge.supplement.dto.SupplementCheckerRequest;
-import com.kuit.healthmate.challenge.supplement.dto.SupplementEditListResponse;
-import com.kuit.healthmate.challenge.supplement.dto.SupplementRegisterRequest;
-import com.kuit.healthmate.challenge.supplement.dto.SupplementUpdateRequest;
+import com.kuit.healthmate.challenge.supplement.dto.request.SupplementCheckerRequest;
+import com.kuit.healthmate.challenge.supplement.dto.response.SupplementEditListResponse;
+import com.kuit.healthmate.challenge.supplement.dto.request.SupplementRegisterRequest;
+import com.kuit.healthmate.challenge.supplement.dto.request.SupplementUpdateRequest;
 import com.kuit.healthmate.global.response.ApiResponse;
 import com.kuit.healthmate.challenge.supplement.service.SupplementService;
 import java.util.List;
